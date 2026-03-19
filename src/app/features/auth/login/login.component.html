@@ -1,0 +1,12 @@
+<div class="login-container">
+  <h2>GastroGuide</h2>
+
+  <input type="email" [(ngModel)]="email" placeholder="Correo" />
+  <input type="password" [(ngModel)]="password" placeholder="Contraseña" />
+
+  <button (click)="login()">Iniciar sesión</button>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <a routerLink="/register">Crear cuenta</a>
+</div>

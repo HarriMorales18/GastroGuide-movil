@@ -1,0 +1,7 @@
+{
+  "name": "gastroguide",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

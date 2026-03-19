@@ -1,0 +1,19 @@
+<div class="container">
+
+  <!-- 🔹 CONTENIDO -->
+  <div class="content">
+    <app-home *ngIf="currentTab() === 'home'"></app-home>
+    <app-courses *ngIf="currentTab() === 'courses'"></app-courses>
+    <app-search *ngIf="currentTab() === 'search'"></app-search>
+    <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
+  </div>
+
+  <!-- 🔻 TABS -->
+  <div class="tabs">
+    <button (click)="changeTab('home')">Home</button>
+    <button (click)="changeTab('courses')">Cursos</button>
+    <button (click)="changeTab('search')">Buscar</button>
+    <button (click)="changeTab('profile')">Perfil</button>
+  </div>
+
+</div>
