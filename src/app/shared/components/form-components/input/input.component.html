@@ -1,0 +1,11 @@
+<div class="form-field">
+  <label class="form-label" [attr.for]="nombre">{{ label }}</label>
+  <input
+    class="form-input"
+    [id]="nombre"
+    [name]="nombre"
+    [type]="tipo"
+    [placeholder]="placeholder"
+    (input)="onInput($event)"
+  />
+</div>

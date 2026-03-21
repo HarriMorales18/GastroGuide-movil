@@ -1,0 +1,10 @@
+<button
+  type="button"
+  class="form-button"
+  [attr.name]="nombre"
+  [style.backgroundColor]="color || null"
+  (click)="onClick($event)"
+>
+  <ion-icon *ngIf="icono" [name]="icono"></ion-icon>
+  <span>{{ contenido }}</span>
+</button>

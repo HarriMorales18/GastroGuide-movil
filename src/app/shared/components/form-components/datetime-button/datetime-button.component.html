@@ -1,0 +1,16 @@
+<div class="form-field">
+  <label class="form-label">{{ label }}</label>
+
+  <ion-datetime-button [datetime]="datetimeId"></ion-datetime-button>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        [id]="datetimeId"
+        [name]="nombre"
+        presentation="date-time"
+        (ionChange)="onDatetimeChange($event)"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</div>
