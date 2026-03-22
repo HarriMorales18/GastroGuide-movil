@@ -22,6 +22,8 @@ import { ProfileComponent } from '../profile/profile.component';
 })
 export class LayoutComponent {
 
+  constructor() {}
+
   // 🔥 CONTROL DE TABS
   currentTab = signal<'home' | 'courses' | 'search' | 'profile'>('home');
 

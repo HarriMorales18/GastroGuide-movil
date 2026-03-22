@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
   standalone: true,
+  imports: [CommonModule],
 })
-export class LayoutComponent  implements OnInit {
+export class LayoutComponent {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {}
+  logout() {
+    this.authService.logoutWithBackend().subscribe(() => {
+      this.router.navigate(['/']);
+    });
+  }
 
 }

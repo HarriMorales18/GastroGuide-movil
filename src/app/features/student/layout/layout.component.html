@@ -1,19 +1,47 @@
-<div class="container">
+<div class="student-shell">
+  <header class="top-area">
+    <div class="brand-row">
+      <h1>GastroGuide</h1>
+      <button
+        type="button"
+        class="profile-chip"
+        [class.active]="currentTab() === 'profile'"
+        (click)="changeTab('profile')"
+        aria-label="Ir a perfil"
+      >
+        U
+      </button>
+    </div>
 
-  <!-- 🔹 CONTENIDO -->
-  <div class="content">
+    <nav class="tabs" aria-label="Navegacion estudiante">
+      <button
+        type="button"
+        [class.active]="currentTab() === 'home'"
+        (click)="changeTab('home')"
+      >
+        Home
+      </button>
+      <button
+        type="button"
+        [class.active]="currentTab() === 'courses'"
+        (click)="changeTab('courses')"
+      >
+        Cursos
+      </button>
+      <button
+        type="button"
+        [class.active]="currentTab() === 'search'"
+        (click)="changeTab('search')"
+      >
+        Buscar
+      </button>
+    </nav>
+  </header>
+
+  <main class="content">
     <app-home *ngIf="currentTab() === 'home'"></app-home>
     <app-courses *ngIf="currentTab() === 'courses'"></app-courses>
     <app-search *ngIf="currentTab() === 'search'"></app-search>
     <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
-  </div>
-
-  <!-- 🔻 TABS -->
-  <div class="tabs">
-    <button (click)="changeTab('home')">Home</button>
-    <button (click)="changeTab('courses')">Cursos</button>
-    <button (click)="changeTab('search')">Buscar</button>
-    <button (click)="changeTab('profile')">Perfil</button>
-  </div>
-
+  </main>
 </div>

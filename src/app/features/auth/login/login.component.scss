@@ -1,22 +1,75 @@
-.login-container {
-  width: 300px;
-  margin: 100px auto;
+:host {
+  min-height: 100vh;
+  display: block;
+  background: #132041;
+  color: #f8fbff;
+  font-family: 'Segoe UI Semibold', 'Trebuchet MS', sans-serif;
+}
+
+.login-view {
+  min-height: 100vh;
+  padding: 32px 22px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+input,
+button,
+a {
+  width: min(360px, 88vw);
 }
 
 input {
-  padding: 10px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+input:focus {
+  border-color: #9fd2ff;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 button {
-  padding: 10px;
-  background: black;
-  color: white;
+  padding: 13px 14px;
   border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3f8df5, #6dd5ff);
+  color: #08172f;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+a {
+  text-align: center;
+  color: #d6ecff;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .error {
-  color: red;
+  width: min(360px, 88vw);
+  margin: 2px 0;
+  color: #ffb3b3;
+  text-align: center;
 }

@@ -1,3 +1,74 @@
-<p>
-  register works!
-</p>
+<main class="register-view">
+  <h2>Crear cuenta</h2>
+
+  <div class="mode-switch">
+    <button
+      type="button"
+      [class.active]="mode === 'student'"
+      (click)="selectMode('student')"
+    >
+      Estudiante
+    </button>
+    <button
+      type="button"
+      [class.active]="mode === 'creator'"
+      (click)="selectMode('creator')"
+    >
+      Creador
+    </button>
+  </div>
+
+  <form (ngSubmit)="register()" class="register-form">
+    <input
+      *ngIf="mode === 'student'"
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      placeholder="Usuario"
+      required
+    />
+
+    <input
+      *ngIf="mode === 'creator'"
+      type="text"
+      name="firstName"
+      [(ngModel)]="firstName"
+      placeholder="Nombre"
+      required
+    />
+
+    <input
+      *ngIf="mode === 'creator'"
+      type="text"
+      name="lastName"
+      [(ngModel)]="lastName"
+      placeholder="Apellido"
+      required
+    />
+
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="email"
+      placeholder="Email"
+      required
+    />
+
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      placeholder="Contrasena"
+      required
+    />
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Registrando...' : 'Registrarme' }}
+    </button>
+  </form>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+  <p *ngIf="success" class="success">{{ success }}</p>
+
+  <a routerLink="/">Ya tengo cuenta</a>
+</main>
