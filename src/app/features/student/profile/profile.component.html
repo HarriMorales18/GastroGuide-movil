@@ -1,3 +1,35 @@
-<p>
-  profile works!
-</p>
+<section class="profile-hub">
+  <header class="hub-header">
+    <div class="avatar">
+      <img *ngIf="photoUrl; else initials" [src]="photoUrl" alt="Foto de perfil" />
+      <ng-template #initials>
+        <div class="initials">{{ name.split(' ').map(n => n[0]).slice(0,2).join('') }}</div>
+      </ng-template>
+    </div>
+
+    <div class="user-info">
+      <h2 class="user-name">{{ name }}</h2>
+      <p class="user-bio">{{ bio }}</p>
+      <div class="counters">
+        <div class="counter">
+          <div class="count">{{ completedCount }}</div>
+          <div class="label">Cursos completados</div>
+        </div>
+        <div class="counter">
+          <div class="count">{{ inProgressCount }}</div>
+          <div class="label">Cursos en progreso</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="quick-actions">
+    <button class="btn primary" (click)="goToMyCourses()">Mis cursos</button>
+    <button class="btn dark" (click)="editProfile()">Editar perfil</button>
+    <button class="btn secondary" (click)="openSettings()">Configuración</button>
+  </nav>
+
+  <footer class="hub-footer">
+    <button class="btn logout" (click)="logout()">Cerrar sesión</button>
+  </footer>
+</section>
