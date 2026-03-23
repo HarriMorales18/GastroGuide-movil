@@ -1,0 +1,22 @@
+<div class="form-field">
+  <label class="form-label" [attr.for]="nombre">{{ label }}</label>
+
+  <select
+    class="form-select"
+    [id]="nombre"
+    [name]="nombre"
+    (change)="onChange($event)"
+  >
+    <option *ngIf="opcionDefault" value="" disabled selected>
+      {{ opcionDefault }}
+    </option>
+
+    <option
+      *ngFor="let option of options"
+      [value]="option.value"
+      [disabled]="option.disabled ?? false"
+    >
+      {{ option.label }}
+    </option>
+  </select>
+</div>
