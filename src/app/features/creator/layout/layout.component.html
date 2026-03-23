@@ -1,9 +1,46 @@
 <div class="layout-shell">
-  <div class="topbar">
-    <button class="logout-btn" (click)="logout()">Logout</button>
-  </div>
+  <header class="top-nav">
+    <div class="brand-row">
+      <h1>GastroGuide</h1>
+      <button class="logout-btn" (click)="logout()">Salir</button>
+    </div>
 
-  <div class="content">
-    <h2>Panel de Creador</h2>
-  </div>
+    <div class="tabs" role="tablist" aria-label="Navegacion creador">
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab === 'create'"
+        (click)="setActiveTab('create')"
+      >
+        Crear curso
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab === 'statistics'"
+        (click)="setActiveTab('statistics')"
+      >
+        Estadisticas
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab === 'profile'"
+        (click)="setActiveTab('profile')"
+      >
+        Perfil
+      </button>
+    </div>
+  </header>
+
+  <main class="content-wrap">
+    <app-create-course *ngIf="activeTab === 'create'"></app-create-course>
+    <app-statistics *ngIf="activeTab === 'statistics'"></app-statistics>
+    <app-profile *ngIf="activeTab === 'profile'"></app-profile>
+  </main>
 </div>
