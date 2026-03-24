@@ -134,3 +134,9 @@ Clasificacion:
   1. Consolidar duplicados en student/config.
   2. Decidir integracion o retiro de shared/components no usados.
   3. Confirmar si los servicios placeholder de core quedan en backlog o se eliminan.
+
+## 6. Estado tras higiene (aplicado)
+
+- Se eliminaron duplicados de `student/config` no usados (`account-settings`, `preferences`, `help`) y se mantuvo el set activo en `views/`.
+- Se eliminaron subpaginas placeholder sin uso en `student/pages/profile` (`course-player`, `edit-profile`, `my-courses`, `progress`, `settings`).
+- Se validaron referencias e imports sin errores en archivos afectados.
