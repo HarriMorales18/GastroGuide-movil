@@ -5,6 +5,7 @@
 - Guia operativa del proyecto: [docs/PROJECT_OPERATIONS_GUIDE.md](docs/PROJECT_OPERATIONS_GUIDE.md)
 - Reglas de arquitectura: [docs/ARCHITECTURE_GUIDELINES.md](docs/ARCHITECTURE_GUIDELINES.md)
 - Estructura estandar de features: [docs/FEATURE_STRUCTURE_STANDARD.md](docs/FEATURE_STRUCTURE_STANDARD.md)
+- Plan incremental de ejecucion: [docs/INCREMENTAL_EXECUTION_PLAN.md](docs/INCREMENTAL_EXECUTION_PLAN.md)
 
 ## Validacion de fases
 

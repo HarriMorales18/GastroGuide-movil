@@ -1,5 +1,8 @@
 # Validacion por Fase y Checklist de Cierre
 
+Ver tambien:
+- Plan incremental de ejecucion: [docs/INCREMENTAL_EXECUTION_PLAN.md](docs/INCREMENTAL_EXECUTION_PLAN.md)
+
 ## 1) Validacion obligatoria por fase
 
 Ejecutar en este orden tras cada bloque de cambios:
