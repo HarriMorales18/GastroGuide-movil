@@ -10,7 +10,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "check:architecture": "node tools/check-architecture.js"
+    "check:architecture": "node tools/check-architecture.js",
+    "check:phase": "npm run check:architecture && npm run build && npm run lint",
+    "check:phase:full": "npm run check:phase && npm run test -- --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
