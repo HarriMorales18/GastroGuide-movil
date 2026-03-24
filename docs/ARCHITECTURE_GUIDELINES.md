@@ -15,12 +15,16 @@ No debe contener componentes de UI de pagina.
 
 ### Shared (`src/app/shared`)
 Usar para piezas reutilizables de presentacion:
-- Componentes UI reutilizables (cards, inputs, navbar, tabs, player).
+- Componentes UI reutilizables reales (por ejemplo, controles de formulario).
 - Pipes y directivas genericas.
 - Helpers de UI sin logica de dominio fuerte.
 - Modelos de UI (view models) no acoplados a una sola feature.
 
 No debe contener servicios de negocio globales ni logica especifica de una sola pantalla.
+
+Regla operativa:
+- Si un componente de `shared` no tiene consumo real o es placeholder, eliminarlo.
+- Si esta acoplado a una sola feature, moverlo a `features/<dominio>`.
 
 ### Features (`src/app/features/*`)
 Usar para logica funcional por dominio (auth, student, creator, admin, payments):
