@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import { HomeService } from './home.service';
-import { HomeCourseItem, HomeSectionKey } from '../models/home.model';
+import { HomeCourseItem, HomeSectionKey } from '../../models/home.model';
 
 @Component({
   selector: 'app-home',

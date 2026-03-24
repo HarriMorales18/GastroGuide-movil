@@ -15,18 +15,18 @@ import {
 // Importamos las vistas
 import { HomeComponent } from '../home/home.component';
 import { HomeService } from '../home/home.service';
-import { HomeCourseItem } from '../models/home.model';
+import { HomeCourseItem } from '../../models/home.model';
 import { CoursesComponent } from '../courses/courses.component';
 import { CoursesService } from '../courses/courses.service';
-import { StudentCourseItem } from '../models/courses.model';
+import { StudentCourseItem } from '../../models/courses.model';
 import { SearchComponent } from '../search/search.component';
 import { SearchService } from '../search/search.service';
-import { SearchResultItem } from '../models/search.model';
+import { SearchResultItem } from '../../models/search.model';
 import { ProfileComponent } from '../profile/profile.component';
 import { ProfileService } from '../profile/profile.service';
 import { CourseDetailComponent } from '../course-detail/course-detail.component';
 import { CourseDetailStateService } from '../course-detail/course-detail-state.service';
-import { StudentCourseDetail } from '../models/course-detail.model';
+import { StudentCourseDetail } from '../../models/course-detail.model';
 import { ConfigComponent } from '../config/config.component';
 
 @Component({
