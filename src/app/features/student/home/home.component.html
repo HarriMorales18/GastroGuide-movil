@@ -1,3 +1,63 @@
-<p>
-  home works!
-</p>
+<section class="home-page" *ngIf="homeData$ | async as vm">
+  <header class="welcome-banner">
+    <p class="welcome-kicker">{{ getGreetingByTime() }}, {{ vm.student.firstName }}</p>
+    <h2>Tu cocina creativa te espera</h2>
+    <p class="welcome-subtitle">
+      Tienes {{ vm.student.activeCourses }} cursos activos para seguir avanzando hoy.
+    </p>
+  </header>
+
+  <section class="course-section" *ngFor="let section of vm.sections">
+    <div class="section-head">
+      <h3>{{ section.title }}</h3>
+      <p>{{ section.subtitle }}</p>
+    </div>
+
+    <div class="carousel-wrapper">
+      <button
+        type="button"
+        class="carousel-control"
+        (click)="prev(section.key)"
+        [disabled]="!canGoPrev(section.key)"
+        aria-label="Ver anteriores"
+      >
+        <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+      </button>
+
+      <div class="cards-grid">
+        <article
+          class="course-card"
+          *ngFor="let course of getVisibleCourses(section.courses, section.key); trackBy: trackByCourseId"
+        >
+          <div class="card-cover" [style.backgroundImage]="'url(' + course.thumbnailUrl + ')'">
+            <span class="course-category">{{ course.category }}</span>
+          </div>
+          <div class="card-body">
+            <h4>{{ course.title }}</h4>
+            <p>{{ course.author }}</p>
+            <div class="card-meta">
+              <span>{{ course.durationMinutes }} min</span>
+              <span>{{ course.rating }} / 5</span>
+            </div>
+            <div class="progress" *ngIf="course.progressPercentage !== undefined">
+              <div class="progress-track">
+                <div class="progress-fill" [style.width.%]="course.progressPercentage"></div>
+              </div>
+              <small>{{ course.progressPercentage }}% completado</small>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <button
+        type="button"
+        class="carousel-control"
+        (click)="next(section.key, section.courses.length)"
+        [disabled]="!canGoNext(section.key, section.courses.length)"
+        aria-label="Ver siguientes"
+      >
+        <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+      </button>
+    </div>
+  </section>
+</section>
