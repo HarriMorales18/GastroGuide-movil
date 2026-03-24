@@ -1,0 +1,245 @@
+:host {
+	display: block;
+	--student-ink: #101d26;
+	--student-primary: #1f2f40;
+	--student-accent: #f8500a;
+	--student-mist: #dde2e5;
+}
+
+.courses-page {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	padding: 0.45rem 0.2rem 1.4rem;
+}
+
+.courses-header {
+	background:
+		linear-gradient(150deg, rgba(31, 47, 64, 0.98) 0%, rgba(16, 29, 38, 0.98) 100%),
+		linear-gradient(90deg, rgba(248, 80, 10, 0.22), rgba(248, 80, 10, 0));
+	border: 1px solid rgba(221, 226, 229, 0.3);
+	border-radius: 18px;
+	padding: 1rem;
+	box-shadow: 0 10px 22px rgba(8, 14, 19, 0.3);
+
+	h2 {
+		margin: 0.2rem 0;
+		color: #f7fafc;
+		font-size: 1.35rem;
+	}
+}
+
+.kicker {
+	margin: 0;
+	color: #ffc4aa;
+	text-transform: uppercase;
+	font-size: 0.74rem;
+	letter-spacing: 0.08em;
+	font-weight: 700;
+}
+
+.subtitle {
+	margin: 0;
+	color: rgba(247, 250, 252, 0.9);
+	font-size: 0.9rem;
+}
+
+.summary-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+.summary-card {
+	background: #ffffff;
+	border-radius: 12px;
+	border: 1px solid #d8dfe5;
+	padding: 0.7rem 0.6rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+
+	strong {
+		color: var(--student-primary);
+		font-size: 1.1rem;
+	}
+
+	span {
+		color: #667582;
+		font-size: 0.74rem;
+	}
+}
+
+.search-box {
+	input {
+		width: 100%;
+		border: 1px solid #cfd8df;
+		border-radius: 12px;
+		background: #ffffff;
+		padding: 0.7rem 0.85rem;
+		font-size: 0.9rem;
+		color: var(--student-ink);
+		outline: none;
+
+		&:focus {
+			border-color: rgba(248, 80, 10, 0.55);
+			box-shadow: 0 0 0 3px rgba(248, 80, 10, 0.15);
+		}
+	}
+}
+
+.filter-tabs {
+	display: flex;
+	gap: 0.45rem;
+	overflow-x: auto;
+	padding-bottom: 0.2rem;
+
+	button {
+		border: 1px solid #ccd5dd;
+		background: #f2f5f8;
+		color: #526170;
+		border-radius: 999px;
+		padding: 0.4rem 0.75rem;
+		font-size: 0.79rem;
+		white-space: nowrap;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	button.active {
+		border-color: transparent;
+		background: linear-gradient(135deg, #ff8e5d 0%, var(--student-accent) 100%);
+		color: #fff;
+		box-shadow: 0 4px 10px rgba(248, 80, 10, 0.27);
+	}
+}
+
+.courses-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
+}
+
+.course-row {
+	background: #ffffff;
+	border: 1px solid #d5dde4;
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 6px 14px rgba(16, 29, 38, 0.09);
+}
+
+.cover {
+	height: 120px;
+	background-size: cover;
+	background-position: center;
+	padding: 0.45rem;
+	display: flex;
+	gap: 0.35rem;
+	align-items: flex-start;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 999px;
+	padding: 0.2rem 0.45rem;
+	font-size: 0.62rem;
+	font-weight: 600;
+}
+
+.badge.status {
+	background: rgba(16, 29, 38, 0.84);
+	color: #fff;
+}
+
+.badge.favorite {
+	background: rgba(248, 80, 10, 0.9);
+	color: #fff;
+}
+
+.content {
+	padding: 0.7rem;
+
+	h3 {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--student-ink);
+	}
+}
+
+.meta {
+	margin: 0.22rem 0 0;
+	color: #627381;
+	font-size: 0.74rem;
+}
+
+.metrics {
+	margin-top: 0.4rem;
+	display: flex;
+	justify-content: space-between;
+	gap: 0.45rem;
+	color: #516372;
+	font-size: 0.69rem;
+}
+
+.progress {
+	margin-top: 0.45rem;
+
+	small {
+		color: #5f7381;
+		font-size: 0.66rem;
+	}
+}
+
+.track {
+	height: 5px;
+	border-radius: 999px;
+	background: #dce4ea;
+	overflow: hidden;
+	margin-bottom: 0.25rem;
+}
+
+.fill {
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--student-primary) 0%, var(--student-accent) 100%);
+}
+
+.action-btn {
+	margin-top: 0.52rem;
+	width: 100%;
+	border: 0;
+	border-radius: 10px;
+	background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
+	color: #fff;
+	font-size: 0.78rem;
+	font-weight: 600;
+	padding: 0.5rem 0.65rem;
+	cursor: pointer;
+
+	&:disabled {
+		background: #dbe3ea;
+		color: #61727f;
+		cursor: not-allowed;
+	}
+}
+
+.empty-state {
+	background: #ffffff;
+	border: 1px dashed #c8d3db;
+	border-radius: 12px;
+	padding: 1rem;
+	text-align: center;
+
+	h3 {
+		margin: 0;
+		color: var(--student-primary);
+		font-size: 0.95rem;
+	}
+
+	p {
+		margin: 0.25rem 0 0;
+		color: #667684;
+		font-size: 0.8rem;
+	}
+}

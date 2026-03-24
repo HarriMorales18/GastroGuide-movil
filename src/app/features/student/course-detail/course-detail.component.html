@@ -1,3 +1,73 @@
-<p>
-  course-detail works!
-</p>
+<section class="course-detail-page" *ngIf="selectedCourse() as course; else noSelection">
+  <header class="detail-hero" [style.backgroundImage]="'url(' + course.thumbnailUrl + ')'">
+    <div class="hero-overlay">
+      <button type="button" class="back-btn" (click)="goBack()">Volver</button>
+      <span class="type-pill">{{ course.contentTypeLabel }}</span>
+      <h2>{{ course.title }}</h2>
+      <p>{{ course.description }}</p>
+
+      <div class="hero-meta">
+        <span>{{ course.category }}</span>
+        <span>{{ course.levelLabel }}</span>
+        <span>{{ course.durationMinutes }} min</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="info-grid">
+    <article class="info-card progress-card">
+      <h3>Tu progreso</h3>
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="course.progressPercentage"></div>
+      </div>
+      <p>{{ course.progressPercentage }}% completado</p>
+      <small>{{ course.lessonsCompleted }}/{{ course.lessonsTotal }} lecciones · {{ course.updatedAtLabel }}</small>
+    </article>
+
+    <article class="info-card">
+      <h3>Detalles</h3>
+      <ul>
+        <li>Instructor: {{ course.instructor }}</li>
+        <li>Valoracion: {{ course.rating }} ★ ({{ course.totalRatings }})</li>
+        <li>Precio: {{ course.priceLabel }}</li>
+        <li>Certificado: {{ course.hasCertificate ? 'Si' : 'No' }}</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="learn-section">
+    <h3>Lo que aprenderas</h3>
+    <div class="learn-items">
+      <article *ngFor="let item of course.whatYouWillLearn">{{ item }}</article>
+    </div>
+  </section>
+
+  <section class="modules-section">
+    <h3>Temario del curso</h3>
+    <article class="module-row" *ngFor="let module of course.modules">
+      <div>
+        <strong>{{ module.title }}</strong>
+        <small>{{ module.durationMinutes }} min</small>
+      </div>
+      <span [class.completed]="module.isCompleted">
+        {{ module.isCompleted ? 'Completado' : 'Pendiente' }}
+      </span>
+    </article>
+  </section>
+
+  <section class="tags-section">
+    <span *ngFor="let tag of course.tags">#{{ tag }}</span>
+  </section>
+
+  <button type="button" class="start-btn" (click)="goBack()">
+    {{ hasProgress(course) ? 'Continuar aprendiendo' : 'Comenzar curso' }}
+  </button>
+</section>
+
+<ng-template #noSelection>
+  <section class="no-selection">
+    <h3>No hay curso seleccionado</h3>
+    <p>Selecciona un curso desde Home, Cursos o Buscar para ver su detalle.</p>
+    <button type="button" (click)="goBack()">Ir al inicio</button>
+  </section>
+</ng-template>

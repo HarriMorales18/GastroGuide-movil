@@ -1,3 +1,75 @@
-<p>
-  courses works!
-</p>
+<section class="courses-page" *ngIf="coursesData$ | async as vm">
+  <header class="courses-header">
+    <p class="kicker">Panel de aprendizaje</p>
+    <h2>Mis cursos</h2>
+    <p class="subtitle">{{ vm.studentName }}, organiza tu avance y retoma tu siguiente leccion.</p>
+  </header>
+
+  <section class="summary-grid" aria-label="Resumen de cursos">
+    <article class="summary-card">
+      <strong>{{ vm.summary.totalCourses }}</strong>
+      <span>Total cursos</span>
+    </article>
+    <article class="summary-card">
+      <strong>{{ vm.summary.inProgress }}</strong>
+      <span>En progreso</span>
+    </article>
+    <article class="summary-card">
+      <strong>{{ vm.summary.completed }}</strong>
+      <span>Completados</span>
+    </article>
+  </section>
+
+  <div class="search-box">
+    <input
+      type="search"
+      placeholder="Buscar por curso, categoria o instructor"
+      [ngModel]="searchTerm()"
+      (ngModelChange)="updateSearchTerm($event)"
+      aria-label="Buscar cursos"
+    />
+  </div>
+
+  <div class="filter-tabs" role="tablist" aria-label="Filtros de cursos">
+    <button type="button" [class.active]="activeFilter() === 'all'" (click)="setFilter('all')">Todos</button>
+    <button type="button" [class.active]="activeFilter() === 'in-progress'" (click)="setFilter('in-progress')">En progreso</button>
+    <button type="button" [class.active]="activeFilter() === 'completed'" (click)="setFilter('completed')">Completados</button>
+    <button type="button" [class.active]="activeFilter() === 'pending'" (click)="setFilter('pending')">Pendientes</button>
+    <button type="button" [class.active]="activeFilter() === 'favorites'" (click)="setFilter('favorites')">Favoritos</button>
+  </div>
+
+  <section class="courses-list" *ngIf="getFilteredCourses(vm.courses) as courses">
+    <article class="course-row" *ngFor="let course of courses; trackBy: trackByCourseId">
+      <div class="cover" [style.backgroundImage]="'url(' + course.thumbnailUrl + ')'">
+        <span class="badge status">{{ getStatusLabel(course.status) }}</span>
+        <span class="badge favorite" *ngIf="course.isFavorite">Favorito</span>
+      </div>
+
+      <div class="content">
+        <h3>{{ course.title }}</h3>
+        <p class="meta">{{ course.category }} • {{ course.instructor }}</p>
+
+        <div class="metrics">
+          <span>{{ course.lessonsCompleted }}/{{ course.lessonsTotal }} lecciones</span>
+          <span>{{ course.durationMinutes }} min</span>
+        </div>
+
+        <div class="progress">
+          <div class="track">
+            <div class="fill" [style.width.%]="course.progressPercentage"></div>
+          </div>
+          <small>{{ course.progressPercentage }}% completado · {{ course.updatedAtLabel }}</small>
+        </div>
+
+        <button type="button" class="action-btn" (click)="openDetail(course)">
+          {{ course.status === 'completed' ? 'Ver detalle' : 'Continuar curso' }}
+        </button>
+      </div>
+    </article>
+
+    <article class="empty-state" *ngIf="courses.length === 0">
+      <h3>Sin resultados</h3>
+      <p>No encontramos cursos con ese filtro o busqueda.</p>
+    </article>
+  </section>
+</section>

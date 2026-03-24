@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CourseDetailStateService } from './course-detail-state.service';
+import { StudentCourseDetail } from './course-detail.model';
 
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
-  styleUrls: ['./course-detail.component.scss'],
+  styleUrl: './course-detail.component.scss',
   standalone: true,
+  imports: [CommonModule]
 })
-export class CourseDetailComponent  implements OnInit {
+export class CourseDetailComponent {
+  readonly selectedCourse = this.courseDetailState.selectedCourse;
 
-  constructor() { }
+  constructor(private readonly courseDetailState: CourseDetailStateService) {}
 
-  ngOnInit() {}
+  goBack(): void {
+    this.courseDetailState.clearSelectedCourse();
+  }
+
+  hasProgress(course: StudentCourseDetail): boolean {
+    return course.progressPercentage > 0;
+  }
 
 }

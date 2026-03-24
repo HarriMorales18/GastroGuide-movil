@@ -1,8 +1,8 @@
 :host {
 	display: block;
 	--student-ink: #101d26;
+	--student-primary: #1f2f40;
 	--student-accent: #f8500a;
-	--student-steel: #1f2f40;
 	--student-mist: #dde2e5;
 }
 
@@ -17,16 +17,16 @@
 	padding: 1rem;
 	border-radius: 18px;
 	background:
-		linear-gradient(145deg, rgba(31, 47, 64, 0.96) 0%, rgba(16, 29, 38, 0.98) 100%),
-		linear-gradient(90deg, rgba(248, 80, 10, 0.18), rgba(248, 80, 10, 0));
-	border: 1px solid rgba(221, 226, 229, 0.24);
+		linear-gradient(145deg, rgba(31, 47, 64, 0.97) 0%, rgba(16, 29, 38, 0.98) 100%),
+		linear-gradient(90deg, rgba(248, 80, 10, 0.22), rgba(248, 80, 10, 0));
+	border: 1px solid rgba(221, 226, 229, 0.34);
 	box-shadow: 0 12px 24px rgba(8, 14, 19, 0.28);
 
 	h2 {
 		margin: 0.3rem 0 0.4rem;
 		font-size: 1.35rem;
 		line-height: 1.2;
-		color: #ffffff;
+		color: #f7fafc;
 	}
 }
 
@@ -34,14 +34,14 @@
 	margin: 0;
 	font-size: 0.82rem;
 	letter-spacing: 0.03em;
-	color: #ff8c5a;
+	color: #ffc4aa;
 	font-weight: 700;
 	text-transform: uppercase;
 }
 
 .welcome-subtitle {
 	margin: 0;
-	color: rgba(221, 226, 229, 0.88);
+	color: rgba(247, 250, 252, 0.9);
 	font-size: 0.92rem;
 }
 
@@ -60,7 +60,7 @@
 
 	p {
 		margin: 0.15rem 0 0;
-		color: #4c5966;
+		color: #5f6b77;
 		font-size: 0.84rem;
 	}
 }
@@ -75,10 +75,10 @@
 .carousel-control {
 	width: 28px;
 	height: 120px;
-	border: 1px solid rgba(16, 29, 38, 0.08);
+	border: 1px solid rgba(31, 47, 64, 0.2);
 	border-radius: 10px;
-	background: #dfe4e7;
-	color: var(--student-steel);
+	background: #e8edf1;
+	color: #1f2f40;
 	font-size: 1rem;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
@@ -90,7 +90,7 @@
 
 	&:not(:disabled):hover {
 		background: var(--student-accent);
-		color: #fff;
+		color: #ffffff;
 	}
 
 	ion-icon {
@@ -107,17 +107,17 @@
 .course-card {
 	border-radius: 12px;
 	overflow: hidden;
-	background: #f6f8f9;
-	border: 1px solid #cfd8de;
+	background: #ffffff;
+	border: 1px solid #d7dde2;
 	min-height: 120px;
 	display: flex;
 	flex-direction: column;
-	box-shadow: 0 5px 14px rgba(16, 29, 38, 0.09);
+	box-shadow: 0 6px 14px rgba(16, 29, 38, 0.11);
 }
 
 .card-cover {
 	height: 74px;
-	background-color: #dedede;
+	background-color: #e6ebef;
 	background-size: cover;
 	background-position: center;
 	position: relative;
@@ -127,7 +127,7 @@
 	position: absolute;
 	top: 0.35rem;
 	left: 0.35rem;
-	background: rgba(16, 29, 38, 0.84);
+	background: rgba(31, 47, 64, 0.94);
 	color: #fff;
 	padding: 0.15rem 0.35rem;
 	border-radius: 999px;
@@ -147,8 +147,20 @@
 	p {
 		margin: 0.25rem 0 0;
 		font-size: 0.7rem;
-		color: #4f5d69;
+		color: #64707a;
 	}
+}
+
+.course-action {
+	margin-top: 0.45rem;
+	width: 100%;
+	border: 0;
+	border-radius: 9px;
+	background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
+	color: #fff;
+	font-size: 0.72rem;
+	font-weight: 600;
+	padding: 0.42rem 0.5rem;
 }
 
 .card-meta {
@@ -156,14 +168,14 @@
 	justify-content: space-between;
 	margin-top: 0.3rem;
 	font-size: 0.66rem;
-	color: #324251;
+	color: #4e5f6d;
 }
 
 .progress {
 	margin-top: 0.36rem;
 
 	small {
-		color: #425465;
+		color: #5b6f7f;
 		font-size: 0.64rem;
 	}
 }
@@ -172,7 +184,7 @@
 	width: 100%;
 	height: 5px;
 	border-radius: 999px;
-	background: #cfd7dd;
+	background: #dbe2e7;
 	overflow: hidden;
 	margin-bottom: 0.2rem;
 }
@@ -180,5 +192,5 @@
 .progress-fill {
 	height: 100%;
 	border-radius: inherit;
-	background: linear-gradient(90deg, #ff7b38 0%, var(--student-accent) 100%);
+	background: linear-gradient(90deg, var(--student-primary) 0%, var(--student-accent) 100%);
 }

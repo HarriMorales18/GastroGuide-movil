@@ -1,35 +1,126 @@
-<section class="profile-hub">
-  <header class="hub-header">
-    <div class="avatar">
-      <img *ngIf="photoUrl; else initials" [src]="photoUrl" alt="Foto de perfil" />
-      <ng-template #initials>
-        <div class="initials">{{ name.split(' ').map(n => n[0]).slice(0,2).join('') }}</div>
-      </ng-template>
+<section class="profile-page" *ngIf="hubData() as vm">
+  <header class="my-profile-card">
+    <div class="avatar-block">
+      <div class="avatar" *ngIf="!vm.me.avatarUrl">{{ getInitials(vm.me.displayName) }}</div>
+      <img *ngIf="vm.me.avatarUrl" [src]="vm.me.avatarUrl" alt="Avatar" class="avatar-image" />
+      <span class="role-pill">{{ vm.me.role === 'creator' ? 'Creador' : 'Estudiante' }}</span>
     </div>
 
-    <div class="user-info">
-      <h2 class="user-name">{{ name }}</h2>
-      <p class="user-bio">{{ bio }}</p>
-      <div class="counters">
-        <div class="counter">
-          <div class="count">{{ completedCount }}</div>
-          <div class="label">Cursos completados</div>
-        </div>
-        <div class="counter">
-          <div class="count">{{ inProgressCount }}</div>
-          <div class="label">Cursos en progreso</div>
-        </div>
+    <div class="main-info">
+      <h2>{{ vm.me.displayName }}</h2>
+      <p class="username">{{ vm.me.username }} · {{ vm.me.city }}</p>
+      <p class="headline">{{ vm.me.headline }}</p>
+      <p class="bio">{{ vm.me.bio }}</p>
+
+      <div class="stats-row">
+        <article>
+          <strong>{{ vm.me.stats.completedCourses }}</strong>
+          <span>Completados</span>
+        </article>
+        <article>
+          <strong>{{ vm.me.stats.inProgressCourses }}</strong>
+          <span>En progreso</span>
+        </article>
+        <article>
+          <strong>{{ vm.me.stats.followers }}</strong>
+          <span>Seguidores</span>
+        </article>
+        <article>
+          <strong>{{ vm.me.stats.following }}</strong>
+          <span>Siguiendo</span>
+        </article>
       </div>
+
+      <p class="meta">{{ vm.me.joinedAtLabel }} · {{ vm.me.email }}</p>
     </div>
   </header>
 
-  <nav class="quick-actions">
-    <button class="btn primary" (click)="goToMyCourses()">Mis cursos</button>
-    <button class="btn dark" (click)="editProfile()">Editar perfil</button>
-    <button class="btn secondary" (click)="openSettings()">Configuración</button>
-  </nav>
+  <section class="actions-row">
+    <button type="button" class="primary" (click)="openEditProfile()">Editar perfil</button>
+    <button type="button" class="secondary" (click)="openSettingsEntryPoint()">Configuración</button>
+    <button type="button" class="ghost" (click)="logout()">Cerrar sesión</button>
+  </section>
 
-  <footer class="hub-footer">
-    <button class="btn logout" (click)="logout()">Cerrar sesión</button>
-  </footer>
+  <section class="panel edit-panel" *ngIf="isEditMode()">
+    <div class="panel-head">
+      <h3>Editar perfil</h3>
+      <button type="button" (click)="closeEditProfile()">Cancelar</button>
+    </div>
+
+    <div class="form-grid">
+      <label>
+        Nombre
+        <input [ngModel]="editForm().displayName" (ngModelChange)="updateField('displayName', $event)" />
+      </label>
+      <label>
+        Ciudad
+        <input [ngModel]="editForm().city" (ngModelChange)="updateField('city', $event)" />
+      </label>
+      <label class="full">
+        Titular
+        <input [ngModel]="editForm().headline" (ngModelChange)="updateField('headline', $event)" />
+      </label>
+      <label class="full">
+        Bio
+        <textarea rows="3" [ngModel]="editForm().bio" (ngModelChange)="updateField('bio', $event)"></textarea>
+      </label>
+    </div>
+
+    <button type="button" class="save-btn" [disabled]="isSaving()" (click)="saveProfileChanges()">
+      {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+    </button>
+  </section>
+
+  <section class="panel settings-entry" *ngIf="showSettingsEntry()">
+    <div class="panel-head">
+      <h3>Configuración</h3>
+      <button type="button" (click)="closeSettingsEntryPoint()">Cerrar</button>
+    </div>
+    <p>
+      Desde aqui accederas al modulo de configuración. En el siguiente paso crearemos sus subcomponentes
+      (seguridad, notificaciones, privacidad, etc.).
+    </p>
+  </section>
+
+  <section class="panel audience-panel">
+    <div class="panel-head">
+      <h3>Perfiles públicos</h3>
+      <div class="audience-tabs">
+        <button type="button" [class.active]="activeAudience() === 'creator'" (click)="setAudience('creator')">
+          Creadores
+        </button>
+        <button type="button" [class.active]="activeAudience() === 'student'" (click)="setAudience('student')">
+          Estudiantes
+        </button>
+      </div>
+    </div>
+
+    <div class="profiles-grid">
+      <article
+        class="profile-card"
+        *ngFor="let profile of audienceProfiles()"
+        [class.selected]="selectedProfileId() === profile.id"
+        (click)="selectPublicProfile(profile)"
+      >
+        <div class="mini-avatar">{{ getInitials(profile.displayName) }}</div>
+        <div>
+          <h4>{{ profile.displayName }}</h4>
+          <p>{{ profile.username }}</p>
+          <small>{{ profile.headline }}</small>
+        </div>
+      </article>
+    </div>
+
+    <article class="selected-profile" *ngIf="selectedProfile() as selected">
+      <h4>{{ selected.displayName }}</h4>
+      <p>{{ selected.bio }}</p>
+      <div class="tags">
+        <span *ngFor="let item of selected.specialties">{{ item }}</span>
+      </div>
+      <div class="mini-stats">
+        <span>{{ selected.stats.followers }} seguidores</span>
+        <span>{{ selected.stats.completedCourses }} cursos completados</span>
+      </div>
+    </article>
+  </section>
 </section>

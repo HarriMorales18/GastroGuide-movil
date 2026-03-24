@@ -1,47 +1,71 @@
 <div class="student-shell">
   <header class="top-area">
-    <div class="brand-row">
-      <h1>GastroGuide</h1>
+    <div class="top-actions-row">
+      <h1 class="wordmark">GastroGuide</h1>
+
       <button
+        class="profile-avatar-btn"
         type="button"
-        class="profile-chip"
-        [class.active]="currentTab() === 'profile'"
+        [attr.aria-label]="'Ir al perfil de ' + loggedUserDisplayName()"
         (click)="changeTab('profile')"
-        aria-label="Ir a perfil"
       >
-        U
+        <img
+          [src]="loggedUserAvatarUrl() || defaultAvatarUrl"
+          [alt]="'Foto de ' + loggedUserDisplayName()"
+          loading="lazy"
+          decoding="async"
+        />
       </button>
     </div>
 
-    <nav class="tabs" aria-label="Navegacion estudiante">
+    <nav class="tabs-icons" aria-label="Navegacion estudiante">
       <button
         type="button"
         [class.active]="currentTab() === 'home'"
         (click)="changeTab('home')"
+        aria-label="Ir a inicio"
       >
-        Home
+        <ion-icon name="home-outline"></ion-icon>
       </button>
       <button
         type="button"
         [class.active]="currentTab() === 'courses'"
         (click)="changeTab('courses')"
+        aria-label="Ir a cursos"
       >
-        Cursos
+        <ion-icon name="school-outline"></ion-icon>
       </button>
       <button
         type="button"
         [class.active]="currentTab() === 'search'"
         (click)="changeTab('search')"
+        aria-label="Ir a busqueda"
       >
-        Buscar
+        <ion-icon name="search-outline"></ion-icon>
+      </button>
+      <button
+        type="button"
+        [class.active]="currentTab() === 'profile'"
+        (click)="changeTab('profile')"
+        aria-label="Ir a perfil"
+      >
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </button>
+      <button
+        type="button"
+        (click)="changeTab('profile')"
+        aria-label="Menu"
+      >
+        <ion-icon name="menu-outline"></ion-icon>
       </button>
     </nav>
   </header>
 
   <main class="content">
-    <app-home *ngIf="currentTab() === 'home'"></app-home>
-    <app-courses *ngIf="currentTab() === 'courses'"></app-courses>
-    <app-search *ngIf="currentTab() === 'search'"></app-search>
+    <app-home *ngIf="currentTab() === 'home'" (openCourseDetail)="openHomeCourseDetail($event)"></app-home>
+    <app-courses *ngIf="currentTab() === 'courses'" (openCourseDetail)="openCoursesDetail($event)"></app-courses>
+    <app-search *ngIf="currentTab() === 'search'" (openCourseDetail)="openSearchDetail($event)"></app-search>
+    <ng-container *ngIf="currentTab() === 'course-detail'" [ngComponentOutlet]="courseDetailComponent"></ng-container>
     <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
   </main>
 </div>

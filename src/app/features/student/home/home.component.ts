@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
@@ -14,6 +14,8 @@ import { HomeCourseItem, HomeSectionKey } from './home.model';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  @Output() openCourseDetail = new EventEmitter<HomeCourseItem>();
+
   private readonly visibleCards = 2;
   private readonly initialIndexBySection: Record<HomeSectionKey, number> = {
     continueLearning: 0,
@@ -71,6 +73,10 @@ export class HomeComponent {
   getVisibleCourses(courses: HomeCourseItem[], sectionKey: HomeSectionKey): HomeCourseItem[] {
     const start = this.activeIndexBySection()[sectionKey];
     return courses.slice(start, start + this.visibleCards);
+  }
+
+  selectCourse(course: HomeCourseItem): void {
+    this.openCourseDetail.emit(course);
   }
 
   private updateSectionIndex(sectionKey: HomeSectionKey, index: number): void {
