@@ -8,13 +8,7 @@ import {
   notificationsOutline,
   shieldOutline
 } from 'ionicons/icons';
-
-interface Preference {
-  id: string;
-  label: string;
-  enabled: boolean;
-  description: string;
-}
+import { Preference } from '../models/preferences.interface';
 
 @Component({
   selector: 'app-preferences-config-view',

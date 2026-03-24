@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { StudentCourseDetail } from './course-detail.model';
+import { StudentCourseDetail } from '../models/course-detail.model';
 
 @Injectable({
   providedIn: 'root'

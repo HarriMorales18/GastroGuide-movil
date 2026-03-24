@@ -3,13 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { checkmarkOutline } from 'ionicons/icons';
-
-interface Preference {
-  id: string;
-  label: string;
-  enabled: boolean;
-  description: string;
-}
+import { Preference } from '../models/preferences.interface';
 
 @Component({
   selector: 'app-preferences',

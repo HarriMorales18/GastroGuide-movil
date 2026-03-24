@@ -2,13 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, chevronUpOutline, mailOutline, callOutline, helpCircleOutline, bookOutline, documentsOutline, openOutline, logoTwitter, logoFacebook } from 'ionicons/icons';
-
-interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  expanded: boolean;
-}
+import { FAQItem } from '../models/faq-item.interface';
 
 @Component({
   selector: 'app-help',
