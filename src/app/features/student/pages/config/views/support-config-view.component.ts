@@ -13,7 +13,7 @@ import {
   mailOutline,
   openOutline
 } from 'ionicons/icons';
-import { FAQItem } from '../models/faq-item.interface';
+import { FAQItem } from '@student-config-models/faq-item.interface';
 
 @Component({
   selector: 'app-support-config-view',

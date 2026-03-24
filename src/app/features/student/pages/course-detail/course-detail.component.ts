@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CourseDetailStateService } from './course-detail-state.service';
-import { StudentCourseDetail } from '../../models/course-detail.model';
+import { StudentCourseDetail } from '@student-models/course-detail.model';
 
 @Component({
   selector: 'app-course-detail',

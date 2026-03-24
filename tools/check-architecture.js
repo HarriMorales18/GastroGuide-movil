@@ -3,6 +3,14 @@ const path = require('path');
 
 const ROOT = process.cwd();
 const APP_ROOT = path.join(ROOT, 'src', 'app');
+const ALIAS_MAP = {
+  '@app/': 'src/app/',
+  '@core/': 'src/app/core/',
+  '@shared/': 'src/app/shared/',
+  '@features/': 'src/app/features/',
+  '@student-models/': 'src/app/features/student/models/',
+  '@student-config-models/': 'src/app/features/student/pages/config/models/'
+};
 
 function walk(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -54,6 +62,12 @@ function classifyFile(filePath) {
 }
 
 function resolveImportFile(sourceFile, importPath) {
+  for (const [aliasPrefix, targetPrefix] of Object.entries(ALIAS_MAP)) {
+    if (importPath.startsWith(aliasPrefix)) {
+      return path.join(ROOT, targetPrefix, importPath.slice(aliasPrefix.length));
+    }
+  }
+
   if (importPath.startsWith('src/app/')) {
     return path.join(ROOT, importPath);
   }

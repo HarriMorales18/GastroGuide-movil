@@ -8,7 +8,7 @@ import {
   notificationsOutline,
   shieldOutline
 } from 'ionicons/icons';
-import { Preference } from '../models/preferences.interface';
+import { Preference } from '@student-config-models/preferences.interface';
 
 @Component({
   selector: 'app-preferences-config-view',

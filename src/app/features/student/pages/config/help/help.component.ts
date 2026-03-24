@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronDownOutline, chevronUpOutline, mailOutline, callOutline, helpCircleOutline, bookOutline, documentsOutline, openOutline, logoTwitter, logoFacebook } from 'ionicons/icons';
-import { FAQItem } from '../models/faq-item.interface';
+import { FAQItem } from '@student-config-models/faq-item.interface';
 
 @Component({
   selector: 'app-help',

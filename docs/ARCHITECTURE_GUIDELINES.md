@@ -62,13 +62,17 @@ Regla general:
 - Evitar imports relativos profundos (`../../../../`) cuando sea posible.
 - Favorecer imports consistentes por capa.
 
-Convencion objetivo (cuando se habiliten aliases en TypeScript):
+Aliases activos en TypeScript:
+- `@app/*` -> `src/app/*`
 - `@core/*` -> `src/app/core/*`
 - `@shared/*` -> `src/app/shared/*`
 - `@features/*` -> `src/app/features/*`
+- `@student-models/*` -> `src/app/features/student/models/*`
+- `@student-config-models/*` -> `src/app/features/student/pages/config/models/*`
 
-Mientras no existan aliases:
-- Mantener rutas relativas estables y ordenadas.
+Convencion de uso:
+- Preferir aliases para rutas de feature y modelos compartidos de dominio.
+- Mantener `src/app/core/services/auth.service` para `AuthService` por compatibilidad del entorno actual de analisis/DI.
 - No usar barrels (`index.ts`) masivos que oculten dependencias ciclicas.
 
 ## 5) Criterio rapido para ubicar una pieza

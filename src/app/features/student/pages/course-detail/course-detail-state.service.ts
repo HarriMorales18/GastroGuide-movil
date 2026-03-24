@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { StudentCourseDetail } from '../../models/course-detail.model';
+import { StudentCourseDetail } from '@student-models/course-detail.model';
 
 @Injectable()
 export class CourseDetailStateService {

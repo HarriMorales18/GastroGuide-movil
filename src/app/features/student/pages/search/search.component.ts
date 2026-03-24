@@ -9,7 +9,7 @@ import {
   SearchResultItem,
   SearchSort,
   StudentSearchData
-} from '../../models/search.model';
+} from '@student-models/search.model';
 import { SearchService } from './search.service';
 
 type ArrayFilterMap = {

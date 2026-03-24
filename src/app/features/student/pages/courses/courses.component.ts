@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CourseStatus, StudentCourseItem } from '../../models/courses.model';
+import { CourseStatus, StudentCourseItem } from '@student-models/courses.model';
 import { CoursesService } from './courses.service';
 
 type CoursesFilter = 'all' | CourseStatus | 'favorites';
