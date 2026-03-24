@@ -85,3 +85,10 @@ Antes de cerrar un refactor por bloques:
 - No hay imports rotos.
 - No se introducen dependencias en direccion prohibida.
 - La ubicacion final de cada archivo cumple las reglas anteriores.
+
+Validacion automatizada:
+- Ejecutar `npm run check:architecture`.
+- El chequeo falla si:
+  - `core` importa desde `shared` o `features`.
+  - `shared` importa desde `core` o `features`.
+  - Una `feature` importa otra `feature` distinta.
