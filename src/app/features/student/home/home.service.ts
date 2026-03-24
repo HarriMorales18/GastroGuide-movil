@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { StudentHomeData } from '../models/home.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HomeService {
   private readonly apiUrl = '/api/student/home';
 

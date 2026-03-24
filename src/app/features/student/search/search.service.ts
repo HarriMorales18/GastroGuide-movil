@@ -3,9 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { SearchFilters, StudentSearchData } from '../models/search.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SearchService {
   private readonly apiUrl = '/api/student/search';
 

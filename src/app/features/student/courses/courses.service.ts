@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { StudentCoursesData } from '../models/courses.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CoursesService {
   private readonly apiUrl = '/api/student/courses';
 

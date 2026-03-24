@@ -14,10 +14,13 @@ import {
 
 // Importamos las vistas
 import { HomeComponent } from '../home/home.component';
+import { HomeService } from '../home/home.service';
 import { HomeCourseItem } from '../models/home.model';
 import { CoursesComponent } from '../courses/courses.component';
+import { CoursesService } from '../courses/courses.service';
 import { StudentCourseItem } from '../models/courses.model';
 import { SearchComponent } from '../search/search.component';
+import { SearchService } from '../search/search.service';
 import { SearchResultItem } from '../models/search.model';
 import { ProfileComponent } from '../profile/profile.component';
 import { ProfileService } from '../profile/profile.service';
@@ -38,6 +41,13 @@ import { ConfigComponent } from '../config/config.component';
 
       ConfigComponent
     ],
+  providers: [
+    HomeService,
+    CoursesService,
+    SearchService,
+    ProfileService,
+    CourseDetailStateService
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'

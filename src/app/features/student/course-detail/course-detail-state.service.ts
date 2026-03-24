@@ -1,9 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { StudentCourseDetail } from '../models/course-detail.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CourseDetailStateService {
   readonly selectedCourse = signal<StudentCourseDetail | null>(null);
 

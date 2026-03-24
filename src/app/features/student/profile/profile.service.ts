@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { MyProfile, ProfileHubData, UpdateMyProfileRequest } from '../models/profile.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ProfileService {
   private readonly hubApiUrl = '/api/student/profile/hub';
   private readonly updateApiUrl = '/api/student/profile';
