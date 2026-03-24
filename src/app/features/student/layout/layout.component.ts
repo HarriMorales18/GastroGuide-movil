@@ -24,6 +24,7 @@ import { ProfileService } from '../profile/profile.service';
 import { CourseDetailComponent } from '../course-detail/course-detail.component';
 import { CourseDetailStateService } from '../course-detail/course-detail-state.service';
 import { StudentCourseDetail } from '../course-detail/course-detail.model';
+import { ConfigComponent } from '../config/config.component';
 
 @Component({
   selector: 'app-student-layout',
@@ -33,8 +34,10 @@ import { StudentCourseDetail } from '../course-detail/course-detail.model';
     HomeComponent,
     CoursesComponent,
     SearchComponent,
-    ProfileComponent
-  ],
+    ProfileComponent,
+
+      ConfigComponent
+    ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
@@ -71,11 +74,13 @@ export class LayoutComponent {
   }
 
   // 🔥 CONTROL DE TABS
-  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail'>('home');
+  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail' | 'config'>('home');
 
-  changeTab(tab: 'home' | 'courses' | 'search' | 'profile') {
+  changeTab(tab: 'home' | 'courses' | 'search' | 'profile' | 'config') {
     this.currentTab.set(tab);
-    this.previousTab = tab;
+    if (tab !== 'config') {
+      this.previousTab = tab;
+    }
   }
 
   loggedUserInitials(): string {

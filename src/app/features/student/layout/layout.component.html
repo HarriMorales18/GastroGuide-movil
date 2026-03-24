@@ -53,7 +53,8 @@
       </button>
       <button
         type="button"
-        (click)="changeTab('profile')"
+        [class.active]="currentTab() === 'config'"
+        (click)="changeTab('config')"
         aria-label="Menu"
       >
         <ion-icon name="menu-outline"></ion-icon>
@@ -67,5 +68,6 @@
     <app-search *ngIf="currentTab() === 'search'" (openCourseDetail)="openSearchDetail($event)"></app-search>
     <ng-container *ngIf="currentTab() === 'course-detail'" [ngComponentOutlet]="courseDetailComponent"></ng-container>
     <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
+    <app-student-config *ngIf="currentTab() === 'config'"></app-student-config>
   </main>
 </div>

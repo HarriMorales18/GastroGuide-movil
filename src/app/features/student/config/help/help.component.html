@@ -1,0 +1,87 @@
+<div class="help-container">
+  <div class="settings-header">
+    <h3>Ayuda y Soporte</h3>
+    <p>Resolvemos tus dudas y te apoyamos</p>
+  </div>
+
+  <!-- Support Card -->
+  <div class="support-card">
+    <h4><ion-icon name="mail-outline"></ion-icon> ¿Necesitas ayuda?</h4>
+    <p>Si no encuentras la respuesta a tu pregunta, nuestro equipo de soporte está aquí para ayudarte.</p>
+    <button class="contact-btn" (click)="contactSupport()">
+      <ion-icon name="call-outline"></ion-icon>
+      Contactar Soporte
+    </button>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h4><ion-icon name="help-circle-outline"></ion-icon> Preguntas Frecuentes</h4>
+
+    <div class="faq-list">
+      <div
+        *ngFor="let faq of faqs()"
+        [class.expanded]="faq.expanded"
+        class="faq-item"
+      >
+        <button
+          class="faq-question"
+          (click)="toggleFAQ(faq.id)"
+          [attr.aria-expanded]="faq.expanded"
+        >
+          <span>{{ faq.question }}</span>
+          <ion-icon
+            [name]="faq.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+          ></ion-icon>
+        </button>
+
+        <div class="faq-answer" *ngIf="faq.expanded">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Resources -->
+  <div class="resources-section">
+    <h4><ion-icon name="book-outline"></ion-icon> Recursos Útiles</h4>
+
+    <div class="resources-grid">
+      <a href="#" class="resource-card">
+        <ion-icon name="documents-outline"></ion-icon>
+        <span>Centro de Ayuda</span>
+      </a>
+      <a href="#" class="resource-card">
+        <ion-icon name="open-outline"></ion-icon>
+        <span>Blog</span>
+      </a>
+      <a href="#" class="resource-card">
+        <ion-icon name="logo-twitter"></ion-icon>
+        <span>Twitter</span>
+      </a>
+      <a href="#" class="resource-card">
+        <ion-icon name="logo-facebook"></ion-icon>
+        <span>Facebook</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- App Info -->
+  <div class="app-info">
+    <h4>Información de la App</h4>
+    <div class="info-items">
+      <div class="info-row">
+        <span>Versión:</span>
+        <span>1.0.0</span>
+      </div>
+      <div class="info-row">
+        <span>Plataforma:</span>
+        <span>Ionic/Angular</span>
+      </div>
+      <div class="info-row">
+        <span>Última actualización:</span>
+        <span>Marzo 2024</span>
+      </div>
+    </div>
+  </div>
+</div>

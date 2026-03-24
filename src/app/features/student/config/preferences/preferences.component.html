@@ -1,0 +1,89 @@
+<div class="preferences">
+  <div class="settings-header">
+    <h3>Preferencias</h3>
+    <p>Personaliza tu experiencia en GastroGuide</p>
+  </div>
+
+  <!-- Language Selection -->
+  <div class="preference-section">
+    <h4><ion-icon name="language-outline"></ion-icon> Idioma</h4>
+    <div class="option-group">
+      <button
+        *ngFor="let lang of languages"
+        [class.selected]="selectedLanguage() === lang.code"
+        (click)="selectLanguage(lang.code)"
+        class="option-btn"
+      >
+        <span class="option-label">{{ lang.name }}</span>
+        <ion-icon
+          name="checkmark-outline"
+          *ngIf="selectedLanguage() === lang.code"
+          class="checkmark"
+        ></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Theme Selection -->
+  <div class="preference-section">
+    <h4><ion-icon name="contrast-outline"></ion-icon> Tema</h4>
+    <div class="option-group">
+      <button
+        *ngFor="let theme of themes"
+        [class.selected]="selectedTheme() === theme.code"
+        (click)="selectTheme(theme.code)"
+        class="option-btn"
+      >
+        <span class="option-label">{{ theme.name }}</span>
+        <ion-icon
+          name="checkmark-outline"
+          *ngIf="selectedTheme() === theme.code"
+          class="checkmark"
+        ></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Notifications -->
+  <div class="preference-section">
+    <h4><ion-icon name="notifications-outline"></ion-icon> Notificaciones</h4>
+    <div class="notifications-list">
+      <div
+        *ngFor="let notif of notifications()"
+        class="notification-item"
+      >
+        <div class="notification-content">
+          <span class="notification-label">{{ notif.label }}</span>
+          <span class="notification-description">{{ notif.description }}</span>
+        </div>
+        <label class="toggle-switch">
+          <input
+            type="checkbox"
+            [checked]="notif.enabled"
+            (change)="toggleNotification(notif.id)"
+          />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Settings -->
+  <div class="preference-section">
+    <h4><ion-icon name="shield-outline"></ion-icon> Privacidad</h4>
+    <div class="privacy-options">
+      <label class="privacy-item">
+        <input type="checkbox" checked />
+        <span>Permitir que otros estudiantes vean tu perfil público</span>
+      </label>
+      <label class="privacy-item">
+        <input type="checkbox" checked />
+        <span>Mostrar tu progreso en el ranking</span>
+      </label>
+      <label class="privacy-item">
+        <input type="checkbox" />
+        <span>Recibir mensajes de otros usuarios</span>
+      </label>
+    </div>
+  </div>
+</div>

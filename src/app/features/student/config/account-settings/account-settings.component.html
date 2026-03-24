@@ -1,0 +1,117 @@
+<div class="account-settings">
+  <div class="settings-header">
+    <h3>Configuración de Cuenta</h3>
+    <p>Administra la seguridad y datos de tu cuenta</p>
+  </div>
+
+  <!-- Account Info Card -->
+  <div class="account-card">
+    <h4>Información de la Cuenta</h4>
+    <div class="account-info">
+      <div class="info-item">
+        <span class="info-label">Email</span>
+        <span class="info-value">usuario@example.com</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Usuario</span>
+        <span class="info-value">Juan García</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Rol</span>
+        <span class="info-value">Estudiante</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Change Section -->
+  <div class="settings-section">
+    <h4>Seguridad</h4>
+
+    <button
+      class="settings-btn"
+      (click)="togglePasswordForm()"
+      *ngIf="!showPasswordForm()"
+    >
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <span>Cambiar Contraseña</span>
+    </button>
+
+    <!-- Password Change Form -->
+    <div class="password-form" *ngIf="showPasswordForm()">
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div class="form-group">
+          <label for="currentPassword">Contraseña Actual</label>
+          <input
+            id="currentPassword"
+            type="password"
+            formControlName="currentPassword"
+            placeholder="Ingresa tu contraseña actual"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">Nueva Contraseña</label>
+          <input
+            id="newPassword"
+            type="password"
+            formControlName="newPassword"
+            placeholder="Mínimo 8 caracteres"
+            class="form-input"
+          />
+          <small class="hint">Debe tener al menos 8 caracteres</small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Repite tu nueva contraseña"
+            class="form-input"
+          />
+          <small
+            class="error"
+            *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.touched"
+          >
+            Las contraseñas no coinciden
+          </small>
+        </div>
+
+        <!-- Messages -->
+        <div class="message success" *ngIf="successMessage()">
+          {{ successMessage() }}
+        </div>
+        <div class="message error" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn-cancel"
+            (click)="cancelPasswordChange()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn-submit"
+            [disabled]="passwordForm.invalid"
+          >
+            Cambiar Contraseña
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="danger-zone">
+    <h4><ion-icon name="alert-circle-outline"></ion-icon> Zona de Riesgo</h4>
+    <button class="btn-danger">Eliminar Cuenta</button>
+    <small>Esta acción es irreversible</small>
+  </div>
+</div>
