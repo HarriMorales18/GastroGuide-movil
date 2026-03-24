@@ -13,7 +13,7 @@ import {
 import { AccountConfigViewComponent } from './views/account-config-view.component';
 import { PreferencesConfigViewComponent } from './views/preferences-config-view.component';
 import { SupportConfigViewComponent } from './views/support-config-view.component';
-import { AuthService } from 'src/app/core/services/auth';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 type ConfigTab = 'account' | 'preferences' | 'help';
 

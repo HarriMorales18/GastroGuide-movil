@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/core/services/auth';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { CreateCourseComponent } from '../create-course/create-course.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { StatisticsComponent } from '../statistics/statistics.component';

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
-import { User, UserRole } from '../../shared/models/user.model';
+import { User, UserRole } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 
 interface LoginResponse {
