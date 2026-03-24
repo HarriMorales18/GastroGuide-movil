@@ -2,6 +2,9 @@
 
 Documento corto para mantener una estructura consistente en la app Ionic/Angular.
 
+Complemento operativo:
+- Ver tambien `docs/PROJECT_OPERATIONS_GUIDE.md` para flujo de implementacion, DoD y checklist operativo del equipo.
+
 ## 1) Capas y responsabilidades
 
 ### Core (`src/app/core`)
