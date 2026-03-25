@@ -67,6 +67,7 @@
     <app-courses *ngIf="currentTab() === 'courses'" (openCourseDetail)="openCoursesDetail($event)"></app-courses>
     <app-search *ngIf="currentTab() === 'search'" (openCourseDetail)="openSearchDetail($event)"></app-search>
     <ng-container *ngIf="currentTab() === 'course-detail'" [ngComponentOutlet]="courseDetailComponent"></ng-container>
+    <ng-container *ngIf="currentTab() === 'course'" [ngComponentOutlet]="studentCourseComponent"></ng-container>
     <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
     <app-student-config *ngIf="currentTab() === 'config'"></app-student-config>
   </main>

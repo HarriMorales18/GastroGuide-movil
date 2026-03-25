@@ -1,0 +1,167 @@
+.course-player-page {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1rem;
+  color: #182028;
+}
+
+.course-header {
+  background: linear-gradient(120deg, #ffe8b8 0%, #fff3da 55%, #fff 100%);
+  border: 1px solid #f2d292;
+  border-radius: 18px;
+  padding: 1.25rem;
+}
+
+.course-header h2 {
+  margin: 0.35rem 0;
+}
+
+.course-type {
+  display: inline-flex;
+  border-radius: 999px;
+  background: #222;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+}
+
+.course-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 1rem;
+}
+
+.video-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.video-card,
+.info-card,
+.comments-card,
+.module-filter,
+.lesson-list {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e7edf3;
+  padding: 1rem;
+}
+
+.video-player {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+
+.lesson-meta {
+  margin-top: 0.85rem;
+}
+
+.lesson-meta .module-label {
+  margin: 0;
+  color: #3a5a73;
+  font-size: 0.8rem;
+}
+
+.info-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.comment-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d8e1ea;
+  padding: 0.6rem;
+  resize: vertical;
+}
+
+.comment-form button {
+  justify-self: end;
+  border: none;
+  border-radius: 10px;
+  background: #0f7b6c;
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  font-weight: 600;
+}
+
+.comment-list {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.comment-item {
+  border-radius: 12px;
+  border: 1px solid #ebeff4;
+  padding: 0.75rem;
+}
+
+.comment-item small {
+  margin-left: 0.35rem;
+  color: #6d7884;
+}
+
+.module-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.65rem;
+}
+
+.module-buttons button,
+.lesson-list button {
+  border: 1px solid #ced8e3;
+  background: #f7fafc;
+  color: #1d2a36;
+  border-radius: 10px;
+}
+
+.module-buttons button {
+  padding: 0.35rem 0.7rem;
+}
+
+.module-buttons button.active {
+  background: #0f7b6c;
+  color: #fff;
+  border-color: #0f7b6c;
+}
+
+.lesson-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.lesson-list button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  gap: 0.6rem;
+  padding: 0.7rem;
+}
+
+.lesson-list button.selected {
+  border-color: #0f7b6c;
+  background: #e6f4f2;
+}
+
+.empty-state {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .course-layout {
+    grid-template-columns: 1fr;
+  }
+}

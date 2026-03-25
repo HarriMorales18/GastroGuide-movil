@@ -59,7 +59,7 @@
     <span *ngFor="let tag of course.tags">#{{ tag }}</span>
   </section>
 
-  <button type="button" class="start-btn" (click)="goBack()">
+  <button type="button" class="start-btn" (click)="openLearningExperience()">
     {{ hasProgress(course) ? 'Continuar aprendiendo' : 'Comenzar curso' }}
   </button>
 </section>
