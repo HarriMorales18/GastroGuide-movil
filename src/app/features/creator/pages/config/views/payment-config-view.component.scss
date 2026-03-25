@@ -1,0 +1,282 @@
+.payment-config {
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.earnings-summary {
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+    color: #101d26;
+  }
+}
+
+.earnings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.earning-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid #d4dde5;
+  border-radius: 10px;
+  background: #f8f9fa;
+
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5a6a78;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .amount {
+    font-size: 1.3rem;
+    color: #101d26;
+
+    &.warn {
+      color: #f8500a;
+    }
+  }
+
+  .meta {
+    font-size: 0.78rem;
+    color: #5a6a78;
+  }
+}
+
+.payment-section,
+.tax-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section-header {
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #101d26;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+    color: #5a6a78;
+  }
+}
+
+.payment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d4dde5;
+  border-radius: 10px;
+  background: #fff;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #f8500a;
+    box-shadow: 0 2px 6px rgba(248, 80, 10, 0.1);
+  }
+
+  &.default {
+    border-color: #f8500a;
+    background: rgba(248, 80, 10, 0.04);
+  }
+
+  .payment-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .payment-type {
+    font-size: 1.5rem;
+  }
+
+  .payment-label {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #101d26;
+
+    strong {
+      color: #5a6a78;
+      font-weight: 500;
+    }
+  }
+
+  .default-badge {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    background: rgba(248, 80, 10, 0.15);
+    color: #f8500a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .payment-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+}
+
+.action-btn {
+  padding: 0.4rem;
+  border: none;
+  background: transparent;
+  color: #5a6a78;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #101d26;
+  }
+
+  &.set-default:hover {
+    color: #28a745;
+  }
+
+  &.remove:hover {
+    color: #dc3545;
+  }
+}
+
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 2px dashed #d4dde5;
+  border-radius: 10px;
+  background: #f8f9fa;
+  color: #101d26;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #f8500a;
+    background: rgba(248, 80, 10, 0.04);
+    color: #f8500a;
+  }
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.add-payment-form {
+  padding: 1.25rem;
+  border: 1px solid #e0e6eb;
+  border-radius: 10px;
+  background: #f8f9fa;
+
+  h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+    color: #101d26;
+  }
+
+  .form-desc {
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    color: #5a6a78;
+    font-style: italic;
+  }
+}
+
+.cancel-btn {
+  padding: 0.7rem 1.25rem;
+  border: 1px solid #d4dde5;
+  border-radius: 8px;
+  background: #fff;
+  color: #4f6271;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f4f7fa;
+  }
+}
+
+.tax-info-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #d4dde5;
+  border-radius: 10px;
+  background: #f8f9fa;
+}
+
+.tax-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  .field-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5a6a78;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .field-value {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #101d26;
+    font-weight: 600;
+  }
+}
+
+.edit-btn {
+  padding: 0.7rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff8b58 0%, #f8500a 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(248, 80, 10, 0.25);
+  }
+}
+
+@media (max-width: 520px) {
+  .earnings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tax-info-card {
+    grid-template-columns: 1fr;
+  }
+}

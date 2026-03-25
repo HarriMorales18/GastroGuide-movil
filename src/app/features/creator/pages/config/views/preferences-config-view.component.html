@@ -1,0 +1,98 @@
+<div class="preferences-config">
+  <section class="pref-section">
+    <header class="section-header">
+      <h3>Tema</h3>
+      <p>Elige tu preferencia de visualización</p>
+    </header>
+
+    <div class="theme-selector">
+      <button
+        type="button"
+        [class.active]="theme() === 'light'"
+        (click)="setTheme('light')"
+        class="theme-btn"
+      >
+        <ion-icon name="sunny-outline"></ion-icon>
+        <span>Claro</span>
+      </button>
+      <button
+        type="button"
+        [class.active]="theme() === 'dark'"
+        (click)="setTheme('dark')"
+        class="theme-btn"
+      >
+        <ion-icon name="moon-outline"></ion-icon>
+        <span>Oscuro</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="pref-section">
+    <header class="section-header">
+      <h3>Notificaciones por Email</h3>
+      <p>Controla qué notificaciones recibes</p>
+    </header>
+
+    <div class="notification-list">
+      <label class="notif-item">
+        <div class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            [checked]="emailNotifications().courseUpdates"
+            (change)="toggleNotification('courseUpdates')"
+          />
+          <span class="checkmark"></span>
+        </div>
+        <div class="notif-content">
+          <span class="notif-label">Actualizaciones de cursos</span>
+          <span class="notif-desc">Notificaciones cuando publiques o actualices cursos</span>
+        </div>
+      </label>
+
+      <label class="notif-item">
+        <div class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            [checked]="emailNotifications().messages"
+            (change)="toggleNotification('messages')"
+          />
+          <span class="checkmark"></span>
+        </div>
+        <div class="notif-content">
+          <span class="notif-label">Mensajes de estudiantes</span>
+          <span class="notif-desc">Cuando estudiantes envíen mensajes privados</span>
+        </div>
+      </label>
+
+      <label class="notif-item">
+        <div class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            [checked]="emailNotifications().payments"
+            (change)="toggleNotification('payments')"
+          />
+          <span class="checkmark"></span>
+        </div>
+        <div class="notif-content">
+          <span class="notif-label">Transacciones de pago</span>
+          <span class="notif-desc">Confirmaciones de pagos y transferencias</span>
+        </div>
+      </label>
+
+      <label class="notif-item">
+        <div class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            [checked]="emailNotifications().promotions"
+            (change)="toggleNotification('promotions')"
+          />
+          <span class="checkmark"></span>
+        </div>
+        <div class="notif-content">
+          <span class="notif-label">Ofertas y promociones</span>
+          <span class="notif-desc">Novedades sobre nuestras promociones especiales</span>
+        </div>
+      </label>
+    </div>
+  </section>
+</div>

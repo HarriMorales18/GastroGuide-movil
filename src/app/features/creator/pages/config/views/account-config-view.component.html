@@ -1,0 +1,59 @@
+<div class="account-config">
+  <header class="section-header">
+    <h3>Seguridad de Cuenta</h3>
+    <p>Protege tu cuenta con una contraseña segura</p>
+  </header>
+
+  <section *ngIf="!showPasswordForm()" class="action-section">
+    <button type="button" class="primary-btn" (click)="togglePasswordForm()">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <span>Cambiar contraseña</span>
+    </button>
+  </section>
+
+  <section *ngIf="showPasswordForm()" class="form-section">
+    <h4>Cambiar contraseña</h4>
+
+    <div *ngIf="successMessage()" class="alert success">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      <p>{{ successMessage() }}</p>
+    </div>
+
+    <div *ngIf="errorMessage()" class="alert error">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ errorMessage() }}</p>
+    </div>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <label>
+        <span>Contraseña actual</span>
+        <input type="password" formControlName="currentPassword" placeholder="Ingresa tu contraseña actual" />
+      </label>
+
+      <label>
+        <span>Nueva contraseña</span>
+        <input
+          type="password"
+          formControlName="newPassword"
+          placeholder="Mínimo 8 caracteres"
+        />
+      </label>
+
+      <label>
+        <span>Confirmar contraseña</span>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirma tu nueva contraseña"
+        />
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="save-btn" [disabled]="passwordForm.invalid || isSubmitting()">
+          {{ isSubmitting() ? 'Guardando...' : 'Guardar contraseña' }}
+        </button>
+        <button type="button" class="cancel-btn" (click)="togglePasswordForm()">Cancelar</button>
+      </div>
+    </form>
+  </section>
+</div>

@@ -1,0 +1,170 @@
+.preferences-config {
+  max-width: 600px;
+}
+
+.pref-section {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-header {
+  margin-bottom: 1.25rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #101d26;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+    color: #5a6a78;
+  }
+}
+
+.theme-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.theme-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  border: 2px solid #d4dde5;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  ion-icon {
+    font-size: 2rem;
+    color: #5a6a78;
+  }
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4f6271;
+  }
+
+  &:hover {
+    border-color: #f8500a;
+    background: #fafbfc;
+  }
+
+  &.active {
+    border-color: #f8500a;
+    background: rgba(248, 80, 10, 0.08);
+
+    ion-icon,
+    span {
+      color: #f8500a;
+    }
+  }
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e0e6eb;
+  border-radius: 10px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #d4dde5;
+    background: #fbfcfd;
+  }
+
+  &:has(input:checked) {
+    border-color: #f8500a;
+    background: rgba(248, 80, 10, 0.04);
+  }
+}
+
+.checkbox-wrapper {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #ccd5dd;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: #f8500a;
+    border-color: #f8500a;
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.notif-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+
+  .notif-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #101d26;
+  }
+
+  .notif-desc {
+    font-size: 0.8rem;
+    color: #5a6a78;
+  }
+}
+
+@media (max-width: 520px) {
+  .theme-selector {
+    grid-template-columns: 1fr;
+  }
+}

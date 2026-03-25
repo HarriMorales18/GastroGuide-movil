@@ -1,0 +1,48 @@
+<section class="config-shell">
+  <ng-container *ngIf="!activeTab(); else fullscreenView">
+    <header class="config-hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">Centro de ajustes</p>
+        <h2>Gestiona tu cuenta</h2>
+        <p>
+          Configura seguridad, preferencias y métodos de pago desde un solo lugar.
+        </p>
+      </div>
+
+      <button class="logout-btn" (click)="logout()" aria-label="Cerrar sesión">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </header>
+
+    <nav class="config-tabs" aria-label="Secciones de configuración">
+      <button
+        *ngFor="let option of configOptions"
+        type="button"
+        (click)="setActiveTab(option.id)"
+        class="tab-btn"
+      >
+        <ion-icon [name]="option.icon"></ion-icon>
+        <span class="tab-label">{{ option.label }}</span>
+        <span class="tab-description">{{ option.description }}</span>
+      </button>
+    </nav>
+  </ng-container>
+
+  <ng-template #fullscreenView>
+    <section class="config-fullscreen">
+      <header class="fullscreen-topbar">
+        <button type="button" class="back-btn" (click)="backToSections()" aria-label="Volver a secciones">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          <span>Volver</span>
+        </button>
+      </header>
+
+      <div class="fullscreen-body" [ngSwitch]="activeTab()">
+        <app-account-config-view *ngSwitchCase="'account'"></app-account-config-view>
+        <app-preferences-config-view *ngSwitchCase="'preferences'"></app-preferences-config-view>
+        <app-payment-config-view *ngSwitchCase="'payment'"></app-payment-config-view>
+      </div>
+    </section>
+  </ng-template>
+</section>

@@ -1,3 +1,131 @@
-<p>
-  profile works!
-</p>
+<section class="profile-page" *ngIf="profile() as vm">
+  <!-- Profile Card -->
+  <header class="creator-profile-card">
+    <div class="avatar-section">
+      <div class="avatar" *ngIf="!vm.avatarUrl">{{ getInitials(vm.displayName) }}</div>
+      <img *ngIf="vm.avatarUrl" [src]="vm.avatarUrl" alt="Avatar" class="avatar-image" />
+      <span class="role-badge">Creador</span>
+    </div>
+
+    <div class="profile-info">
+      <h2>{{ vm.displayName }}</h2>
+      <p class="headline">{{ vm.headline }}</p>
+      <p class="subtitle">{{ vm.joinedAtLabel }}</p>
+
+      <div class="stats-container">
+        <article class="stat-item">
+          <strong>{{ vm.stats.publishedCourses }}</strong>
+          <span>Cursos publicados</span>
+        </article>
+        <article class="stat-item">
+          <strong>{{ vm.stats.totalStudents }}</strong>
+          <span>Estudiantes activos</span>
+        </article>
+        <article class="stat-item">
+          <strong>${{ vm.stats.totalEarnings.toFixed(0) }}</strong>
+          <span>Ganancias totales</span>
+        </article>
+        <article class="stat-item">
+          <strong>{{ vm.stats.averageRating }}</strong>
+          <span>Calificación promedio</span>
+        </article>
+      </div>
+    </div>
+  </header>
+
+  <!-- Action Buttons -->
+  <section class="actions-row">
+    <button type="button" class="primary-btn" (click)="openEditProfile()">
+      <ion-icon name="create-outline"></ion-icon>
+      <span>Editar perfil</span>
+    </button>
+  </section>
+
+  <!-- Edit Panel -->
+  <section class="panel edit-panel" *ngIf="isEditMode()">
+    <div class="panel-header">
+      <h3>Editar perfil</h3>
+      <button type="button" class="close-btn" (click)="closeEditProfile()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+
+    <form class="edit-form">
+      <label>
+        <span>Nombre completo</span>
+        <input
+          type="text"
+          [ngModel]="editForm().displayName"
+          (ngModelChange)="updateField('displayName', $event)"
+          placeholder="Tu nombre"
+        />
+      </label>
+
+      <label>
+        <span>Titular profesional</span>
+        <input
+          type="text"
+          [ngModel]="editForm().headline"
+          (ngModelChange)="updateField('headline', $event)"
+          placeholder="ej: Chef especializado en técnicas modernas"
+        />
+      </label>
+
+      <label class="full">
+        <span>Biografía</span>
+        <textarea
+          rows="4"
+          [ngModel]="editForm().bio"
+          (ngModelChange)="updateField('bio', $event)"
+          placeholder="Cuéntales a tus estudiantes quién eres y tu experiencia"
+        ></textarea>
+      </label>
+
+      <label class="full">
+        <span>Especialidades (separadas por coma)</span>
+        <textarea
+          rows="2"
+          [ngModel]="editForm().specialties"
+          (ngModelChange)="updateField('specialties', $event)"
+          placeholder="ej: Cocina Moderna, Repostería, Técnicas Avanzadas"
+        ></textarea>
+      </label>
+
+      <div class="form-actions">
+        <button type="button" class="save-btn" [disabled]="isSaving()" (click)="saveProfileChanges()">
+          <ion-icon name="save-outline"></ion-icon>
+          <span>{{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}</span>
+        </button>
+        <button type="button" class="cancel-btn" (click)="closeEditProfile()">Cancelar</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Bio Section -->
+  <section class="panel bio-panel">
+    <h3>Acerca de ti</h3>
+    <p class="bio-text">{{ vm.bio }}</p>
+
+    <article class="specialties">
+      <h4>Especialidades</h4>
+      <div class="tags">
+        <span class="tag" *ngFor="let specialty of vm.specialties">{{ specialty }}</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="panel quick-stats">
+    <h3>Información de contacto</h3>
+    <div class="info-grid">
+      <div class="info-field">
+        <span class="field-label">Email</span>
+        <p class="field-value">{{ displayEmail() }}</p>
+      </div>
+      <div class="info-field">
+        <span class="field-label">Miembro desde</span>
+        <p class="field-value">{{ vm.joinedAtLabel }}</p>
+      </div>
+    </div>
+  </section>
+</section>

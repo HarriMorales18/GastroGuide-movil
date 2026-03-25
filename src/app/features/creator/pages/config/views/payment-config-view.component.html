@@ -1,0 +1,105 @@
+<div class="payment-config">
+  <!-- Earnings Summary -->
+  <section class="earnings-summary">
+    <h3>Resumen de ganancias</h3>
+    <div class="earnings-grid">
+      <article class="earning-card">
+        <span class="label">Este mes</span>
+        <strong class="amount">${{ earnings().thisMonth.toFixed(2) }}</strong>
+      </article>
+      <article class="earning-card">
+        <span class="label">Total ganado</span>
+        <strong class="amount">${{ earnings().total.toFixed(2) }}</strong>
+      </article>
+      <article class="earning-card">
+        <span class="label">Pendiente transferir</span>
+        <strong class="amount warn">${{ earnings().pendingTransfer.toFixed(2) }}</strong>
+      </article>
+      <article class="earning-card">
+        <span class="label">Última transferencia</span>
+        <strong class="meta">{{ earnings().lastTransfer }}</strong>
+      </article>
+    </div>
+  </section>
+
+  <!-- Payment Methods -->
+  <section class="payment-section">
+    <header class="section-header">
+      <h3>Métodos de pago</h3>
+      <p>Cuentas donde recibirás tus ganancias</p>
+    </header>
+
+    <div class="payment-list">
+      <article *ngFor="let method of paymentMethods()" class="payment-card" [class.default]="method.isDefault">
+        <div class="payment-info">
+          <span class="payment-type" [class]="method.type">{{ method.type === 'card' ? '💳' : '🏦' }}</span>
+          <div>
+            <p class="payment-label">{{ method.label }} <strong>{{ method.value }}</strong></p>
+            <small *ngIf="method.isDefault" class="default-badge">Predeterminado</small>
+          </div>
+        </div>
+
+        <div class="payment-actions">
+          <button
+            *ngIf="!method.isDefault"
+            type="button"
+            class="action-btn set-default"
+            (click)="setDefaultPayment(method.id)"
+            title="Establecer como predeterminado"
+          >
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </button>
+          <button
+            *ngIf="paymentMethods().length > 1"
+            type="button"
+            class="action-btn remove"
+            (click)="removePayment(method.id)"
+            title="Eliminar"
+          >
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <button *ngIf="!showAddPayment()" type="button" class="add-btn" (click)="toggleAddPayment()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <span>Agregar método de pago</span>
+    </button>
+
+    <div *ngIf="showAddPayment()" class="add-payment-form">
+      <h4>Agregar nuevo método de pago</h4>
+      <p class="form-desc">Próximamente: integración con Stripe, Transferencia bancaria y billeteras digitales</p>
+      <button type="button" class="cancel-btn" (click)="toggleAddPayment()">Cancelar</button>
+    </div>
+  </section>
+
+  <!-- Tax Information -->
+  <section class="tax-section">
+    <header class="section-header">
+      <h3>Información fiscal</h3>
+      <p>Datos requeridos para procesar tus ganancias</p>
+    </header>
+
+    <div class="tax-info-card">
+      <div class="tax-field">
+        <span class="field-label">Nombre de negocio</span>
+        <p class="field-value">{{ taxInfo().businessName }}</p>
+      </div>
+      <div class="tax-field">
+        <span class="field-label">CUIT/RFC</span>
+        <p class="field-value">{{ taxInfo().taxId }}</p>
+      </div>
+      <div class="tax-field">
+        <span class="field-label">País</span>
+        <p class="field-value">{{ taxInfo().country }}</p>
+      </div>
+      <div class="tax-field">
+        <span class="field-label">Régimen de IVA</span>
+        <p class="field-value">{{ taxInfo().vatRegistered ? 'Inscripto' : 'No inscripto' }}</p>
+      </div>
+    </div>
+
+    <button type="button" class="edit-btn">Editar información fiscal</button>
+  </section>
+</div>

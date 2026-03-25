@@ -1,46 +1,65 @@
-<div class="layout-shell">
-  <header class="top-nav">
-    <div class="brand-row">
-      <h1>GastroGuide</h1>
-      <button class="logout-btn" (click)="logout()">Salir</button>
-    </div>
-
-    <div class="tabs" role="tablist" aria-label="Navegacion creador">
+<div class="creator-shell">
+  <header class="top-area">
+    <div class="top-actions-row">
+      <h1 class="wordmark">GastroGuide</h1>
       <button
+        class="profile-avatar-btn"
         type="button"
-        role="tab"
-        class="tab-btn"
-        [class.active]="activeTab === 'create'"
-        (click)="setActiveTab('create')"
-      >
-        Crear curso
-      </button>
-
-      <button
-        type="button"
-        role="tab"
-        class="tab-btn"
-        [class.active]="activeTab === 'statistics'"
-        (click)="setActiveTab('statistics')"
-      >
-        Estadisticas
-      </button>
-
-      <button
-        type="button"
-        role="tab"
-        class="tab-btn"
-        [class.active]="activeTab === 'profile'"
+        [attr.aria-label]="'Ir al perfil de ' + loggedUserDisplayName()"
         (click)="setActiveTab('profile')"
       >
-        Perfil
+        <img
+          [src]="loggedUserAvatarUrl() || defaultAvatarUrl"
+          [alt]="'Foto de ' + loggedUserDisplayName()"
+          loading="lazy"
+          decoding="async"
+        />
       </button>
     </div>
+
+    <nav class="tabs-icons" aria-label="Navegacion creador">
+      <button
+        type="button"
+        [class.active]="activeTab === 'create'"
+        aria-label="Ir a crear curso"
+        (click)="setActiveTab('create')"
+      >
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab === 'statistics'"
+        aria-label="Ir a estadisticas"
+        (click)="setActiveTab('statistics')"
+      >
+        <ion-icon name="stats-chart-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab === 'profile'"
+        aria-label="Ir a perfil"
+        (click)="setActiveTab('profile')"
+      >
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab === 'config'"
+        aria-label="Ir a configuracion"
+        (click)="setActiveTab('config')"
+      >
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+    </nav>
   </header>
 
-  <main class="content-wrap">
+  <main class="content">
     <app-create-course *ngIf="activeTab === 'create'"></app-create-course>
     <app-statistics *ngIf="activeTab === 'statistics'"></app-statistics>
     <app-profile *ngIf="activeTab === 'profile'"></app-profile>
+    <app-creator-config *ngIf="activeTab === 'config'"></app-creator-config>
   </main>
 </div>
