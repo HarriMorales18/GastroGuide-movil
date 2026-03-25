@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
@@ -178,6 +178,9 @@ export class AuthService {
       return of(user?.role || null);
     }
 
+    // Clear any stale local session before requesting a fresh token pair.
+    this.logout();
+
     const loginUrl = `${environment.apiUrl}/api/auth/login`;
 
     return this.http.post<LoginResponse>(loginUrl, { email, password }).pipe(
@@ -192,6 +195,9 @@ export class AuthService {
         void this.persistAccessToken(token);
         if (refreshToken) {
           void this.persistRefreshToken(refreshToken);
+        } else {
+          this.refreshToken = null;
+          void this.storage.remove(this.refreshTokenStorageKey);
         }
 
         const role = this.getRoleFromJwt(token);
@@ -203,7 +209,14 @@ export class AuthService {
         this.setSessionFromRole(role, email);
         return role;
       }),
-      catchError(() => of(null))
+      catchError((error: HttpErrorResponse) => {
+        console.error('Login request failed', {
+          status: error.status,
+          message: error.message,
+          details: error.error,
+        });
+        return of(null);
+      })
     );
   }
 
@@ -252,14 +265,34 @@ export class AuthService {
           return of(true);
         }
 
-        return this.http.post(logoutUrl, { refreshToken }).pipe(
-          map(() => {
-            this.logout();
-            return true;
-          }),
-          catchError(() => {
-            this.logout();
-            return of(false);
+        return from(this.storage.get(this.tokenStorageKey)).pipe(
+          switchMap((storedAccessToken: string | null) => {
+            const accessToken = storedAccessToken || this.accessToken;
+
+            if (!accessToken) {
+              this.logout();
+              return of(true);
+            }
+
+            return this.http
+              .post(
+                logoutUrl,
+                { refreshToken },
+                { headers: { Authorization: `Bearer ${accessToken}` } }
+              )
+              .pipe(
+                map(() => {
+                  this.logout();
+                  return true;
+                }),
+                catchError((error: HttpErrorResponse) => {
+                  this.logout();
+                  if (error.status === 400 || error.status === 401 || error.status === 404) {
+                    return of(true);
+                  }
+                  return of(false);
+                })
+              );
           })
         );
       }),

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   email = '';
   password = '';
@@ -22,6 +22,16 @@ export class LoginComponent {
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    this.resetForm();
+  }
+
+  private resetForm(): void {
+    this.email = '';
+    this.password = '';
+    this.error = '';
+  }
+
   login() {
     this.error = '';
 
@@ -30,6 +40,8 @@ export class LoginComponent {
         this.error = 'Credenciales invalidas o token sin rol';
         return;
       }
+
+      this.resetForm();
 
       switch (role) {
         case 'student':
