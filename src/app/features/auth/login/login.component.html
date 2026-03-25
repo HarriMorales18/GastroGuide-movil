@@ -1,10 +1,12 @@
 <main class="login-view">
   <h2>GastroGuide</h2>
 
-  <input type="email" [(ngModel)]="email" placeholder="Correo" />
-  <input type="password" [(ngModel)]="password" placeholder="Contrasena" />
+  <form class="login-form" autocomplete="off" (ngSubmit)="login()">
+    <input type="email" name="email" autocomplete="username" [(ngModel)]="email" placeholder="Correo" />
+    <input type="password" name="password" autocomplete="new-password" [(ngModel)]="password" placeholder="Contrasena" />
 
-  <button (click)="login()">Iniciar sesion</button>
+    <button type="submit">Iniciar sesion</button>
+  </form>
 
   <p *ngIf="error" class="error">{{ error }}</p>
 
