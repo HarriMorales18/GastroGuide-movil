@@ -28,6 +28,8 @@ import { CourseDetailComponent } from '../course-detail/course-detail.component'
 import { CourseDetailStateService } from '../course-detail/course-detail-state.service';
 import { StudentCourseDetail } from '@student-models/course-detail.model';
 import { ConfigComponent } from '../config/config.component';
+import { CourseComponent } from '../course/course.component';
+import { CourseAccessService } from '../course/course-access.service';
 
 @Component({
   selector: 'app-student-layout',
@@ -38,15 +40,15 @@ import { ConfigComponent } from '../config/config.component';
     CoursesComponent,
     SearchComponent,
     ProfileComponent,
-
-      ConfigComponent
-    ],
+    ConfigComponent
+  ],
   providers: [
     HomeService,
     CoursesService,
     SearchService,
     ProfileService,
-    CourseDetailStateService
+    CourseDetailStateService,
+    CourseAccessService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './layout.component.html',
@@ -54,14 +56,17 @@ import { ConfigComponent } from '../config/config.component';
 })
 export class LayoutComponent {
   private previousTab: 'home' | 'courses' | 'search' | 'profile' = 'home';
+  private handledOpenRequest = 0;
   readonly courseDetailComponent = CourseDetailComponent;
+  readonly studentCourseComponent = CourseComponent;
   readonly defaultAvatarUrl = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80';
   readonly loggedUserAvatarUrl = signal<string | null>(null);
   readonly loggedUserDisplayName = signal('Mi perfil');
 
   constructor(
     private readonly courseDetailState: CourseDetailStateService,
-    private readonly profileService: ProfileService
+    private readonly profileService: ProfileService,
+    private readonly courseAccess: CourseAccessService
   ) {
     addIcons({
       addCircleOutline,
@@ -80,11 +85,29 @@ export class LayoutComponent {
       }
     });
 
+    effect(() => {
+      if (this.currentTab() === 'course' && !this.courseAccess.canAccessCourse()) {
+        this.currentTab.set('course-detail');
+      }
+    });
+
+    effect(() => {
+      const currentRequest = this.courseAccess.openCourseRequest();
+
+      if (currentRequest > this.handledOpenRequest) {
+        this.handledOpenRequest = currentRequest;
+
+        if (this.courseDetailState.selectedCourse()) {
+          this.currentTab.set('course');
+        }
+      }
+    });
+
     this.loadLoggedUserProfile();
   }
 
   // 🔥 CONTROL DE TABS
-  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail' | 'config'>('home');
+  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail' | 'course' | 'config'>('home');
 
   changeTab(tab: 'home' | 'courses' | 'search' | 'profile' | 'config') {
     this.currentTab.set(tab);
@@ -204,6 +227,7 @@ export class LayoutComponent {
 
   private openCourseDetail(detail: StudentCourseDetail): void {
     this.courseDetailState.setSelectedCourse(detail);
+    this.courseAccess.revokeAccess();
     this.currentTab.set('course-detail');
   }
 

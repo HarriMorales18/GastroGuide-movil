@@ -1,0 +1,93 @@
+<section class="course-player-page" *ngIf="course() as selectedCourse; else emptyState">
+  <header class="course-header">
+    <span class="course-type">Curso activo</span>
+    <h2>{{ selectedCourse.title }}</h2>
+    <p>{{ selectedCourse.description }}</p>
+  </header>
+
+  <div class="course-layout">
+    <section class="video-section">
+      <article class="video-card" *ngIf="activeLesson() as lesson">
+        <video class="video-player" controls [src]="lesson.videoUrl"></video>
+
+        <div class="lesson-meta">
+          <p class="module-label">{{ lesson.moduleTitle }}</p>
+          <h3>{{ lesson.title }}</h3>
+          <p>{{ lesson.summary }}</p>
+          <small>{{ lesson.durationMinutes }} min · {{ lesson.isCompleted ? 'Completada' : 'Pendiente' }}</small>
+        </div>
+      </article>
+
+      <article class="info-card">
+        <h3>Informacion del curso</h3>
+        <ul>
+          <li>Instructor: {{ selectedCourse.instructor }}</li>
+          <li>Categoria: {{ selectedCourse.category }}</li>
+          <li>Nivel: {{ selectedCourse.levelLabel }}</li>
+          <li>Progreso: {{ selectedCourse.progressPercentage }}%</li>
+          <li>Lecciones: {{ selectedCourse.lessonsCompleted }}/{{ selectedCourse.lessonsTotal }}</li>
+        </ul>
+      </article>
+
+      <article class="comments-card">
+        <h3>Comentarios</h3>
+
+        <form (ngSubmit)="addComment()" class="comment-form">
+          <textarea
+            name="newComment"
+            [(ngModel)]="newComment"
+            rows="3"
+            placeholder="Comparte tu duda o aporte"
+          ></textarea>
+          <button type="submit">Publicar comentario</button>
+        </form>
+
+        <div class="comment-list">
+          <article class="comment-item" *ngFor="let comment of comments()">
+            <strong>{{ comment.author }}</strong>
+            <small>{{ comment.createdAt }}</small>
+            <p>{{ comment.text }}</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <aside class="sidebar">
+      <article class="module-filter">
+        <h3>Contenido del curso</h3>
+        <div class="module-buttons">
+          <button
+            type="button"
+            *ngFor="let option of moduleOptions()"
+            [class.active]="currentModuleFilter() === option"
+            (click)="setModuleFilter(option)"
+          >
+            {{ option === 'all' ? 'Todos' : option }}
+          </button>
+        </div>
+      </article>
+
+      <article class="lesson-list">
+        <button
+          type="button"
+          *ngFor="let lesson of filteredLessons(); trackBy: trackByLessonId"
+          [class.selected]="activeLesson()?.id === lesson.id"
+          (click)="selectLesson(lesson.id)"
+        >
+          <div>
+            <strong>{{ lesson.title }}</strong>
+            <small>{{ lesson.durationMinutes }} min</small>
+          </div>
+          <span>{{ lesson.isCompleted ? 'OK' : 'Nuevo' }}</span>
+        </button>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<ng-template #emptyState>
+  <section class="empty-state">
+    <h3>No hay una sesion de curso activa</h3>
+    <p>Abre primero un detalle de curso y pulsa "Comenzar curso" o "Continuar aprendiendo".</p>
+  </section>
+</ng-template>
