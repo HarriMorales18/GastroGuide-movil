@@ -1,3 +1,98 @@
-<p>
-  create-user works!
-</p>
+<section class="create-user-page">
+  <header class="page-hero">
+    <p class="hero-kicker">Admin Console</p>
+    <h1>Crear usuarios del sistema</h1>
+    <p class="hero-subtitle">
+      Registra nuevos perfiles de estudiantes o creadores desde un solo formulario.
+    </p>
+
+    <div class="hero-metrics">
+      <article class="metric-card">
+        <strong>{{ studentCount }}</strong>
+        <span>estudiantes creados</span>
+      </article>
+      <article class="metric-card">
+        <strong>{{ creatorCount }}</strong>
+        <span>creadores creados</span>
+      </article>
+    </div>
+  </header>
+
+  <section class="form-panel">
+    <div class="panel-head">
+      <h2>Tipo de usuario</h2>
+      <p>Selecciona el rol y completa los campos requeridos.</p>
+    </div>
+
+    <div class="mode-switch">
+      <button type="button" [class.active]="mode === 'student'" (click)="setMode('student')">
+        Estudiante
+      </button>
+      <button type="button" [class.active]="mode === 'creator'" (click)="setMode('creator')">
+        Creador
+      </button>
+    </div>
+
+    <form class="form-grid" autocomplete="off" (ngSubmit)="createUser()">
+      <label class="field-group" *ngIf="mode === 'student'">
+        <span>Username</span>
+        <input type="text" name="username" [(ngModel)]="username" placeholder="Ej: chef.estudiante" />
+      </label>
+
+      <label class="field-group" *ngIf="mode === 'creator'">
+        <span>Nombre</span>
+        <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="Ej: Maria" />
+      </label>
+
+      <label class="field-group" *ngIf="mode === 'creator'">
+        <span>Apellido</span>
+        <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="Ej: Gonzales" />
+      </label>
+
+      <label class="field-group">
+        <span>Email</span>
+        <input type="email" name="email" [(ngModel)]="email" placeholder="correo@dominio.com" />
+      </label>
+
+      <label class="field-group">
+        <span>Password</span>
+        <input type="password" name="password" [(ngModel)]="password" placeholder="Minimo 6 caracteres" />
+      </label>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Creando usuario...' : 'Crear usuario' }}
+      </button>
+    </form>
+
+    <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
+      {{ alertMessage }}
+    </p>
+  </section>
+
+  <section class="form-panel">
+    <div class="panel-head">
+      <h2>Ultimos usuarios creados</h2>
+      <p>Historial rapido de altas realizadas en esta sesion.</p>
+    </div>
+
+    <div class="created-list" *ngIf="createdUsers.length > 0; else emptyState">
+      <article class="created-item" *ngFor="let user of createdUsers">
+        <div class="created-copy">
+          <strong>{{ user.displayName }}</strong>
+          <p>{{ user.email }}</p>
+        </div>
+        <div class="created-meta">
+          <span class="role-pill" [class.creator]="user.mode === 'creator'">{{ user.mode }}</span>
+          <small>{{ user.createdAt }}</small>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #emptyState>
+      <article class="empty-state">
+        <h3>Sin registros aun</h3>
+        <p>Cuando crees usuarios, apareceran aqui para seguimiento rapido.</p>
+      </article>
+    </ng-template>
+  </section>
+</section>

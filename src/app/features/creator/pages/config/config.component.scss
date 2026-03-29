@@ -1,17 +1,14 @@
 .config-shell {
   --creator-ink: #101d26;
+  --creator-primary: #1f2f40;
   --creator-accent: #f8500a;
-  --creator-surface-dark: #1f2f40;
-  --creator-surface-light: #dde2e5;
+  --creator-surface-light: #eff3f6;
 
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 1rem;
-  height: 100%;
-  padding: 1rem;
-  background:
-    radial-gradient(circle at top right, rgba(248, 80, 10, 0.14), transparent 45%),
-    #dde2e5;
+  gap: 0.8rem;
+  min-height: 100%;
+  padding: 0.9rem;
+  background: var(--creator-surface-light);
   color: var(--creator-ink);
 }
 
@@ -19,99 +16,154 @@
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 100%;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(16, 29, 38, 0.12);
+  background: #ffffff;
+  border: 1px solid #d4dce3;
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 7px 18px rgba(16, 29, 38, 0.08);
 }
 
 .fullscreen-topbar {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
-  background: #1f2f40;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.8rem 0.95rem;
+  background: linear-gradient(145deg, rgba(31, 47, 64, 0.98) 0%, rgba(16, 29, 38, 0.98) 100%);
+}
+
+.topbar-title {
+  margin: 0;
+  color: #f3f7fa;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 .back-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: none;
-  border-radius: 8px;
-  padding: 0.55rem 0.75rem;
-  background: #f8500a;
-  color: #101d26;
+  border: 1px solid rgba(221, 226, 229, 0.4);
+  border-radius: 999px;
+  padding: 0.45rem 0.7rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f3f7fa;
+  font-size: 0.79rem;
   font-weight: 700;
   cursor: pointer;
+  transition: transform 0.16s ease, background-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: rgba(248, 80, 10, 0.28);
+  }
 
   ion-icon {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
   }
 }
 
 .fullscreen-body {
   min-height: 0;
   overflow-y: auto;
-  padding: 1rem 1.15rem;
+  padding: 0.95rem 1rem;
+  background: #f8fafc;
 }
 
 .config-hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #1f2f40 0%, #101d26 100%);
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(31, 47, 64, 0.98) 0%, rgba(16, 29, 38, 0.98) 100%),
+    linear-gradient(95deg, rgba(248, 80, 10, 0.22), rgba(248, 80, 10, 0));
+  border: 1px solid rgba(221, 226, 229, 0.34);
   color: #dde2e5;
-  box-shadow: 0 12px 24px rgba(16, 29, 38, 0.25);
+  box-shadow: 0 14px 28px rgba(8, 14, 19, 0.28);
 }
 
 .hero-copy {
   h2 {
     margin: 0;
-    font-size: 1.4rem;
-    line-height: 1.2;
+    font-size: 1.28rem;
+    line-height: 1.25;
+    color: #f7fafc;
   }
 
   p {
-    margin: 0.35rem 0 0;
+    margin: 0.4rem 0 0;
+    font-size: 0.85rem;
     color: rgba(221, 226, 229, 0.9);
   }
 }
 
 .hero-kicker {
-  margin: 0 0 0.35rem;
-  font-size: 0.78rem;
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f8500a;
+  color: #ffc4aa;
 }
 
 .logout-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border: none;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid rgba(221, 226, 229, 0.38);
   border-radius: 10px;
-  background: #f8500a;
-  color: #101d26;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f3f7fa;
+  font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 16px rgba(248, 80, 10, 0.35);
+    box-shadow: 0 8px 16px rgba(8, 14, 19, 0.22);
+  }
+}
+
+.quick-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.info-card {
+  background: #ffffff;
+  border: 1px solid #d4dce3;
+  border-radius: 12px;
+  padding: 0.7rem 0.75rem;
+  box-shadow: 0 6px 14px rgba(16, 29, 38, 0.08);
+  display: grid;
+  gap: 0.1rem;
+
+  strong {
+    font-size: 0.93rem;
+    color: #1f2f40;
+    line-height: 1.15;
+  }
+
+  span {
+    font-size: 0.69rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #657482;
   }
 }
 
 .config-tabs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.8rem;
+  gap: 0.7rem;
 }
 
 .tab-btn {
@@ -120,21 +172,22 @@
   grid-template-areas:
     'icon label'
     'icon description';
-  column-gap: 0.75rem;
+  column-gap: 0.7rem;
   row-gap: 0.2rem;
   align-items: center;
-  padding: 0.95rem 1rem;
+  padding: 0.85rem 0.9rem;
   border-radius: 12px;
-  border: 1px solid rgba(16, 29, 38, 0.15);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid #d4dce3;
+  background: #ffffff;
   color: #101d26;
   text-align: left;
   cursor: pointer;
-  transition: all 0.22s ease;
+  box-shadow: 0 6px 14px rgba(16, 29, 38, 0.08);
+  transition: all 0.2s ease;
 
   ion-icon {
     grid-area: icon;
-    font-size: 1.2rem;
+    font-size: 1.14rem;
     color: #f8500a;
   }
 
@@ -144,13 +197,16 @@
   }
 
   &.active {
-    background: #f8500a;
-    border-color: #f8500a;
+    background: #fff4ef;
+    border-color: rgba(248, 80, 10, 0.5);
     color: #101d26;
 
-    ion-icon,
+    ion-icon {
+      color: #f8500a;
+    }
+
     .tab-description {
-      color: #101d26;
+      color: #3e5263;
     }
   }
 }
@@ -158,17 +214,22 @@
 .tab-label {
   grid-area: label;
   font-weight: 700;
+  font-size: 0.88rem;
   line-height: 1.15;
 }
 
 .tab-description {
   grid-area: description;
-  font-size: 0.82rem;
-  color: #1f2f40;
+  font-size: 0.76rem;
+  color: #5f7180;
   line-height: 1.2;
 }
 
 @media (max-width: 900px) {
+  .quick-info {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .config-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -183,14 +244,14 @@
 
 @media (max-width: 640px) {
   .config-shell {
-    padding: 0.75rem;
-    gap: 0.75rem;
+    padding: 0.72rem;
+    gap: 0.62rem;
   }
 
   .config-hero {
     flex-direction: column;
     align-items: flex-start;
-    padding: 1rem;
+    padding: 0.95rem;
   }
 
   .logout-btn {
@@ -198,7 +259,15 @@
     justify-content: center;
   }
 
+  .quick-info {
+    grid-template-columns: 1fr;
+  }
+
   .config-tabs {
     grid-template-columns: 1fr;
+  }
+
+  .topbar-title {
+    font-size: 0.75rem;
   }
 }

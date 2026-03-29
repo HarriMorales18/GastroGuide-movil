@@ -1,3 +1,85 @@
-<p>
-  statistics works!
-</p>
+<section class="statistics-page">
+  <header class="stats-hero">
+    <p class="hero-kicker">Creator Studio</p>
+    <h1>Estadisticas de tu negocio</h1>
+    <p class="hero-subtitle">
+      Revisa rendimiento de cursos, ingresos acumulados y estado de wallet en un solo panel.
+    </p>
+  </header>
+
+  <section class="summary-grid" aria-label="Resumen de estadisticas">
+    <article class="summary-card">
+      <p class="card-kicker">Cursos</p>
+      <strong>{{ totalCourses }}</strong>
+      <p class="card-description">Total entre publicados y borradores</p>
+      <div class="card-meta">
+        <span>Publicados: {{ publishedCourses }}</span>
+        <span>Borrador: {{ draftCourses }}</span>
+      </div>
+    </article>
+
+    <article class="summary-card">
+      <p class="card-kicker">Ganancias</p>
+      <strong>{{ totalRevenue | currency:'USD':'symbol':'1.0-0' }}</strong>
+      <p class="card-description">Ingresos acumulados por compras de cursos</p>
+      <div class="card-meta">
+        <span>{{ totalSales }} ventas registradas</span>
+        <span>Ultimos 6 meses</span>
+      </div>
+    </article>
+
+    <article class="summary-card wallet-card">
+      <p class="card-kicker">Wallet</p>
+      <strong>{{ walletBalance | currency:'USD':'symbol':'1.0-0' }}</strong>
+      <p class="card-description">Saldo disponible para retirar o reinvertir</p>
+      <div class="card-meta">
+        <span>Pendiente: {{ pendingClearance | currency:'USD':'symbol':'1.0-0' }}</span>
+      </div>
+      <button type="button" class="wallet-link" (click)="goToWallet()">
+        Ver Wallet en Payments
+      </button>
+    </article>
+  </section>
+
+  <section class="panel-grid">
+    <article class="panel chart-panel">
+      <div class="panel-head">
+        <h2>Ingreso mensual</h2>
+        <p>Comparativa de rendimiento por mes</p>
+      </div>
+
+      <div class="bars" role="img" aria-label="Grafico de ingresos mensuales">
+        <article class="bar-item" *ngFor="let point of monthlyRevenue">
+          <div class="bar-track">
+            <div class="bar-fill" [style.height.%]="(point.amount / revenueMax) * 100"></div>
+          </div>
+          <strong>{{ point.amount | currency:'USD':'symbol':'1.0-0' }}</strong>
+          <span>{{ point.month }}</span>
+        </article>
+      </div>
+    </article>
+
+    <article class="panel movements-panel">
+      <div class="panel-head">
+        <h2>Movimientos recientes</h2>
+        <p>Ultimas transacciones relacionadas a cursos</p>
+      </div>
+
+      <div class="movements-list">
+        <article class="movement-item" *ngFor="let movement of recentMovements">
+          <div>
+            <strong>{{ movement.title }}</strong>
+            <p>{{ movement.date }}</p>
+          </div>
+          <span [class.income]="movement.type === 'income'" [class.expense]="movement.type === 'expense'">
+            {{ movement.amount | currency:'USD':'symbol':'1.0-0' }}
+          </span>
+        </article>
+      </div>
+
+      <button type="button" class="btn-primary" (click)="goToWallet()">
+        Ir a Wallet
+      </button>
+    </article>
+  </section>
+</section>
