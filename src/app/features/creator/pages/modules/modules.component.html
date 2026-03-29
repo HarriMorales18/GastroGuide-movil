@@ -1,79 +1,122 @@
-<section class="modules-card">
-  <h2>Modulo, crear lecciones</h2>
+<section class="modules-builder">
+  <header class="builder-hero">
+    <p class="hero-kicker">Creator Studio</p>
+    <h1>Lecciones y contenido multimedia</h1>
+    <p class="hero-subtitle">
+      Organiza las lecciones por modulo y carga el video principal de cada clase.
+    </p>
+
+    <div class="hero-metrics">
+      <article class="metric-card">
+        <strong>{{ lessons.length }}</strong>
+        <span>lecciones creadas</span>
+      </article>
+      <article class="metric-card">
+        <strong>{{ modules.length }}</strong>
+        <span>modulos disponibles</span>
+      </article>
+    </div>
+  </header>
 
   <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
     {{ alertMessage }}
   </p>
 
-  <div class="form-grid">
-    <label class="field-group">
-      <span>Titulo de leccion</span>
-      <input
-        type="text"
-        [(ngModel)]="lessonTitle"
-        placeholder="Escribe el titulo"
-        maxlength="80"
-      />
-    </label>
+  <section class="form-panel">
+    <div class="panel-head">
+      <h2>Crear leccion</h2>
+      <p>Asigna cada leccion a un modulo para mantener una ruta de aprendizaje ordenada.</p>
+    </div>
 
-    <label class="field-group">
-      <span>Modulo</span>
-      <select [(ngModel)]="selectedModule">
-        <option value="" disabled>Seleccionar modulo</option>
-        <option *ngFor="let module of modules" [value]="module.title">
-          {{ module.title }}
-        </option>
-      </select>
-    </label>
-  </div>
-
-  <button type="button" class="btn-secondary" (click)="addLesson()">
-    Guardar Leccion
-  </button>
-
-  <hr />
-
-  <h3>Crear videos en lecciones</h3>
-
-  <div class="video-section">
-    <div class="video-controls">
+    <div class="form-grid">
       <label class="field-group">
-        <span>Lecciones</span>
-        <select [(ngModel)]="selectedLesson">
-          <option value="" disabled>Seleccionar leccion</option>
-          <option *ngFor="let lesson of lessons" [value]="lesson.title">
-            {{ lesson.title }}
+        <span>Titulo de leccion</span>
+        <input
+          type="text"
+          [(ngModel)]="lessonTitle"
+          placeholder="Ej: Tecnicas de coccion lenta"
+          maxlength="80"
+        />
+      </label>
+
+      <label class="field-group">
+        <span>Modulo</span>
+        <select [(ngModel)]="selectedModule">
+          <option value="" disabled>Seleccionar modulo</option>
+          <option *ngFor="let module of modules" [value]="module.title">
+            {{ module.title }}
           </option>
         </select>
       </label>
-
-      <label class="upload-btn" for="videoInput">Cargar video</label>
-      <input id="videoInput" type="file" accept="video/*" (change)="onVideoSelected($event)" />
     </div>
 
-    <div class="preview-box">
-      <p>Preview video</p>
-      <video
-        *ngIf="previewUrl"
-        class="preview-player"
-        [src]="previewUrl"
-        controls
-        preload="metadata"
-        playsinline
-      ></video>
-      <small *ngIf="selectedVideoName">{{ selectedVideoName }}</small>
-      <small *ngIf="!selectedVideoName">Sin video cargado</small>
+    <button type="button" class="btn-secondary" (click)="addLesson()">
+      Guardar leccion
+    </button>
+
+    <div class="lessons-list" *ngIf="lessons.length > 0; else emptyLessons">
+      <h3>Lecciones agregadas</h3>
+
+      <article class="lesson-item" *ngFor="let lesson of lessons">
+        <div class="lesson-copy">
+          <strong>{{ lesson.title }}</strong>
+          <p>Modulo: {{ lesson.moduleTitle }}</p>
+        </div>
+      </article>
     </div>
-  </div>
 
-  <hr />
+    <ng-template #emptyLessons>
+      <article class="empty-state">
+        <h3>Aun no hay lecciones</h3>
+        <p>Crea la primera leccion para habilitar el flujo de publicacion.</p>
+      </article>
+    </ng-template>
+  </section>
 
-  <div class="action-row">
+  <section class="form-panel">
+    <div class="panel-head">
+      <h2>Video por leccion</h2>
+      <p>Selecciona una leccion y carga un archivo para validar el contenido multimedia.</p>
+    </div>
+
+    <div class="video-section">
+      <div class="video-controls">
+        <label class="field-group">
+          <span>Lecciones</span>
+          <select [(ngModel)]="selectedLesson">
+            <option value="" disabled>Seleccionar leccion</option>
+            <option *ngFor="let lesson of lessons" [value]="lesson.title">
+              {{ lesson.title }}
+            </option>
+          </select>
+        </label>
+
+        <label class="upload-btn" for="videoInput">Cargar video</label>
+        <input id="videoInput" type="file" accept="video/*" (change)="onVideoSelected($event)" />
+      </div>
+
+      <div class="preview-box">
+        <p>Preview de video</p>
+        <video
+          *ngIf="previewUrl"
+          class="preview-player"
+          [src]="previewUrl"
+          controls
+          preload="metadata"
+          playsinline
+        ></video>
+        <small *ngIf="selectedVideoName">{{ selectedVideoName }}</small>
+        <small *ngIf="!selectedVideoName">Sin video cargado</small>
+      </div>
+    </div>
+  </section>
+
+  <footer class="action-row">
     <button type="button" class="btn-secondary" (click)="saveDraftCourse()">
-      Guardar Curso
+      Guardar curso
     </button>
     <button type="button" class="btn-primary" (click)="publishCourse()">
-      Publicar Curso
+      Publicar curso
     </button>
-  </div>
+  </footer>
 </section>
