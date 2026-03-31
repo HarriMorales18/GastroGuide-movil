@@ -82,7 +82,9 @@ export class RegisterComponent {
       }
 
       this.success = 'Registro exitoso. Inicia sesion con tu cuenta.';
-      this.router.navigate(['/']);
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 1000);
     });
   }
 }
