@@ -35,3 +35,25 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
+
+:root {
+	--gg-header: #1E40AF;
+	--gg-action: #FF6B35;
+	--gg-background: #F8FAFC;
+}
+
+html,
+body,
+ion-app,
+ion-content {
+	--background: var(--gg-background);
+	background: var(--gg-background);
+	color: var(--gg-header);
+}
+
+ion-header ion-toolbar {
+	--background: var(--gg-header);
+	--color: #F8FAFC;
+	background: var(--gg-header);
+	color: #F8FAFC;
+}

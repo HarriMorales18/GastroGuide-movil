@@ -1,6 +1,6 @@
 :host {
-	--primary: #f8500a;
-	--secondary: #132041;
+	--primary: #FF6B35;
+	--secondary: #1E40AF;
 	--secondary-2: #14213d;
 	--surface: #ebe7ea;
 	--text: #121826;
@@ -59,7 +59,7 @@ select {
 	width: 100%;
 	border: 1.5px solid rgba(20, 33, 61, 0.18);
 	border-radius: 12px;
-	background: #fff;
+	background: #F8FAFC;
 	padding: 12px 14px;
 	color: #101522;
 	font-size: 1.04rem;
@@ -104,8 +104,8 @@ select {
 }
 
 .btn-primary {
-	background: linear-gradient(135deg, #f8500a 0%, #ff7a34 100%);
-	color: #fff;
+	background: linear-gradient(135deg, #FF6B35 0%, #FF6B35 100%);
+	color: #F8FAFC;
 	padding: 11px 14px;
 }
 

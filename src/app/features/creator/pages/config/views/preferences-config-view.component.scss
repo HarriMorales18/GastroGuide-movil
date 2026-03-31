@@ -16,7 +16,7 @@
   h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #101d26;
+    color: #1E40AF;
   }
 
   p {
@@ -41,7 +41,7 @@
   padding: 1.5rem 1rem;
   border: 2px solid #d4dde5;
   border-radius: 12px;
-  background: #fff;
+  background: #F8FAFC;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -57,17 +57,17 @@
   }
 
   &:hover {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     background: #fafbfc;
   }
 
   &.active {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     background: rgba(248, 80, 10, 0.08);
 
     ion-icon,
     span {
-      color: #f8500a;
+      color: #FF6B35;
     }
   }
 }
@@ -91,11 +91,11 @@
 
   &:hover {
     border-color: #d4dde5;
-    background: #fbfcfd;
+    background: #F8FAFC;
   }
 
   &:has(input:checked) {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     background: rgba(248, 80, 10, 0.04);
   }
 }
@@ -120,15 +120,15 @@
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: #fff;
+    background-color: #F8FAFC;
     border: 2px solid #ccd5dd;
     border-radius: 6px;
     transition: all 0.2s ease;
   }
 
   input:checked ~ .checkmark {
-    background-color: #f8500a;
-    border-color: #f8500a;
+    background-color: #FF6B35;
+    border-color: #FF6B35;
 
     &::after {
       content: '';
@@ -154,7 +154,7 @@
   .notif-label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: #101d26;
+    color: #1E40AF;
   }
 
   .notif-desc {

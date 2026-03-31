@@ -1,9 +1,9 @@
 :host {
 	display: block;
-	--student-ink: #101d26;
-	--student-primary: #1f2f40;
-	--student-accent: #f8500a;
-	--student-mist: #dde2e5;
+	--student-ink: #1E40AF;
+	--student-primary: #1E40AF;
+	--student-accent: #FF6B35;
+	--student-mist: #F8FAFC;
 }
 
 .profile-page {
@@ -17,9 +17,7 @@
 	border-radius: 16px;
 	border: 1px solid #d5dde4;
 	overflow: hidden;
-	background:
-		linear-gradient(145deg, rgba(31, 47, 64, 0.98) 0%, rgba(16, 29, 38, 0.98) 100%),
-		linear-gradient(90deg, rgba(248, 80, 10, 0.2), rgba(248, 80, 10, 0));
+	background: #1E40AF;
 	padding: 0.9rem;
 	display: grid;
 	grid-template-columns: 90px 1fr;
@@ -44,8 +42,8 @@
 .avatar {
 	display: grid;
 	place-items: center;
-	background: linear-gradient(135deg, #ff8e5d 0%, var(--student-accent) 100%);
-	color: #fff;
+	background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+	color: #F8FAFC;
 	font-weight: 700;
 }
 
@@ -56,14 +54,14 @@
 .role-pill {
 	border-radius: 999px;
 	background: rgba(221, 226, 229, 0.2);
-	color: #f7fafc;
+	color: #F8FAFC;
 	font-size: 0.62rem;
 	padding: 0.15rem 0.42rem;
 }
 
 .main-info h2 {
 	margin: 0;
-	color: #f7fafc;
+	color: #F8FAFC;
 	font-size: 1.2rem;
 }
 
@@ -106,7 +104,7 @@
 
 	strong {
 		display: block;
-		color: #fff;
+		color: #F8FAFC;
 		font-size: 0.9rem;
 	}
 
@@ -130,13 +128,13 @@
 	}
 
 	.primary {
-		background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
-		color: #fff;
+		background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+		color: #F8FAFC;
 	}
 
 	.secondary {
-		background: linear-gradient(135deg, #2d4459 0%, var(--student-primary) 100%);
-		color: #fff;
+		background: linear-gradient(135deg, #1E40AF 0%, var(--student-primary) 100%);
+		color: #F8FAFC;
 	}
 
 	.ghost {
@@ -147,7 +145,7 @@
 }
 
 .panel {
-	background: #fff;
+	background: #F8FAFC;
 	border: 1px solid #d5dde4;
 	border-radius: 12px;
 	padding: 0.75rem;
@@ -200,7 +198,7 @@
 		padding: 0.45rem 0.52rem;
 		font-size: 0.78rem;
 		color: #314555;
-		background: #fff;
+		background: #F8FAFC;
 	}
 }
 
@@ -208,8 +206,8 @@
 	margin-top: 0.55rem;
 	border: 0;
 	border-radius: 9px;
-	background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
-	color: #fff;
+	background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+	color: #F8FAFC;
 	font-size: 0.76rem;
 	font-weight: 600;
 	padding: 0.48rem 0.65rem;
@@ -241,8 +239,8 @@
 
 	button.active {
 		border-color: transparent;
-		background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
-		color: #fff;
+		background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+		color: #F8FAFC;
 	}
 }
 
@@ -260,7 +258,7 @@
 	display: flex;
 	gap: 0.42rem;
 	cursor: pointer;
-	background: #fff;
+	background: #F8FAFC;
 }
 
 .profile-card.selected {
@@ -272,8 +270,8 @@
 	width: 36px;
 	height: 36px;
 	border-radius: 999px;
-	background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
-	color: #fff;
+	background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+	color: #F8FAFC;
 	display: grid;
 	place-items: center;
 	font-size: 0.7rem;

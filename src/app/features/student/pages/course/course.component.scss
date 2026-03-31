@@ -6,21 +6,22 @@
 }
 
 .course-header {
-  background: linear-gradient(120deg, #ffe8b8 0%, #fff3da 55%, #fff 100%);
-  border: 1px solid #f2d292;
+  background: #1E40AF;
+  border: 1px solid rgba(248, 250, 252, 0.24);
   border-radius: 18px;
   padding: 1.25rem;
 }
 
 .course-header h2 {
   margin: 0.35rem 0;
+  color: #F8FAFC;
 }
 
 .course-type {
   display: inline-flex;
   border-radius: 999px;
   background: #222;
-  color: #fff;
+  color: #F8FAFC;
   font-size: 0.75rem;
   padding: 0.2rem 0.65rem;
 }
@@ -41,7 +42,7 @@
 .comments-card,
 .module-filter,
 .lesson-list {
-  background: #fff;
+  background: #F8FAFC;
   border-radius: 16px;
   border: 1px solid #e7edf3;
   padding: 1rem;
@@ -89,7 +90,7 @@
   border: none;
   border-radius: 10px;
   background: #0f7b6c;
-  color: #fff;
+  color: #F8FAFC;
   padding: 0.5rem 0.9rem;
   font-weight: 600;
 }
@@ -121,7 +122,7 @@
 .module-buttons button,
 .lesson-list button {
   border: 1px solid #ced8e3;
-  background: #f7fafc;
+  background: #F8FAFC;
   color: #1d2a36;
   border-radius: 10px;
 }
@@ -132,7 +133,7 @@
 
 .module-buttons button.active {
   background: #0f7b6c;
-  color: #fff;
+  color: #F8FAFC;
   border-color: #0f7b6c;
 }
 

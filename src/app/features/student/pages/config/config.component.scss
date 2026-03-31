@@ -1,8 +1,8 @@
 .config-shell {
-  --gg-text: #101d26;
-  --gg-accent: #f8500a;
-  --gg-surface-dark: #1f2f40;
-  --gg-surface-light: #dde2e5;
+  --gg-text: #1E40AF;
+  --gg-accent: #FF6B35;
+  --gg-surface-dark: #1E40AF;
+  --gg-surface-light: #F8FAFC;
 
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -11,7 +11,7 @@
   padding: 1rem;
   background:
     radial-gradient(circle at top right, rgba(248, 80, 10, 0.14), transparent 45%),
-    #dde2e5;
+    #F8FAFC;
   color: var(--gg-text);
 }
 
@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: #1f2f40;
+  background: #1E40AF;
 }
 
 .back-btn {
@@ -39,8 +39,8 @@
   border: none;
   border-radius: 8px;
   padding: 0.55rem 0.75rem;
-  background: #f8500a;
-  color: #101d26;
+  background: #FF6B35;
+  color: #1E40AF;
   font-weight: 700;
   cursor: pointer;
 
@@ -62,8 +62,8 @@
   gap: 1rem;
   padding: 1.25rem 1.5rem;
   border-radius: 16px;
-  background: linear-gradient(135deg, #1f2f40 0%, #101d26 100%);
-  color: #dde2e5;
+  background: linear-gradient(135deg, #1E40AF 0%, #1E40AF 100%);
+  color: #F8FAFC;
   box-shadow: 0 12px 24px rgba(16, 29, 38, 0.25);
 }
 
@@ -86,7 +86,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f8500a;
+  color: #FF6B35;
 }
 
 .logout-btn {
@@ -96,8 +96,8 @@
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 10px;
-  background: #f8500a;
-  color: #101d26;
+  background: #FF6B35;
+  color: #1E40AF;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -127,7 +127,7 @@
   border-radius: 12px;
   border: 1px solid rgba(16, 29, 38, 0.15);
   background: rgba(255, 255, 255, 0.72);
-  color: #101d26;
+  color: #1E40AF;
   text-align: left;
   cursor: pointer;
   transition: all 0.22s ease;
@@ -135,22 +135,22 @@
   ion-icon {
     grid-area: icon;
     font-size: 1.2rem;
-    color: #f8500a;
+    color: #FF6B35;
   }
 
   &:hover {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     transform: translateY(-1px);
   }
 
   &.active {
-    background: #f8500a;
-    border-color: #f8500a;
-    color: #101d26;
+    background: #FF6B35;
+    border-color: #FF6B35;
+    color: #1E40AF;
 
     ion-icon,
     .tab-description {
-      color: #101d26;
+      color: #1E40AF;
     }
   }
 }
@@ -164,7 +164,7 @@
 .tab-description {
   grid-area: description;
   font-size: 0.82rem;
-  color: #1f2f40;
+  color: #1E40AF;
   line-height: 1.2;
 }
 

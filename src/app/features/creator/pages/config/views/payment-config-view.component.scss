@@ -9,7 +9,7 @@
   h3 {
     margin: 0 0 1rem;
     font-size: 1.05rem;
-    color: #101d26;
+    color: #1E40AF;
   }
 }
 
@@ -38,10 +38,10 @@
 
   .amount {
     font-size: 1.3rem;
-    color: #101d26;
+    color: #1E40AF;
 
     &.warn {
-      color: #f8500a;
+      color: #FF6B35;
     }
   }
 
@@ -62,7 +62,7 @@
   h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #101d26;
+    color: #1E40AF;
   }
 
   p {
@@ -85,16 +85,16 @@
   padding: 0.85rem 1rem;
   border: 1px solid #d4dde5;
   border-radius: 10px;
-  background: #fff;
+  background: #F8FAFC;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     box-shadow: 0 2px 6px rgba(248, 80, 10, 0.1);
   }
 
   &.default {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     background: rgba(248, 80, 10, 0.04);
   }
 
@@ -113,7 +113,7 @@
     margin: 0;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #101d26;
+    color: #1E40AF;
 
     strong {
       color: #5a6a78;
@@ -126,7 +126,7 @@
     margin-top: 0.25rem;
     padding: 0.15rem 0.5rem;
     background: rgba(248, 80, 10, 0.15);
-    color: #f8500a;
+    color: #FF6B35;
     font-size: 0.7rem;
     font-weight: 700;
     border-radius: 4px;
@@ -150,7 +150,7 @@
   transition: color 0.2s ease;
 
   &:hover {
-    color: #101d26;
+    color: #1E40AF;
   }
 
   &.set-default:hover {
@@ -170,16 +170,16 @@
   border: 2px dashed #d4dde5;
   border-radius: 10px;
   background: #f8f9fa;
-  color: #101d26;
+  color: #1E40AF;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: #f8500a;
+    border-color: #FF6B35;
     background: rgba(248, 80, 10, 0.04);
-    color: #f8500a;
+    color: #FF6B35;
   }
 
   ion-icon {
@@ -196,7 +196,7 @@
   h4 {
     margin: 0 0 0.5rem;
     font-size: 0.95rem;
-    color: #101d26;
+    color: #1E40AF;
   }
 
   .form-desc {
@@ -211,7 +211,7 @@
   padding: 0.7rem 1.25rem;
   border: 1px solid #d4dde5;
   border-radius: 8px;
-  background: #fff;
+  background: #F8FAFC;
   color: #4f6271;
   font-weight: 700;
   font-size: 0.85rem;
@@ -249,7 +249,7 @@
   .field-value {
     margin: 0;
     font-size: 0.95rem;
-    color: #101d26;
+    color: #1E40AF;
     font-weight: 600;
   }
 }
@@ -258,8 +258,8 @@
   padding: 0.7rem 1.25rem;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #ff8b58 0%, #f8500a 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF6B35 100%);
+  color: #F8FAFC;
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;

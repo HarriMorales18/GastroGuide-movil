@@ -1,7 +1,7 @@
 .preferences {
   max-width: 600px;
   margin: 0 auto;
-  color: var(--gg-text, #101d26);
+  color: var(--gg-text, #1E40AF);
 
   .settings-header {
     margin-bottom: 2rem;
@@ -10,17 +10,17 @@
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
     }
 
     p {
-      color: #1f2f40;
+      color: #1E40AF;
       font-size: 0.95rem;
     }
   }
 
   .preference-section {
-    background: #dde2e5;
+    background: #F8FAFC;
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 1.5rem;
@@ -31,12 +31,12 @@
       gap: 0.75rem;
       font-weight: 600;
       margin-bottom: 1.25rem;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
       font-size: 1.05rem;
 
       ion-icon {
         font-size: 1.25rem;
-        color: #f8500a;
+        color: #FF6B35;
       }
     }
   }
@@ -52,26 +52,26 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: #ffffff;
+    background: #F8FAFC;
     border: 2px solid transparent;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: var(--gg-text, #101d26);
+    color: var(--gg-text, #1E40AF);
     font-weight: 500;
 
     &:hover {
-      border-color: #f8500a;
+      border-color: #FF6B35;
       background: rgba(248, 80, 10, 0.08);
     }
 
     &.selected {
-      background: #f8500a;
-      color: #101d26;
-      border-color: #f8500a;
+      background: #FF6B35;
+      color: #1E40AF;
+      border-color: #FF6B35;
 
       .checkmark {
-        color: #101d26;
+        color: #1E40AF;
       }
     }
 
@@ -82,7 +82,7 @@
 
     .checkmark {
       font-size: 1.25rem;
-      color: #f8500a;
+      color: #FF6B35;
       transition: color 0.3s ease;
     }
   }
@@ -98,7 +98,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: #ffffff;
+    background: #F8FAFC;
     border-radius: 8px;
     border: 1px solid rgba(16, 29, 38, 0.12);
     gap: 1rem;
@@ -113,12 +113,12 @@
 
   .notification-label {
     font-weight: 600;
-    color: var(--gg-text, #101d26);
+    color: var(--gg-text, #1E40AF);
   }
 
   .notification-description {
     font-size: 0.85rem;
-    color: #1f2f40;
+    color: #1E40AF;
   }
 
   .toggle-switch {
@@ -135,7 +135,7 @@
       height: 0;
 
       &:checked + .slider {
-        background-color: #f8500a;
+        background-color: #FF6B35;
 
         &::before {
           transform: translateX(22px);
@@ -191,11 +191,11 @@
       cursor: pointer;
       width: 18px;
       height: 18px;
-      accent-color: #f8500a;
+      accent-color: #FF6B35;
     }
 
     span {
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
       user-select: none;
     }
   }

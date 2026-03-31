@@ -1,9 +1,9 @@
 :host {
 	display: block;
-	--student-ink: #101d26;
-	--student-primary: #1f2f40;
-	--student-accent: #f8500a;
-	--student-mist: #dde2e5;
+	--student-ink: #1E40AF;
+	--student-primary: #1E40AF;
+	--student-accent: #FF6B35;
+	--student-mist: #F8FAFC;
 }
 
 .home-page {
@@ -17,8 +17,8 @@
 	padding: 1rem;
 	border-radius: 18px;
 	background:
-		linear-gradient(145deg, rgba(31, 47, 64, 0.97) 0%, rgba(16, 29, 38, 0.98) 100%),
-		linear-gradient(90deg, rgba(248, 80, 10, 0.22), rgba(248, 80, 10, 0));
+		linear-gradient(145deg, #1E40AF 0%, #1E40AF 100%),
+		linear-gradient(90deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0));
 	border: 1px solid rgba(221, 226, 229, 0.34);
 	box-shadow: 0 12px 24px rgba(8, 14, 19, 0.28);
 
@@ -26,7 +26,7 @@
 		margin: 0.3rem 0 0.4rem;
 		font-size: 1.35rem;
 		line-height: 1.2;
-		color: #f7fafc;
+		color: #F8FAFC;
 	}
 }
 
@@ -78,7 +78,7 @@
 	border: 1px solid rgba(31, 47, 64, 0.2);
 	border-radius: 10px;
 	background: #e8edf1;
-	color: #1f2f40;
+	color: #1E40AF;
 	font-size: 1rem;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
@@ -90,7 +90,7 @@
 
 	&:not(:disabled):hover {
 		background: var(--student-accent);
-		color: #ffffff;
+		color: #F8FAFC;
 	}
 
 	ion-icon {
@@ -107,7 +107,7 @@
 .course-card {
 	border-radius: 12px;
 	overflow: hidden;
-	background: #ffffff;
+	background: #F8FAFC;
 	border: 1px solid #d7dde2;
 	min-height: 120px;
 	display: flex;
@@ -128,7 +128,7 @@
 	top: 0.35rem;
 	left: 0.35rem;
 	background: rgba(31, 47, 64, 0.94);
-	color: #fff;
+	color: #F8FAFC;
 	padding: 0.15rem 0.35rem;
 	border-radius: 999px;
 	font-size: 0.62rem;
@@ -156,8 +156,8 @@
 	width: 100%;
 	border: 0;
 	border-radius: 9px;
-	background: linear-gradient(135deg, #ff8b58 0%, var(--student-accent) 100%);
-	color: #fff;
+	background: linear-gradient(135deg, #FF6B35 0%, var(--student-accent) 100%);
+	color: #F8FAFC;
 	font-size: 0.72rem;
 	font-weight: 600;
 	padding: 0.42rem 0.5rem;

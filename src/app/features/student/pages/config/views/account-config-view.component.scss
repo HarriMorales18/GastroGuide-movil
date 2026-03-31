@@ -1,7 +1,7 @@
 .account-settings {
   max-width: 600px;
   margin: 0 auto;
-  color: var(--gg-text, #101d26);
+  color: var(--gg-text, #1E40AF);
 
   .settings-header {
     margin-bottom: 2rem;
@@ -10,17 +10,17 @@
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
     }
 
     p {
-      color: #1f2f40;
+      color: #1E40AF;
       font-size: 0.95rem;
     }
   }
 
   .account-card {
-    background: #dde2e5;
+    background: #F8FAFC;
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
@@ -28,7 +28,7 @@
     h4 {
       font-weight: 600;
       margin-bottom: 1.5rem;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
     }
 
     .account-info {
@@ -50,12 +50,12 @@
 
       .info-label {
         font-weight: 600;
-        color: #1f2f40;
+        color: #1E40AF;
         font-size: 0.9rem;
       }
 
       .info-value {
-        color: var(--gg-text, #101d26);
+        color: var(--gg-text, #1E40AF);
         font-weight: 500;
       }
     }
@@ -67,7 +67,7 @@
     h4 {
       font-weight: 600;
       margin-bottom: 1rem;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
     }
   }
 
@@ -77,36 +77,36 @@
     gap: 0.75rem;
     padding: 1rem;
     width: 100%;
-    background: #dde2e5;
+    background: #F8FAFC;
     border: 2px solid transparent;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
-    color: var(--gg-text, #101d26);
+    color: var(--gg-text, #1E40AF);
 
     &:hover {
-      background: #f8500a;
-      color: #101d26;
+      background: #FF6B35;
+      color: #1E40AF;
 
       ion-icon {
-        color: #101d26;
+        color: #1E40AF;
       }
     }
 
     ion-icon {
       font-size: 1.25rem;
-      color: #f8500a;
+      color: #FF6B35;
       transition: color 0.3s ease;
     }
   }
 
   .password-form {
-    background: #dde2e5;
+    background: #F8FAFC;
     padding: 1.5rem;
     border-radius: 8px;
     margin-top: 1rem;
-    border-left: 4px solid #f8500a;
+    border-left: 4px solid #FF6B35;
   }
 
   .form-group {
@@ -117,7 +117,7 @@
 
     label {
       font-weight: 600;
-      color: var(--gg-text, #101d26);
+      color: var(--gg-text, #1E40AF);
       font-size: 0.95rem;
     }
 
@@ -126,22 +126,22 @@
       border: 2px solid rgba(16, 29, 38, 0.12);
       border-radius: 6px;
       font-size: 1rem;
-      background: #ffffff;
-      color: var(--gg-text, #101d26);
+      background: #F8FAFC;
+      color: var(--gg-text, #1E40AF);
       transition: border-color 0.3s ease;
 
       &:focus {
         outline: none;
-        border-color: #f8500a;
+        border-color: #FF6B35;
       }
 
       &::placeholder {
-        color: #1f2f40;
+        color: #1E40AF;
       }
     }
 
     .hint {
-      color: #1f2f40;
+      color: #1E40AF;
       font-size: 0.85rem;
     }
 
@@ -193,8 +193,8 @@
     }
 
     .btn-cancel {
-      background: #dde2e5;
-      color: var(--gg-text, #101d26);
+      background: #F8FAFC;
+      color: var(--gg-text, #1E40AF);
       border: 2px solid rgba(16, 29, 38, 0.12);
 
       &:hover:not(:disabled) {
@@ -203,8 +203,8 @@
     }
 
     .btn-submit {
-      background: #f8500a;
-      color: #101d26;
+      background: #FF6B35;
+      color: #1E40AF;
 
       &:hover:not(:disabled) {
         opacity: 0.9;
@@ -237,7 +237,7 @@
       width: 100%;
       padding: 0.75rem;
       background: #ff4444;
-      color: #101d26;
+      color: #1E40AF;
       border: none;
       border-radius: 6px;
       font-weight: 600;

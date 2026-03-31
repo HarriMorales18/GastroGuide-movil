@@ -1,19 +1,19 @@
 .layout-shell {
 	min-height: 100vh;
-	background: #f9fafb;
+	background: #F8FAFC;
 }
 
 .topbar {
 	display: flex;
 	justify-content: flex-end;
 	padding: 12px;
-	border-bottom: 1px solid #e5e7eb;
-	background: #ffffff;
+	border-bottom: 1px solid rgba(248, 250, 252, 0.24);
+	background: #1E40AF;
 }
 
 .logout-btn {
 	background: #ef4444;
-	color: #ffffff;
+	color: #F8FAFC;
 	border: none;
 	border-radius: 8px;
 	padding: 8px 12px;

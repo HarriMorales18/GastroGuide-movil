@@ -13,8 +13,8 @@
   border-radius: 16px;
   border: 1px solid #d5dde4;
   overflow: hidden;
-  background: linear-gradient(145deg, rgba(31, 47, 64, 0.98) 0%, rgba(16, 29, 38, 0.98) 100%),
-    linear-gradient(90deg, rgba(248, 80, 10, 0.2), rgba(248, 80, 10, 0));
+  background: linear-gradient(145deg, #1E40AF 0%, #1E40AF 100%),
+    linear-gradient(90deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0));
   padding: 1rem;
   display: grid;
   grid-template-columns: 100px 1fr;
@@ -39,8 +39,8 @@
 .avatar {
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #ff8e5d 0%, #f8500a 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF6B35 100%);
+  color: #F8FAFC;
   font-weight: 700;
   font-size: 1.4rem;
 }
@@ -52,7 +52,7 @@
 .role-badge {
   border-radius: 999px;
   background: rgba(248, 80, 10, 0.3);
-  color: #f8500a;
+  color: #FF6B35;
   font-size: 0.65rem;
   padding: 0.2rem 0.5rem;
   font-weight: 700;
@@ -67,7 +67,7 @@
 
   h2 {
     margin: 0;
-    color: #f7fafc;
+    color: #F8FAFC;
     font-size: 1.3rem;
   }
 
@@ -101,7 +101,7 @@
 
   strong {
     display: block;
-    color: #f8500a;
+    color: #FF6B35;
     font-size: 1rem;
   }
 
@@ -125,8 +125,8 @@
   padding: 0.75rem 1.25rem;
   border: none;
   border-radius: 10px;
-  background: linear-gradient(135deg, #ff8b58 0%, #f8500a 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF6B35 100%);
+  color: #F8FAFC;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
@@ -143,20 +143,20 @@
 }
 
 .panel {
-  background: #fff;
+  background: #F8FAFC;
   border: 1px solid #d5dde4;
   border-radius: 12px;
   padding: 1rem;
 
   h3 {
     margin: 0 0 0.75rem;
-    color: #1f2f40;
+    color: #1E40AF;
     font-size: 0.95rem;
   }
 
   h4 {
     margin: 0.75rem 0 0.5rem;
-    color: #101d26;
+    color: #1E40AF;
     font-size: 0.85rem;
   }
 }
@@ -173,7 +173,7 @@
     margin: -1rem -1rem 0.75rem -1rem;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid #d5dde4;
-    background: #fff;
+    background: #F8FAFC;
 
     h3 {
       margin: 0;
@@ -190,7 +190,7 @@
       justify-content: center;
 
       &:hover {
-        color: #101d26;
+        color: #1E40AF;
       }
 
       ion-icon {
@@ -226,7 +226,7 @@
 
       &:focus {
         outline: none;
-        border-color: #f8500a;
+        border-color: #FF6B35;
         box-shadow: 0 0 0 3px rgba(248, 80, 10, 0.1);
       }
     }
@@ -269,8 +269,8 @@
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #ff8b58 0%, #f8500a 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF6B35 100%);
+  color: #F8FAFC;
 
   &:hover:not(:disabled) {
     transform: translateY(-1px);
@@ -317,7 +317,7 @@
   display: inline-block;
   padding: 0.35rem 0.7rem;
   background: rgba(248, 80, 10, 0.1);
-  color: #f8500a;
+  color: #FF6B35;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -347,7 +347,7 @@
   .field-value {
     margin: 0;
     font-size: 0.95rem;
-    color: #101d26;
+    color: #1E40AF;
     font-weight: 500;
   }
 }
