@@ -1,92 +1,128 @@
 <div class="create-course-view">
   <main class="content-wrap">
-    <section class="course-card" *ngIf="currentStep === 'course'">
-      <h2>Crear Curso</h2>
+    <section class="course-builder" *ngIf="currentStep === 'course'">
+      <header class="builder-hero">
+        <p class="hero-kicker">Creator Studio</p>
+        <h1>Construye tu curso con una estructura profesional</h1>
+        <p class="hero-subtitle">
+          Define la informacion principal y prepara tus modulos antes de cargar las lecciones.
+        </p>
+
+        <div class="hero-metrics">
+          <article class="metric-card">
+            <strong>{{ modules.length }}</strong>
+            <span>modulos listos</span>
+          </article>
+          <article class="metric-card">
+            <strong>{{ selectedCategory || 'Sin categoria' }}</strong>
+            <span>categoria actual</span>
+          </article>
+        </div>
+      </header>
 
       <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
         {{ alertMessage }}
       </p>
 
-      <div class="form-grid">
-        <label class="field-group">
-          <span>Titulo</span>
-          <input
-            type="text"
-            [(ngModel)]="courseTitle"
-            placeholder="Escribe el titulo"
-            maxlength="80"
-          />
-        </label>
+      <section class="form-panel">
+        <div class="panel-head">
+          <h2>Informacion del curso</h2>
+          <p>Completa los datos base que veran los estudiantes en el listado.</p>
+        </div>
 
-        <label class="field-group">
-          <span>Descripcion</span>
-          <input
-            type="text"
-            [(ngModel)]="courseDescription"
-            placeholder="Descripcion corta"
-            maxlength="140"
-          />
-        </label>
-      </div>
+        <div class="form-grid">
+          <label class="field-group">
+            <span>Titulo del curso</span>
+            <input
+              type="text"
+              [(ngModel)]="courseTitle"
+              placeholder="Ej: Tecnicas de cocina mediterranea"
+              maxlength="80"
+            />
+          </label>
 
-      <label class="field-group category">
-        <span>Categoria</span>
-        <select [(ngModel)]="selectedCategory">
-          <option value="" disabled>Seleccionar</option>
-          <option *ngFor="let category of categories" [value]="category">
-            {{ category }}
-          </option>
-        </select>
-      </label>
+          <label class="field-group">
+            <span>Descripcion corta</span>
+            <input
+              type="text"
+              [(ngModel)]="courseDescription"
+              placeholder="Resume lo que aprenderan en este curso"
+              maxlength="140"
+            />
+          </label>
 
-      <hr />
+          <label class="field-group field-full">
+            <span>Categoria</span>
+            <select [(ngModel)]="selectedCategory">
+              <option value="" disabled>Seleccionar categoria</option>
+              <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </option>
+            </select>
+          </label>
+        </div>
+      </section>
 
-      <div class="form-grid">
-        <label class="field-group">
-          <span>Titulo modulo</span>
-          <input
-            type="text"
-            [(ngModel)]="moduleTitle"
-            placeholder="Ej: Introduccion"
-            maxlength="80"
-          />
-        </label>
+      <section class="form-panel">
+        <div class="panel-head">
+          <h2>Estructura de modulos</h2>
+          <p>Agrega los modulos principales antes de cargar videos y recursos.</p>
+        </div>
 
-        <label class="field-group">
-          <span>Descripcion</span>
-          <input
-            type="text"
-            [(ngModel)]="moduleDescription"
-            placeholder="Que aprenderan"
-            maxlength="140"
-          />
-        </label>
-      </div>
+        <div class="form-grid">
+          <label class="field-group">
+            <span>Titulo del modulo</span>
+            <input
+              type="text"
+              [(ngModel)]="moduleTitle"
+              placeholder="Ej: Fundamentos e ingredientes"
+              maxlength="80"
+            />
+          </label>
 
-      <button type="button" class="btn-secondary" (click)="addModule()">
-        Guardar Modulo
-      </button>
+          <label class="field-group">
+            <span>Descripcion del modulo</span>
+            <input
+              type="text"
+              [(ngModel)]="moduleDescription"
+              placeholder="Objetivo de aprendizaje del modulo"
+              maxlength="140"
+            />
+          </label>
+        </div>
 
-      <div class="modules-list" *ngIf="modules.length > 0">
-        <h3>Modulos agregados</h3>
+        <button type="button" class="btn-secondary" (click)="addModule()">
+          Guardar modulo
+        </button>
 
-        <article class="module-item" *ngFor="let module of modules; let i = index">
-          <div>
-            <strong>{{ module.title }}</strong>
-            <p>{{ module.description }}</p>
-          </div>
+        <div class="modules-list" *ngIf="modules.length > 0; else emptyModules">
+          <h3>Modulos agregados</h3>
 
-          <button type="button" class="remove-btn" (click)="removeModule(i)">
-            Quitar
-          </button>
-        </article>
-      </div>
+          <article class="module-item" *ngFor="let module of modules; let i = index">
+            <div class="module-copy">
+              <strong>{{ module.title }}</strong>
+              <p>{{ module.description }}</p>
+            </div>
 
-      <hr />
+            <button type="button" class="remove-btn" (click)="removeModule(i)">
+              Quitar
+            </button>
+          </article>
+        </div>
 
-      <button type="button" class="btn-primary" (click)="nextStep()">
-        Siguiente
-      </button>
+        <ng-template #emptyModules>
+          <article class="empty-state">
+            <h3>Aun no hay modulos</h3>
+            <p>Empieza con el primer modulo para organizar tu ruta de aprendizaje.</p>
+          </article>
+        </ng-template>
+      </section>
+
+      <footer class="action-bar">
+        <button type="button" class="btn-primary" (click)="nextStep()">
+          Continuar con lecciones
+        </button>
+      </footer>
     </section>
 
     <app-modules

@@ -1,0 +1,46 @@
+<section class="wallet-page">
+  <header class="wallet-hero">
+    <button type="button" class="top-back-btn" (click)="backToCreator()">
+      Regresar
+    </button>
+    <p class="hero-kicker">Creator Wallet</p>
+    <h1>Wallet del creador</h1>
+    <p class="hero-subtitle">Controla saldo disponible, pendientes y movimientos en tiempo real.</p>
+  </header>
+
+  <section class="summary-grid">
+    <article class="summary-card">
+      <p>Disponible</p>
+      <strong>{{ availableBalance | currency:'USD':'symbol':'1.0-0' }}</strong>
+    </article>
+
+    <article class="summary-card">
+      <p>Pendiente</p>
+      <strong>{{ pendingBalance | currency:'USD':'symbol':'1.0-0' }}</strong>
+    </article>
+
+    <article class="summary-card">
+      <p>Total retirado</p>
+      <strong>{{ totalWithdrawn | currency:'USD':'symbol':'1.0-0' }}</strong>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Movimientos</h2>
+      <p>Actividad reciente de ingresos y retiros</p>
+    </div>
+
+    <div class="movements-list">
+      <article class="movement-item" *ngFor="let movement of transactions">
+        <div>
+          <strong>{{ movement.label }}</strong>
+          <p>{{ movement.detail }}</p>
+        </div>
+        <span [class.income]="movement.type === 'income'" [class.expense]="movement.type === 'expense'">
+          {{ movement.amount | currency:'USD':'symbol':'1.0-0' }}
+        </span>
+      </article>
+    </div>
+  </section>
+</section>

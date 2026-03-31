@@ -20,6 +20,11 @@
 }
 
 :host {
+	--ink: #101d26;
+	--slate: #1f2f40;
+	--mist: #dde2e5;
+	--accent: #f8500a;
+
 	min-height: 100vh;
 	display: block;
 	background: #1E40AF;
@@ -35,6 +40,10 @@
 	justify-content: center;
 	align-items: center;
 	gap: 14px;
+	background:
+		radial-gradient(circle at 12% 8%, rgba(248, 80, 10, 0.18), transparent 36%),
+		radial-gradient(circle at 92% 12%, rgba(221, 226, 229, 0.18), transparent 34%),
+		linear-gradient(160deg, #101d26 0%, #1f2f40 100%);
 }
 
 h2 {
@@ -42,6 +51,10 @@ h2 {
 	font-size: 2rem;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
+	background: linear-gradient(135deg, #f8500a 0%, #ff9b72 52%, #f8500a 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 	text-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
@@ -53,13 +66,13 @@ h2 {
 }
 
 .mode-switch button {
-	border: 1px solid rgba(255,255,255,0.18);
+	border: 1px solid rgba(221, 226, 229, 0.28);
 	border-radius: 10px;
 	padding: 10px;
-	background: rgba(255,255,255,0.03);
+	background: rgba(16, 29, 38, 0.45);
 	cursor: pointer;
 	font-weight: 600;
-	color: #e6f3ff;
+	color: #e6edf3;
 }
 
 .mode-switch button.active {
@@ -82,16 +95,16 @@ a {
 
 input {
 	padding: 13px 14px;
-	border: 1px solid rgba(255, 255, 255, 0.4);
+	border: 1px solid rgba(221, 226, 229, 0.38);
 	border-radius: 14px;
 	background: rgba(255, 255, 255, 0.08);
 	color: #F8FAFC;
 	outline: none;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+	box-shadow: 0 8px 20px rgba(6, 10, 15, 0.26);
 }
 
 input::placeholder {
-	color: rgba(255, 255, 255, 0.72);
+	color: rgba(221, 226, 229, 0.82);
 }
 
 input:focus {
@@ -107,24 +120,33 @@ button {
 	color: #F8FAFC;
 	font-weight: 700;
 	cursor: pointer;
-	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 10px 24px rgba(248, 80, 10, 0.3);
+}
+
+button:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
 }
 
 a {
 	text-align: center;
-	color: #d6ecff;
+	color: #dde2e5;
 	font-weight: 600;
 	text-decoration: none;
+}
+
+a:hover {
+	color: #ffffff;
 }
 
 .error {
 	width: 100%;
 	margin: 2px 0;
-	color: #ffb3b3;
+	color: #ffd2c3;
 	text-align: center;
 }
 
 .success {
-	color: #d1ffd9;
+	color: #c8f8da;
 	text-align: center;
 }

@@ -2,10 +2,10 @@
   <ng-container *ngIf="!activeTab(); else fullscreenView">
     <header class="config-hero">
       <div class="hero-copy">
-        <p class="hero-kicker">Centro de ajustes</p>
-        <h2>Gestiona tu cuenta</h2>
+        <p class="hero-kicker">Creator Studio</p>
+        <h2>Centro de configuracion</h2>
         <p>
-          Configura seguridad, preferencias y métodos de pago desde un solo lugar.
+          Gestiona seguridad, preferencias y pagos desde un entorno claro y ordenado.
         </p>
       </div>
 
@@ -15,12 +15,28 @@
       </button>
     </header>
 
+    <section class="quick-info" aria-label="Resumen de configuracion">
+      <article class="info-card">
+        <strong>{{ configOptions.length }}</strong>
+        <span>secciones de ajuste</span>
+      </article>
+      <article class="info-card">
+        <strong>Segura</strong>
+        <span>gestion de cuenta protegida</span>
+      </article>
+      <article class="info-card">
+        <strong>Wallet</strong>
+        <span>pagos e impuestos centralizados</span>
+      </article>
+    </section>
+
     <nav class="config-tabs" aria-label="Secciones de configuración">
       <button
         *ngFor="let option of configOptions"
         type="button"
         (click)="setActiveTab(option.id)"
         class="tab-btn"
+        [class.active]="activeTab() === option.id"
       >
         <ion-icon [name]="option.icon"></ion-icon>
         <span class="tab-label">{{ option.label }}</span>
@@ -32,6 +48,7 @@
   <ng-template #fullscreenView>
     <section class="config-fullscreen">
       <header class="fullscreen-topbar">
+        <p class="topbar-title">Configuracion detallada</p>
         <button type="button" class="back-btn" (click)="backToSections()" aria-label="Volver a secciones">
           <ion-icon name="arrow-back-outline"></ion-icon>
           <span>Volver</span>

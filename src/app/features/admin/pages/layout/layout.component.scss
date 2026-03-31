@@ -1,25 +1,40 @@
 .layout-shell {
 	min-height: 100vh;
-	background: #F8FAFC;
+	background:
+		radial-gradient(circle at 12% 2%, rgba(248, 80, 10, 0.1), transparent 34%),
+		radial-gradient(circle at 90% 8%, rgba(221, 226, 229, 0.16), transparent 30%),
+		linear-gradient(165deg, #eff3f6 0%, #e8edf2 100%);
 }
 
 .topbar {
 	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.8rem;
 	justify-content: flex-end;
-	padding: 12px;
-	border-bottom: 1px solid rgba(248, 250, 252, 0.24);
-	background: #1E40AF;
+	padding: 12px 14px;
+	border-bottom: 1px solid #d5dde4;
+	background: rgba(255, 255, 255, 0.84);
+	backdrop-filter: blur(6px);
+
+	h1 {
+		margin: 0;
+		font-size: 1.08rem;
+		font-weight: 800;
+		color: #132637;
+	}
 }
 
 .logout-btn {
-	background: #ef4444;
-	color: #F8FAFC;
+	background: linear-gradient(135deg, #f8500a 0%, #ff7a34 100%);
+	color: #ffffff;
 	border: none;
-	border-radius: 8px;
-	padding: 8px 12px;
+	border-radius: 10px;
+	padding: 8px 13px;
+	font-weight: 700;
 	cursor: pointer;
 }
 
 .content {
-	padding: 16px;
+	padding: 14px;
 }
