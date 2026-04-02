@@ -14,22 +14,22 @@ import {
 
 // Importamos las vistas
 import { HomeComponent } from '../home/home.component';
-import { HomeService } from '../home/home.service';
+import { HomeService } from '@core/services/student/home.service';
 import { HomeCourseItem } from '@student-models/home.model';
 import { CoursesComponent } from '../courses/courses.component';
-import { CoursesService } from '../courses/courses.service';
+import { CoursesService } from '@core/services/student/courses.service';
 import { StudentCourseItem } from '@student-models/courses.model';
 import { SearchComponent } from '../search/search.component';
-import { SearchService } from '../search/search.service';
+import { SearchService } from '@core/services/student/search.service';
 import { SearchResultItem } from '@student-models/search.model';
 import { ProfileComponent } from '../profile/profile.component';
-import { ProfileService } from '../profile/profile.service';
+import { ProfileService } from '@core/services/student/profile.service';
 import { CourseDetailComponent } from '../course-detail/course-detail.component';
-import { CourseDetailStateService } from '../course-detail/course-detail-state.service';
+import { CourseDetailStateService } from '@core/services/student/course-detail-state.service';
 import { StudentCourseDetail } from '@student-models/course-detail.model';
 import { ConfigComponent } from '../config/config.component';
 import { CourseComponent } from '../course/course.component';
-import { CourseAccessService } from '../course/course-access.service';
+import { CourseAccessService } from '@core/services/student/course-access.service';
 
 @Component({
   selector: 'app-student-layout',

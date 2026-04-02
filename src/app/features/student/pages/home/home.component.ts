@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, signal } from 
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { HomeService } from './home.service';
+import { HomeService } from '@core/services/student/home.service';
 import { HomeCourseItem, HomeSectionKey } from '@student-models/home.model';
 
 @Component({

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CourseDetailStateService } from '../course-detail/course-detail-state.service';
+import { CourseDetailStateService } from '@core/services/student/course-detail-state.service';
 
 interface LessonView {
   id: number;

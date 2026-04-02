@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProfileHubData, PublicProfile, PublicProfileRole } from '@student-models/profile.model';
-import { ProfileService } from './profile.service';
+import { ProfileService } from '@core/services/student/profile.service';
 
 @Component({
   selector: 'app-profile',

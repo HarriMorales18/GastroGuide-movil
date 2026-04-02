@@ -8,7 +8,7 @@
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
-      "@student-models/*": ["src/app/features/student/models/*"],
+      "@student-models/*": ["src/app/core/models/student/*"],
       "@student-config-models/*": ["src/app/features/student/pages/config/models/*"]
     },
     "outDir": "./dist/out-tsc",

@@ -10,7 +10,7 @@ import {
   SearchSort,
   StudentSearchData
 } from '@student-models/search.model';
-import { SearchService } from './search.service';
+import { SearchService } from '@core/services/student/search.service';
 
 type ArrayFilterMap = {
   categories: string;
