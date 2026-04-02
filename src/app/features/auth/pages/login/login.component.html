@@ -1,16 +1,24 @@
 <main class="login-view">
-  <h2>GastroGuide</h2>
+  <section class="login-card">
+    <h2>GastroGuide</h2>
 
-  <form class="login-form" autocomplete="off" (ngSubmit)="login()">
-    <input type="email" name="email" autocomplete="username" [(ngModel)]="email" placeholder="Correo" />
-    <input type="password" name="password" autocomplete="new-password" [(ngModel)]="password" placeholder="Contrasena" />
+    <form class="login-form" autocomplete="off" (ngSubmit)="login()">
+      <input type="email" name="email" autocomplete="username" [(ngModel)]="email" placeholder="Correo" />
+      <input type="password" name="password" autocomplete="new-password" [(ngModel)]="password" placeholder="Contrasena" />
 
-    <button type="submit">Iniciar sesion</button>
-  </form>
+      <button type="submit">Iniciar sesion</button>
+      <a class="forgot-link" routerLink="/forgot-password">Olvidaste tu contraseña?</a>
+    </form>
 
-  @if (error) {
-    <p class="error">{{ error }}</p>
-  }
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
 
-  <a routerLink="/register">Crear cuenta</a>
+    <div class="social-auth">
+      <button type="button" class="social-btn">Continuar con Google</button>
+      <button type="button" class="social-btn">Continuar con Facebook</button>
+    </div>
+
+    <a class="create-account" routerLink="/register">Crear cuenta</a>
+  </section>
 </main>
