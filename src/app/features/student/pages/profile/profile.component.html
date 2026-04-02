@@ -1,47 +1,57 @@
-<section class="profile-page" *ngIf="hubData() as vm">
+<section class="profile-page" *ngIf="displayedProfile() as profile">
+  <section class="profile-topbar" *ngIf="isViewingPublicProfile()">
+    <button type="button" class="back-btn" (click)="goBackToMyProfile()">Volver</button>
+  </section>
+
   <header class="my-profile-card">
     <div class="avatar-block">
-      <div class="avatar" *ngIf="!vm.me.avatarUrl">{{ getInitials(vm.me.displayName) }}</div>
-      <img *ngIf="vm.me.avatarUrl" [src]="vm.me.avatarUrl" alt="Avatar" class="avatar-image" />
-      <span class="role-pill">{{ vm.me.role === 'creator' ? 'Creador' : 'Estudiante' }}</span>
+      <div class="avatar">{{ getInitials(profile.displayName) }}</div>
+      <span class="role-pill">{{ profile.role === 'creator' ? 'Creador' : 'Estudiante' }}</span>
     </div>
 
     <div class="main-info">
-      <h2>{{ vm.me.displayName }}</h2>
-      <p class="username">{{ vm.me.username }} · {{ vm.me.city }}</p>
-      <p class="headline">{{ vm.me.headline }}</p>
-      <p class="bio">{{ vm.me.bio }}</p>
+      <h2>{{ profile.displayName }}</h2>
+      <p class="username" *ngIf="!isViewingPublicProfile(); else publicUsername">{{ profile.username }} · {{ hubData()?.me?.city }}</p>
+      <ng-template #publicUsername>
+        <p class="username">{{ profile.username }}</p>
+      </ng-template>
+      <p class="headline">{{ profile.headline }}</p>
+      <p class="bio">{{ profile.bio }}</p>
 
       <div class="stats-row">
         <article>
-          <strong>{{ vm.me.stats.completedCourses }}</strong>
+          <strong>{{ profile.stats.completedCourses }}</strong>
           <span>Completados</span>
         </article>
         <article>
-          <strong>{{ vm.me.stats.inProgressCourses }}</strong>
+          <strong>{{ profile.stats.inProgressCourses }}</strong>
           <span>En progreso</span>
         </article>
         <article>
-          <strong>{{ vm.me.stats.followers }}</strong>
+          <strong>{{ profile.stats.followers }}</strong>
           <span>Seguidores</span>
         </article>
         <article>
-          <strong>{{ vm.me.stats.following }}</strong>
+          <strong>{{ profile.stats.following }}</strong>
           <span>Siguiendo</span>
         </article>
       </div>
 
-      <p class="meta">{{ vm.me.joinedAtLabel }} · {{ vm.me.email }}</p>
+      <p class="meta" *ngIf="!isViewingPublicProfile()">{{ hubData()?.me?.joinedAtLabel }} · {{ hubData()?.me?.email }}</p>
+      <div class="tags" *ngIf="isViewingPublicProfile()">
+        <span *ngFor="let item of profile.specialties">{{ item }}</span>
+      </div>
     </div>
   </header>
 
   <section class="actions-row">
-    <button type="button" class="primary" (click)="openEditProfile()">Editar perfil</button>
-    <button type="button" class="secondary" (click)="openSettingsEntryPoint()">Configuración</button>
-    <button type="button" class="ghost" (click)="logout()">Cerrar sesión</button>
+    <button type="button" class="primary" *ngIf="!isViewingPublicProfile()" (click)="openEditProfile()">Editar perfil</button>
+    <button type="button" class="secondary" *ngIf="isViewingPublicProfile()" (click)="toggleFollow()">
+      {{ isFollowingCurrentProfile() ? 'Siguiendo' : 'Seguir' }}
+    </button>
   </section>
 
-  <section class="panel edit-panel" *ngIf="isEditMode()">
+  <section class="panel edit-panel" *ngIf="isEditMode() && !isViewingPublicProfile()">
     <div class="panel-head">
       <h3>Editar perfil</h3>
       <button type="button" (click)="closeEditProfile()">Cancelar</button>
@@ -69,17 +79,6 @@
     <button type="button" class="save-btn" [disabled]="isSaving()" (click)="saveProfileChanges()">
       {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
     </button>
-  </section>
-
-  <section class="panel settings-entry" *ngIf="showSettingsEntry()">
-    <div class="panel-head">
-      <h3>Configuración</h3>
-      <button type="button" (click)="closeSettingsEntryPoint()">Cerrar</button>
-    </div>
-    <p>
-      Desde aqui accederas al modulo de configuración. En el siguiente paso crearemos sus subcomponentes
-      (seguridad, notificaciones, privacidad, etc.).
-    </p>
   </section>
 
   <section class="panel audience-panel">
@@ -111,16 +110,5 @@
       </article>
     </div>
 
-    <article class="selected-profile" *ngIf="selectedProfile() as selected">
-      <h4>{{ selected.displayName }}</h4>
-      <p>{{ selected.bio }}</p>
-      <div class="tags">
-        <span *ngFor="let item of selected.specialties">{{ item }}</span>
-      </div>
-      <div class="mini-stats">
-        <span>{{ selected.stats.followers }} seguidores</span>
-        <span>{{ selected.stats.completedCourses }} cursos completados</span>
-      </div>
-    </article>
   </section>
 </section>

@@ -7,6 +7,7 @@ interface LessonView {
   id: number;
   title: string;
   moduleTitle: string;
+  moduleDescription: string;
   durationMinutes: number;
   isCompleted: boolean;
   videoUrl: string;
@@ -40,15 +41,20 @@ export class CourseComponent {
       return [];
     }
 
-    return selectedCourse.modules.map((module, index) => ({
-      id: module.id,
-      title: module.title,
-      moduleTitle: `Modulo ${Math.floor(index / 4) + 1}`,
-      durationMinutes: module.durationMinutes,
-      isCompleted: module.isCompleted,
-      videoUrl: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
-      summary: `En esta leccion aprenderas tecnicas practicas para ${selectedCourse.title.toLowerCase()} con enfoque en resultados reales.`
-    }));
+    return selectedCourse.modules.reduce<LessonView[]>((accumulator, module) => {
+      const lessonViews = module.lessons.map<LessonView>((lesson) => ({
+        id: lesson.id,
+        title: lesson.title,
+        moduleTitle: module.title,
+        moduleDescription: module.description,
+        durationMinutes: lesson.durationMinutes,
+        isCompleted: lesson.isCompleted,
+        videoUrl: lesson.videoUrl ?? 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+        summary: lesson.summary ?? `En esta leccion aprenderas tecnicas practicas para ${selectedCourse.title.toLowerCase()} con enfoque en resultados reales.`
+      }));
+
+      return accumulator.concat(lessonViews);
+    }, []);
   });
 
   readonly moduleOptions = computed<string[]>(() => {

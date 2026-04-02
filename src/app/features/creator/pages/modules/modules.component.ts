@@ -1,16 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface CourseModule {
-  title: string;
-  description: string;
-}
-
-interface LessonItem {
-  title: string;
-  moduleTitle: string;
-}
+import { CourseModuleDraft } from '@student-models/course-structure.model';
 
 type AlertType = 'success' | 'danger' | 'warning' | 'info';
 
@@ -22,30 +13,47 @@ type AlertType = 'success' | 'danger' | 'warning' | 'info';
   imports: [CommonModule, FormsModule],
 })
 export class ModulesComponent {
-  @Input() modules: CourseModule[] = [];
+  @Input() modules: CourseModuleDraft[] = [];
   @Input() courseTitle = '';
 
   lessonTitle = '';
+  lessonSummary = '';
   selectedModule = '';
-  lessons: LessonItem[] = [];
-
-  selectedLesson = '';
   selectedVideoName = '';
   previewUrl: string | null = null;
 
   alertType: AlertType = 'info';
   alertMessage = '';
 
+  getTotalLessons(): number {
+    return this.modules.reduce((total, module) => total + module.lessons.length, 0);
+  }
+
   addLesson(): void {
     const title = this.lessonTitle.trim();
+    const summary = this.lessonSummary.trim();
 
-    if (!title || !this.selectedModule) {
-      this.showAlert('warning', 'Completa titulo de leccion y modulo.');
+    if (!title || !summary || !this.selectedModule) {
+      this.showAlert('warning', 'Completa titulo, descripcion y modulo de la leccion.');
       return;
     }
 
-    this.lessons = [...this.lessons, { title, moduleTitle: this.selectedModule }];
+    const targetModule = this.modules.find((module) => module.title === this.selectedModule);
+
+    if (!targetModule) {
+      this.showAlert('warning', 'Selecciona un modulo valido.');
+      return;
+    }
+
+    targetModule.lessons = [...targetModule.lessons, {
+      title,
+      summary,
+      videoName: this.selectedVideoName || 'Sin video cargado'
+    }];
     this.lessonTitle = '';
+    this.lessonSummary = '';
+    this.selectedVideoName = '';
+    this.revokePreviewUrl();
     this.showAlert('success', 'Leccion guardada correctamente.');
   }
 
@@ -70,7 +78,7 @@ export class ModulesComponent {
       return;
     }
 
-    this.showAlert('success', 'Curso guardado como borrador (simulado).');
+    this.showAlert('success', 'Curso guardado como borrador.');
   }
 
   publishCourse(): void {
@@ -79,11 +87,11 @@ export class ModulesComponent {
       return;
     }
 
-    this.showAlert('success', 'Curso publicado en simulacion. Luego lo conectamos al backend.');
+    this.showAlert('success', 'Curso publicado. Luego lo conectamos al backend.');
   }
 
   private hasValidLessons(): boolean {
-    return this.lessons.length > 0;
+    return this.modules.some((module) => module.lessons.length > 0);
   }
 
   private showAlert(type: AlertType, message: string): void {

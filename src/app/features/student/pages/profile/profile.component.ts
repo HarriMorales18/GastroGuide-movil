@@ -1,9 +1,8 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { ProfileHubData, PublicProfile, PublicProfileRole } from '@student-models/profile.model';
-import { ProfileService } from '@core/services/student/profile.service';
+import { MyProfile, ProfileHubData, PublicProfile, PublicProfileRole } from '@student-models/profile.model';
+import { StudentFacadeService } from '@core/services/student/student-facade.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,9 +15,9 @@ export class ProfileComponent {
   readonly hubData = signal<ProfileHubData | null>(null);
   readonly activeAudience = signal<PublicProfileRole>('creator');
   readonly selectedProfileId = signal<number | null>(null);
+  readonly followedProfileIds = signal<number[]>([]);
   readonly isEditMode = signal(false);
   readonly isSaving = signal(false);
-  readonly showSettingsEntry = signal(false);
 
   readonly editForm = signal({
     displayName: '',
@@ -36,29 +35,58 @@ export class ProfileComponent {
     return this.activeAudience() === 'creator' ? data.creators : data.students;
   });
 
+  readonly allPublicProfiles = computed(() => {
+    const data = this.hubData();
+    if (!data) {
+      return [] as PublicProfile[];
+    }
+
+    return [...data.creators, ...data.students];
+  });
+
   readonly selectedProfile = computed(() => {
     const profileId = this.selectedProfileId();
     if (profileId === null) {
       return null;
     }
 
-    return this.audienceProfiles().find((profile) => profile.id === profileId) ?? null;
+    return this.allPublicProfiles().find((profile) => profile.id === profileId) ?? null;
+  });
+
+  readonly displayedProfile = computed<PublicProfile | MyProfile | null>(() => {
+    const selected = this.selectedProfile();
+    if (selected) {
+      return selected;
+    }
+
+    return this.hubData()?.me ?? null;
+  });
+
+  readonly isViewingPublicProfile = computed(() => this.selectedProfile() !== null);
+
+  readonly isFollowingCurrentProfile = computed(() => {
+    const profile = this.selectedProfile();
+    if (!profile) {
+      return false;
+    }
+
+    return this.followedProfileIds().includes(profile.id);
   });
 
   constructor(
-    private authService: AuthService,
-    private profileService: ProfileService
+    private readonly studentFacade: StudentFacadeService
   ) {
     this.loadHubData();
   }
 
   setAudience(role: PublicProfileRole): void {
     this.activeAudience.set(role);
-    this.selectedProfileId.set(null);
+    this.isEditMode.set(false);
   }
 
   selectPublicProfile(profile: PublicProfile): void {
     this.selectedProfileId.set(profile.id);
+    this.isEditMode.set(false);
   }
 
   openEditProfile(): void {
@@ -90,7 +118,7 @@ export class ProfileComponent {
     const form = this.editForm();
 
     this.isSaving.set(true);
-    this.profileService.updateMyProfile({
+    this.studentFacade.updateMyProfile({
       displayName: form.displayName,
       headline: form.headline,
       bio: form.bio,
@@ -112,32 +140,45 @@ export class ProfileComponent {
     }));
   }
 
-  openSettingsEntryPoint(): void {
-    this.showSettingsEntry.set(true);
-  }
+  toggleFollow(): void {
+    const profile = this.selectedProfile();
+    if (!profile) {
+      return;
+    }
 
-  closeSettingsEntryPoint(): void {
-    this.showSettingsEntry.set(false);
-  }
+    this.followedProfileIds.update((ids) => {
+      if (ids.includes(profile.id)) {
+        return ids.filter((id) => id !== profile.id);
+      }
 
-  logout(): void {
-    this.authService.logoutWithBackend().subscribe(() => {
-      window.location.reload();
+      return [...ids, profile.id];
     });
   }
 
+  goBackToMyProfile(): void {
+    this.selectedProfileId.set(null);
+    this.isEditMode.set(false);
+  }
+
   getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((chunk) => (chunk ? chunk[0] : ''))
-      .filter(Boolean)
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
+    const words = name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    if (!words.length) {
+      return 'US';
+    }
+
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase();
+    }
+
+    return `${words[0][0] ?? ''}${words[1][0] ?? ''}`.toUpperCase();
   }
 
   private loadHubData(): void {
-    this.profileService.getProfileHubData().subscribe((data) => {
+    this.studentFacade.getProfileHubData().subscribe((data) => {
       this.hubData.set(data);
     });
   }

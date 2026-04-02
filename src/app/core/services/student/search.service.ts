@@ -1,16 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { SearchFilters, StudentSearchData } from '@student-models/search.model';
+import { BackendApiService } from '@core/services/backend-api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class SearchService {
   private readonly apiUrl = '/api/student/search';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly backendApi: BackendApiService) {}
 
   getSearchData(): Observable<StudentSearchData> {
-    return of(this.getMockSearchData());
+    if (environment.useMockApi) {
+      return of(this.getMockSearchData());
+    }
+
+    const defaultFilters: SearchFilters = {
+      query: '',
+      categories: [],
+      levels: [],
+      contentTypes: [],
+      maxDuration: 180,
+      ratingMin: 0,
+      priceType: 'all',
+      certificateOnly: false,
+      tags: [],
+      sortBy: 'relevance'
+    };
+
+    return this.searchFromApi(defaultFilters).pipe(
+      catchError(() => of(this.getMockSearchData()))
+    );
   }
 
   searchFromApi(filters: SearchFilters): Observable<StudentSearchData> {
@@ -38,7 +60,7 @@ export class SearchService {
       params = params.append('tags', value);
     });
 
-    return this.http.get<StudentSearchData>(this.apiUrl, { params });
+    return this.backendApi.get<StudentSearchData>(this.apiUrl, { params });
   }
 
   private getMockSearchData(): StudentSearchData {

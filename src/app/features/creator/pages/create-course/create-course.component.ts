@@ -2,13 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModulesComponent } from '../modules/modules.component';
+import { CourseModuleDraft } from '@student-models/course-structure.model';
 
 type AlertType = 'success' | 'danger' | 'warning' | 'info';
-
-interface CourseModule {
-  title: string;
-  description: string;
-}
 
 @Component({
   selector: 'app-create-course',
@@ -27,7 +23,7 @@ export class CreateCourseComponent {
 
   moduleTitle = '';
   moduleDescription = '';
-  modules: CourseModule[] = [];
+  modules: CourseModuleDraft[] = [];
 
   alertType: AlertType = 'info';
   alertMessage = '';
@@ -41,7 +37,7 @@ export class CreateCourseComponent {
       return;
     }
 
-    this.modules = [...this.modules, { title, description }];
+    this.modules = [...this.modules, { title, description, lessons: [] }];
     this.moduleTitle = '';
     this.moduleDescription = '';
     this.showAlert('success', 'Modulo guardado correctamente.');
@@ -63,8 +59,13 @@ export class CreateCourseComponent {
       return;
     }
 
+    if (!this.modules.every((module) => module.lessons.length > 0)) {
+      this.showAlert('warning', 'Cada modulo necesita al menos una leccion.');
+      return;
+    }
+
     this.currentStep = 'lessons';
-    this.showAlert('info', 'Ahora completa las lecciones y videos por modulo.');
+    this.showAlert('info', 'Ahora completa las lecciones por modulo.');
   }
 
   private showAlert(type: AlertType, message: string): void {

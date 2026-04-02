@@ -1,0 +1,81 @@
+<section class="purchase-page" *ngIf="selectedCourse() as course; else noSelection">
+  <header class="purchase-header">
+    <span class="status-pill">Compra requerida</span>
+    <h2>{{ course.title }}</h2>
+    <p>Este curso aun no ha sido comprado. Completa el pago para habilitar el boton de empezar curso.</p>
+  </header>
+
+  <article class="purchase-card">
+    <img [src]="course.thumbnailUrl" [alt]="course.title" />
+
+    <div class="purchase-data">
+      <h3>Resumen de compra</h3>
+      <ul>
+        <li>Curso: {{ course.title }}</li>
+        <li>Instructor: {{ course.instructor }}</li>
+        <li>Duracion: {{ course.durationMinutes }} min</li>
+        <li>Precio: {{ course.priceCop | currency:'COP':'symbol':'1.0-0' }}</li>
+        <li>Ambiente: Pago del curso</li>
+      </ul>
+    </div>
+  </article>
+
+  <section class="actions">
+    <button type="button" class="secondary" (click)="goBackToDetail()">Volver al detalle</button>
+    <button type="button" class="primary" (click)="openPaymentGateway()">Pagar curso</button>
+  </section>
+
+  <section class="gateway-panel" *ngIf="paymentStep() === 'gateway'">
+    <h3>Pagar curso</h3>
+    <p>Completa los datos de pago para continuar.</p>
+
+    <div class="gateway-form">
+      <label>
+        Nombre del titular
+        <input [(ngModel)]="cardHolder" placeholder="Juan Garcia" />
+        <small class="field-error" *ngIf="formErrors().cardHolder">{{ formErrors().cardHolder }}</small>
+      </label>
+
+      <label>
+        Numero de tarjeta
+        <input [ngModel]="cardNumber" (ngModelChange)="updateCardNumber($event)" placeholder="4242 4242 4242 4242" />
+        <small class="field-error" *ngIf="formErrors().cardNumber">{{ formErrors().cardNumber }}</small>
+      </label>
+
+      <div class="row">
+        <label>
+          Expiracion
+          <input [ngModel]="cardExpiry" (ngModelChange)="updateCardExpiry($event)" placeholder="12/29" />
+          <small class="field-error" *ngIf="formErrors().cardExpiry">{{ formErrors().cardExpiry }}</small>
+        </label>
+
+        <label>
+          CVC
+          <input [ngModel]="cardCvc" (ngModelChange)="updateCardCvc($event)" placeholder="123" />
+          <small class="field-error" *ngIf="formErrors().cardCvc">{{ formErrors().cardCvc }}</small>
+        </label>
+      </div>
+    </div>
+
+    <div class="gateway-actions">
+      <button type="button" class="primary" (click)="processApprovedPayment()">Confirmar pago</button>
+      <button type="button" class="danger" (click)="processRejectedPayment()">Marcar como rechazado</button>
+      <button type="button" class="secondary" (click)="cancelGatewayAndBack()">Volver al resumen</button>
+    </div>
+  </section>
+
+  <p class="hint" *ngIf="paymentStep() === 'summary'">
+    Continua con el pago para habilitar el acceso al curso.
+  </p>
+
+  <p class="hint" *ngIf="paymentStep() === 'processing'">
+    Procesando pago...
+  </p>
+</section>
+
+<ng-template #noSelection>
+  <section class="empty-state">
+    <h3>No hay curso seleccionado</h3>
+    <p>Selecciona un curso para iniciar el flujo de compra.</p>
+  </section>
+</ng-template>

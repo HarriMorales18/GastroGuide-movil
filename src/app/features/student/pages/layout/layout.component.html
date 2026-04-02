@@ -9,12 +9,7 @@
         [attr.aria-label]="'Ir al perfil de ' + loggedUserDisplayName()"
         (click)="changeTab('profile')"
       >
-        <img
-          [src]="loggedUserAvatarUrl() || defaultAvatarUrl"
-          [alt]="'Foto de ' + loggedUserDisplayName()"
-          loading="lazy"
-          decoding="async"
-        />
+        <span class="profile-avatar-initials">{{ loggedUserInitials() }}</span>
       </button>
     </div>
 
@@ -62,11 +57,12 @@
     </nav>
   </header>
 
-  <main class="content">
+  <main class="content" #contentContainer>
     <app-home *ngIf="currentTab() === 'home'" (openCourseDetail)="openHomeCourseDetail($event)"></app-home>
     <app-courses *ngIf="currentTab() === 'courses'" (openCourseDetail)="openCoursesDetail($event)"></app-courses>
     <app-search *ngIf="currentTab() === 'search'" (openCourseDetail)="openSearchDetail($event)"></app-search>
     <ng-container *ngIf="currentTab() === 'course-detail'" [ngComponentOutlet]="courseDetailComponent"></ng-container>
+    <ng-container *ngIf="currentTab() === 'course-purchase'" [ngComponentOutlet]="purchaseCourseComponent"></ng-container>
     <ng-container *ngIf="currentTab() === 'course'" [ngComponentOutlet]="studentCourseComponent"></ng-container>
     <app-profile *ngIf="currentTab() === 'profile'"></app-profile>
     <app-student-config *ngIf="currentTab() === 'config'"></app-student-config>

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseStatus, StudentCourseItem } from '@student-models/courses.model';
-import { CoursesService } from '@core/services/student/courses.service';
+import { StudentFacadeService } from '@core/services/student/student-facade.service';
 
 type CoursesFilter = 'all' | CourseStatus | 'favorites';
 
@@ -16,12 +16,12 @@ type CoursesFilter = 'all' | CourseStatus | 'favorites';
 export class CoursesComponent {
   @Output() openCourseDetail = new EventEmitter<StudentCourseItem>();
 
-  readonly coursesData$ = this.coursesService.getStudentCourses();
+  readonly coursesData$ = this.studentFacade.getCoursesData();
 
   readonly activeFilter = signal<CoursesFilter>('all');
   readonly searchTerm = signal('');
 
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(private readonly studentFacade: StudentFacadeService) {}
 
   setFilter(filter: CoursesFilter): void {
     this.activeFilter.set(filter);

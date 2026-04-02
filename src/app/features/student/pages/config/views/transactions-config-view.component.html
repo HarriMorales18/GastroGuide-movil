@@ -1,0 +1,28 @@
+<section class="transactions-config">
+  <header class="section-header">
+    <h3>Historial de transacciones</h3>
+    <p>Consulta el estado de tus pagos simulados en cursos.</p>
+  </header>
+
+  <div class="transactions-list" *ngIf="transactionHistory().length > 0; else emptyState">
+    <article class="transaction-item" *ngFor="let tx of transactionHistory()">
+      <div class="left">
+        <strong>{{ tx.courseTitle }}</strong>
+        <small>{{ tx.createdAt | date:'short' }}</small>
+      </div>
+
+      <div class="right">
+        <span class="amount">{{ tx.amountCop | currency:'COP':'symbol':'1.0-0' }}</span>
+        <span class="status" [ngClass]="getTransactionStatusClass(tx.status)">
+          {{ getTransactionStatusLabel(tx.status) }}
+        </span>
+      </div>
+    </article>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <p>Aún no hay transacciones registradas.</p>
+    </div>
+  </ng-template>
+</section>

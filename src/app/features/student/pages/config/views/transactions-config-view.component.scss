@@ -1,0 +1,111 @@
+.transactions-config {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #1e40af;
+}
+
+.section-header {
+  margin-bottom: 0.85rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1e40af;
+  }
+
+  p {
+    margin: 0.28rem 0 0;
+    color: #5f7181;
+    font-size: 0.84rem;
+  }
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transaction-item {
+  border: 1px solid rgba(16, 29, 38, 0.12);
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 0.55rem 0.65rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.left {
+  strong {
+    display: block;
+    font-size: 0.78rem;
+    color: #30485c;
+  }
+
+  small {
+    color: #6d7d8b;
+    font-size: 0.68rem;
+  }
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+.amount {
+  color: #425b6e;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.status {
+  border-radius: 999px;
+  padding: 0.16rem 0.42rem;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-approved {
+  background: #e7f7ee;
+  color: #1f7a3e;
+}
+
+.status-rejected {
+  background: #fdecec;
+  color: #b53434;
+}
+
+.status-canceled {
+  background: #f3f5f8;
+  color: #5f7282;
+}
+
+.empty-state {
+  border: 1px dashed #c8d3db;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 0.95rem;
+  text-align: center;
+
+  p {
+    margin: 0;
+    color: #607381;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .right {
+    align-items: flex-start;
+  }
+}

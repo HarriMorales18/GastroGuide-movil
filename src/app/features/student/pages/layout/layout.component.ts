@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import {
@@ -30,6 +30,9 @@ import { StudentCourseDetail } from '@student-models/course-detail.model';
 import { ConfigComponent } from '../config/config.component';
 import { CourseComponent } from '../course/course.component';
 import { CourseAccessService } from '@core/services/student/course-access.service';
+import { CoursePurchaseService } from '@core/services/student/course-purchase.service';
+import { CoursePurchaseComponent } from '../course-purchase/course-purchase.component';
+import { StudentFacadeService } from '@core/services/student/student-facade.service';
 
 @Component({
   selector: 'app-student-layout',
@@ -47,26 +50,30 @@ import { CourseAccessService } from '@core/services/student/course-access.servic
     CoursesService,
     SearchService,
     ProfileService,
+    StudentFacadeService,
     CourseDetailStateService,
-    CourseAccessService
+    CourseAccessService,
+    CoursePurchaseService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
+  @ViewChild('contentContainer') private contentContainer?: ElementRef<HTMLElement>;
   private previousTab: 'home' | 'courses' | 'search' | 'profile' = 'home';
   private handledOpenRequest = 0;
+  private handledPurchaseRequest = 0;
+  private handledDetailRequest = 0;
   readonly courseDetailComponent = CourseDetailComponent;
   readonly studentCourseComponent = CourseComponent;
-  readonly defaultAvatarUrl = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80';
-  readonly loggedUserAvatarUrl = signal<string | null>(null);
+  readonly purchaseCourseComponent = CoursePurchaseComponent;
   readonly loggedUserDisplayName = signal('Mi perfil');
 
   constructor(
     private readonly courseDetailState: CourseDetailStateService,
-    private readonly profileService: ProfileService,
-    private readonly courseAccess: CourseAccessService
+    private readonly courseAccess: CourseAccessService,
+    private readonly studentFacade: StudentFacadeService
   ) {
     addIcons({
       addCircleOutline,
@@ -103,11 +110,40 @@ export class LayoutComponent {
       }
     });
 
+    effect(() => {
+      const currentPurchaseRequest = this.courseAccess.openPurchaseRequest();
+
+      if (currentPurchaseRequest > this.handledPurchaseRequest) {
+        this.handledPurchaseRequest = currentPurchaseRequest;
+
+        if (this.courseDetailState.selectedCourse()) {
+          this.currentTab.set('course-purchase');
+        }
+      }
+    });
+
+    effect(() => {
+      const currentDetailRequest = this.courseAccess.openCourseDetailRequest();
+
+      if (currentDetailRequest > this.handledDetailRequest) {
+        this.handledDetailRequest = currentDetailRequest;
+
+        if (this.courseDetailState.selectedCourse()) {
+          this.currentTab.set('course-detail');
+        }
+      }
+    });
+
+    effect(() => {
+      this.currentTab();
+      this.resetContentScroll();
+    });
+
     this.loadLoggedUserProfile();
   }
 
   // 🔥 CONTROL DE TABS
-  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail' | 'course' | 'config'>('home');
+  currentTab = signal<'home' | 'courses' | 'search' | 'profile' | 'course-detail' | 'course' | 'course-purchase' | 'config'>('home');
 
   changeTab(tab: 'home' | 'courses' | 'search' | 'profile' | 'config') {
     this.currentTab.set(tab);
@@ -123,106 +159,29 @@ export class LayoutComponent {
       .filter(Boolean);
 
     if (!words.length) {
-      return 'JP';
+      return 'US';
+    }
+
+    if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase();
     }
 
     const first = words[0][0] ?? '';
-    const second = words[1]?.[0] ?? words[0][1] ?? '';
+    const second = words[1]?.[0] ?? '';
 
     return `${first}${second}`.toUpperCase();
   }
 
   openHomeCourseDetail(course: HomeCourseItem): void {
-    const detail: StudentCourseDetail = {
-      id: course.id,
-      title: course.title,
-      category: course.category,
-      instructor: course.author,
-      thumbnailUrl: course.thumbnailUrl,
-      description: 'Curso destacado para mejorar tus tecnicas y resultados en cocina paso a paso.',
-      durationMinutes: course.durationMinutes,
-      rating: course.rating,
-      totalRatings: 800 + course.id,
-      lessonsCompleted: Math.round(((course.progressPercentage ?? 0) / 100) * 12),
-      lessonsTotal: 12,
-      progressPercentage: course.progressPercentage ?? 0,
-      levelLabel: 'Intermedio',
-      contentTypeLabel: 'Curso',
-      priceLabel: 'Incluido en tu plan',
-      hasCertificate: true,
-      updatedAtLabel: 'Actualizado recientemente',
-      tags: ['chef tips', 'practico', 'destacado'],
-      whatYouWillLearn: [
-        'Dominar tecnicas clave para ejecutar recetas de forma consistente.',
-        'Organizar mise en place y tiempos para cocinar con confianza.',
-        'Evitar errores frecuentes y mejorar sabor, textura y presentacion.'
-      ],
-      modules: this.buildModules(12, Math.round(((course.progressPercentage ?? 0) / 100) * 12))
-    };
-
-    this.openCourseDetail(detail);
+    this.openCourseDetail(this.studentFacade.buildDetailFromHome(course));
   }
 
   openCoursesDetail(course: StudentCourseItem): void {
-    const detail: StudentCourseDetail = {
-      id: course.id,
-      title: course.title,
-      category: course.category,
-      instructor: course.instructor,
-      thumbnailUrl: course.thumbnailUrl,
-      description: 'Ruta de aprendizaje enfocada en resultados reales y aplicables en cocina y negocio.',
-      durationMinutes: course.durationMinutes,
-      rating: 4.7,
-      totalRatings: 650 + course.id,
-      lessonsCompleted: course.lessonsCompleted,
-      lessonsTotal: course.lessonsTotal,
-      progressPercentage: course.progressPercentage,
-      levelLabel: course.status === 'pending' ? 'Principiante' : 'Intermedio',
-      contentTypeLabel: 'Curso',
-      priceLabel: 'Incluido en tu plan',
-      hasCertificate: course.status !== 'pending',
-      updatedAtLabel: course.updatedAtLabel,
-      tags: course.isFavorite ? ['favorito', 'recomendado'] : ['practico', 'actualizado'],
-      whatYouWillLearn: [
-        'Aplicar buenas practicas para mejorar calidad y velocidad.',
-        'Tomar decisiones de ingredientes y tecnicas con criterio.',
-        'Construir un flujo de trabajo repetible y eficiente.'
-      ],
-      modules: this.buildModules(course.lessonsTotal, course.lessonsCompleted)
-    };
-
-    this.openCourseDetail(detail);
+    this.openCourseDetail(this.studentFacade.buildDetailFromCourses(course));
   }
 
   openSearchDetail(item: SearchResultItem): void {
-    const detail: StudentCourseDetail = {
-      id: item.id,
-      title: item.title,
-      category: item.category,
-      instructor: item.instructor,
-      thumbnailUrl: item.thumbnailUrl,
-      description: item.description,
-      durationMinutes: item.durationMinutes,
-      rating: item.rating,
-      totalRatings: item.totalRatings,
-      lessonsCompleted: item.contentType === 'tip' ? 0 : 2,
-      lessonsTotal: item.contentType === 'tip' ? 1 : 10,
-      progressPercentage: item.contentType === 'tip' ? 0 : 20,
-      levelLabel: this.mapLevel(item.level),
-      contentTypeLabel: this.mapContentType(item.contentType),
-      priceLabel: item.isFree ? 'Gratis' : 'Pago',
-      hasCertificate: item.hasCertificate,
-      updatedAtLabel: item.updatedAtLabel,
-      tags: item.tags,
-      whatYouWillLearn: [
-        'Comprender conceptos clave explicados por expertos.',
-        'Llevar la teoria a practica en escenarios reales.',
-        'Aumentar consistencia y calidad en cada preparacion.'
-      ],
-      modules: this.buildModules(item.contentType === 'tip' ? 1 : 10, item.contentType === 'tip' ? 0 : 2)
-    };
-
-    this.openCourseDetail(detail);
+    this.openCourseDetail(this.studentFacade.buildDetailFromSearch(item));
   }
 
   private openCourseDetail(detail: StudentCourseDetail): void {
@@ -231,47 +190,15 @@ export class LayoutComponent {
     this.currentTab.set('course-detail');
   }
 
-  private buildModules(total: number, completed: number): Array<{ id: number; title: string; durationMinutes: number; isCompleted: boolean }> {
-    return Array.from({ length: total }, (_, index) => ({
-      id: index + 1,
-      title: `Modulo ${index + 1}`,
-      durationMinutes: 8 + (index % 4) * 4,
-      isCompleted: index < completed
-    }));
-  }
-
-  private mapLevel(level: 'beginner' | 'intermediate' | 'advanced'): string {
-    if (level === 'beginner') {
-      return 'Principiante';
-    }
-
-    if (level === 'intermediate') {
-      return 'Intermedio';
-    }
-
-    return 'Avanzado';
-  }
-
-  private mapContentType(type: 'course' | 'tip' | 'masterclass' | 'recipe'): string {
-    if (type === 'course') {
-      return 'Curso';
-    }
-
-    if (type === 'tip') {
-      return 'Tip';
-    }
-
-    if (type === 'masterclass') {
-      return 'Masterclass';
-    }
-
-    return 'Receta';
-  }
-
   private loadLoggedUserProfile(): void {
-    this.profileService.getProfileHubData().subscribe((data) => {
+    this.studentFacade.getProfileHubData().subscribe((data) => {
       this.loggedUserDisplayName.set(data.me.displayName || 'Mi perfil');
-      this.loggedUserAvatarUrl.set(data.me.avatarUrl);
+    });
+  }
+
+  private resetContentScroll(): void {
+    requestAnimationFrame(() => {
+      this.contentContainer?.nativeElement.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     });
   }
 }

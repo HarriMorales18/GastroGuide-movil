@@ -221,6 +221,13 @@ select {
 		font-size: 0.8rem;
 		color: var(--muted);
 	}
+
+	small {
+		display: block;
+		margin-top: 4px;
+		font-size: 0.72rem;
+		color: var(--creator-accent);
+	}
 }
 
 .video-section {

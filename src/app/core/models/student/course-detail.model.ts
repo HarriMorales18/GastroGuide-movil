@@ -1,8 +1,19 @@
-export interface CourseModuleItem {
+export interface StudentCourseLesson {
   id: number;
   title: string;
   durationMinutes: number;
   isCompleted: boolean;
+  videoUrl?: string;
+  summary?: string;
+}
+
+export interface CourseModuleItem {
+  id: number;
+  title: string;
+  description: string;
+  durationMinutes: number;
+  isCompleted: boolean;
+  lessons: StudentCourseLesson[];
 }
 
 export interface StudentCourseDetail {
@@ -21,6 +32,8 @@ export interface StudentCourseDetail {
   levelLabel: string;
   contentTypeLabel: string;
   priceLabel: string;
+  priceCop: number;
+  isPurchased: boolean;
   hasCertificate: boolean;
   updatedAtLabel: string;
   tags: string[];

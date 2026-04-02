@@ -47,11 +47,24 @@
     <article class="module-row" *ngFor="let module of course.modules">
       <div>
         <strong>{{ module.title }}</strong>
-        <small>{{ module.durationMinutes }} min</small>
+        <small>{{ module.lessons.length }} lecciones · {{ module.durationMinutes }} min</small>
+
       </div>
       <span [class.completed]="module.isCompleted">
         {{ module.isCompleted ? 'Completado' : 'Pendiente' }}
       </span>
+
+      <div class="module-lessons" *ngIf="module.lessons.length > 0">
+        <article class="lesson-row" *ngFor="let lesson of module.lessons">
+          <div>
+            <strong>{{ lesson.title }}</strong>
+            <small>{{ lesson.durationMinutes }} min</small>
+          </div>
+          <span [class.completed]="lesson.isCompleted">
+            {{ lesson.isCompleted ? 'Vista' : 'Pendiente' }}
+          </span>
+        </article>
+      </div>
     </article>
   </section>
 
@@ -60,7 +73,7 @@
   </section>
 
   <button type="button" class="start-btn" (click)="openLearningExperience()">
-    {{ hasProgress(course) ? 'Continuar aprendiendo' : 'Comenzar curso' }}
+    {{ isCoursePurchased(course) ? (hasProgress(course) ? 'Continuar aprendiendo' : 'Comenzar curso') : 'Comprar curso' }}
   </button>
 </section>
 

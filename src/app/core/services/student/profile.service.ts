@@ -1,34 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { MyProfile, ProfileHubData, UpdateMyProfileRequest } from '@student-models/profile.model';
+import { BackendApiService } from '@core/services/backend-api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ProfileService {
   private readonly hubApiUrl = '/api/student/profile/hub';
   private readonly updateApiUrl = '/api/student/profile';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly backendApi: BackendApiService) {}
 
   getProfileHubData(): Observable<ProfileHubData> {
-    return of(this.getMockHubData());
+    if (environment.useMockApi) {
+      return of(this.getMockHubData());
+    }
+
+    return this.getProfileHubDataFromApi().pipe(
+      catchError(() => of(this.getMockHubData()))
+    );
   }
 
   getProfileHubDataFromApi(): Observable<ProfileHubData> {
-    return this.http.get<ProfileHubData>(this.hubApiUrl);
+    return this.backendApi.get<ProfileHubData>(this.hubApiUrl);
   }
 
   updateMyProfile(payload: UpdateMyProfileRequest): Observable<MyProfile> {
-    const current = this.getMockHubData().me;
+    if (environment.useMockApi) {
+      const current = this.getMockHubData().me;
+      return of({
+        ...current,
+        ...payload
+      });
+    }
 
-    return of({
-      ...current,
-      ...payload
-    });
+    return this.updateMyProfileFromApi(payload).pipe(
+      catchError(() => {
+        const current = this.getMockHubData().me;
+        return of({
+          ...current,
+          ...payload
+        });
+      })
+    );
   }
 
   updateMyProfileFromApi(payload: UpdateMyProfileRequest): Observable<MyProfile> {
-    return this.http.put<MyProfile>(this.updateApiUrl, payload);
+    return this.backendApi.put<MyProfile>(this.updateApiUrl, payload);
   }
 
   private getMockHubData(): ProfileHubData {

@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, signal } from 
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { HomeService } from '@core/services/student/home.service';
+import { StudentFacadeService } from '@core/services/student/student-facade.service';
 import { HomeCourseItem, HomeSectionKey } from '@student-models/home.model';
 
 @Component({
@@ -23,10 +23,10 @@ export class HomeComponent {
     popular: 0
   };
 
-  readonly homeData$ = this.homeService.getHomeData();
+  readonly homeData$ = this.studentFacade.getHomeData();
   readonly activeIndexBySection = signal<Record<HomeSectionKey, number>>(this.initialIndexBySection);
 
-  constructor(private readonly homeService: HomeService) {
+  constructor(private readonly studentFacade: StudentFacadeService) {
     addIcons({ chevronBackOutline, chevronForwardOutline });
   }
 

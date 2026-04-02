@@ -1,21 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { StudentHomeData } from '@student-models/home.model';
+import { BackendApiService } from '@core/services/backend-api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HomeService {
   private readonly apiUrl = '/api/student/home';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly backendApi: BackendApiService) {}
 
   getHomeData(): Observable<StudentHomeData> {
-    // Temporary mock source. Keep component logic unchanged while API is pending.
-    return of(this.getMockHomeData());
+    if (environment.useMockApi) {
+      return of(this.getMockHomeData());
+    }
+
+    return this.getHomeDataFromApi().pipe(
+      catchError(() => of(this.getMockHomeData()))
+    );
   }
 
   getHomeDataFromApi(): Observable<StudentHomeData> {
-    return this.http.get<StudentHomeData>(this.apiUrl);
+    return this.backendApi.get<StudentHomeData>(this.apiUrl);
   }
 
   private getMockHomeData(): StudentHomeData {

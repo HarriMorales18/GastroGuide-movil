@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { StudentCoursesData } from '@student-models/courses.model';
+import { BackendApiService } from '@core/services/backend-api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class CoursesService {
   private readonly apiUrl = '/api/student/courses';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly backendApi: BackendApiService) {}
 
   getStudentCourses(): Observable<StudentCoursesData> {
-    return of(this.getMockCoursesData());
+    if (environment.useMockApi) {
+      return of(this.getMockCoursesData());
+    }
+
+    return this.getStudentCoursesFromApi().pipe(
+      catchError(() => of(this.getMockCoursesData()))
+    );
   }
 
   getStudentCoursesFromApi(): Observable<StudentCoursesData> {
-    return this.http.get<StudentCoursesData>(this.apiUrl);
+    return this.backendApi.get<StudentCoursesData>(this.apiUrl);
   }
 
   private getMockCoursesData(): StudentCoursesData {

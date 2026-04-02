@@ -1,14 +1,14 @@
 <section class="modules-builder">
   <header class="builder-hero">
     <p class="hero-kicker">Creator Studio</p>
-    <h1>Lecciones y contenido multimedia</h1>
+    <h1>Modulos y lecciones del curso</h1>
     <p class="hero-subtitle">
-      Organiza las lecciones por modulo y carga el video principal de cada clase.
+      Organiza cada modulo con una o varias lecciones y carga el video principal de cada clase.
     </p>
 
     <div class="hero-metrics">
       <article class="metric-card">
-        <strong>{{ lessons.length }}</strong>
+        <strong>{{ getTotalLessons() }}</strong>
         <span>lecciones creadas</span>
       </article>
       <article class="metric-card">
@@ -40,6 +40,16 @@
       </label>
 
       <label class="field-group">
+        <span>Descripcion de leccion</span>
+        <input
+          type="text"
+          [(ngModel)]="lessonSummary"
+          placeholder="Explica el objetivo de esta leccion"
+          maxlength="140"
+        />
+      </label>
+
+      <label class="field-group">
         <span>Modulo</span>
         <select [(ngModel)]="selectedModule">
           <option value="" disabled>Seleccionar modulo</option>
@@ -54,14 +64,29 @@
       Guardar leccion
     </button>
 
-    <div class="lessons-list" *ngIf="lessons.length > 0; else emptyLessons">
-      <h3>Lecciones agregadas</h3>
+    <div class="modules-list" *ngIf="modules.length > 0; else emptyLessons">
+      <h3>Lecciones agregadas por modulo</h3>
 
-      <article class="lesson-item" *ngFor="let lesson of lessons">
+      <article class="lesson-item module-item" *ngFor="let module of modules">
         <div class="lesson-copy">
-          <strong>{{ lesson.title }}</strong>
-          <p>Modulo: {{ lesson.moduleTitle }}</p>
+          <strong>{{ module.title }}</strong>
+          <p>{{ module.description }}</p>
+          <small>{{ module.lessons.length }} lecciones</small>
         </div>
+
+        <div class="lessons-list" *ngIf="module.lessons.length > 0; else emptyModuleLessons">
+          <article class="lesson-item" *ngFor="let lesson of module.lessons">
+            <div class="lesson-copy">
+              <strong>{{ lesson.title }}</strong>
+              <p>{{ lesson.summary }}</p>
+              <small>{{ lesson.videoName }}</small>
+            </div>
+          </article>
+        </div>
+
+        <ng-template #emptyModuleLessons>
+          <p class="empty-inline">Este modulo aun no tiene lecciones.</p>
+        </ng-template>
       </article>
     </div>
 
@@ -81,16 +106,6 @@
 
     <div class="video-section">
       <div class="video-controls">
-        <label class="field-group">
-          <span>Lecciones</span>
-          <select [(ngModel)]="selectedLesson">
-            <option value="" disabled>Seleccionar leccion</option>
-            <option *ngFor="let lesson of lessons" [value]="lesson.title">
-              {{ lesson.title }}
-            </option>
-          </select>
-        </label>
-
         <label class="upload-btn" for="videoInput">Cargar video</label>
         <input id="videoInput" type="file" accept="video/*" (change)="onVideoSelected($event)" />
       </div>

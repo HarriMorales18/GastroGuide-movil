@@ -10,7 +10,7 @@ import {
   SearchSort,
   StudentSearchData
 } from '@student-models/search.model';
-import { SearchService } from '@core/services/student/search.service';
+import { StudentFacadeService } from '@core/services/student/student-facade.service';
 
 type ArrayFilterMap = {
   categories: string;
@@ -29,7 +29,7 @@ type ArrayFilterMap = {
 export class SearchComponent {
   @Output() openCourseDetail = new EventEmitter<SearchResultItem>();
 
-  readonly searchData$ = this.searchService.getSearchData();
+  readonly searchData$ = this.studentFacade.getSearchData();
   readonly showFilters = signal(true);
 
   readonly filters = signal<SearchFilters>({
@@ -65,7 +65,7 @@ export class SearchComponent {
     { value: 'shortest', label: 'Menor duracion' }
   ];
 
-  constructor(private readonly searchService: SearchService) {}
+  constructor(private readonly studentFacade: StudentFacadeService) {}
 
   toggleFilters(): void {
     this.showFilters.update((value) => !value);

@@ -1,8 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
 import { User, UserRole } from '@core/models/user.model';
+import { BackendApiService } from '@core/services/backend-api.service';
 import { environment } from 'src/environments/environment';
 
 interface LoginResponse {
@@ -52,7 +53,7 @@ export class AuthService {
   ];
 
   constructor(
-    private http: HttpClient,
+    private backendApi: BackendApiService,
     private storage: Storage
   ) {
     this.initStorage();
@@ -181,9 +182,9 @@ export class AuthService {
     // Clear any stale local session before requesting a fresh token pair.
     this.logout();
 
-    const loginUrl = `${environment.apiUrl}/api/auth/login`;
+    const loginUrl = '/api/auth/login';
 
-    return this.http.post<LoginResponse>(loginUrl, { email, password }).pipe(
+    return this.backendApi.post<LoginResponse>(loginUrl, { email, password }).pipe(
       map((response) => {
         const token = this.extractToken(response);
         const refreshToken = this.extractRefreshToken(response);
@@ -225,7 +226,7 @@ export class AuthService {
       return of(null);
     }
 
-    const refreshUrl = `${environment.apiUrl}/api/auth/refresh`;
+    const refreshUrl = '/api/auth/refresh';
 
     return from(this.storage.get(this.refreshTokenStorageKey)).pipe(
       switchMap((storedRefreshToken: string | null) => {
@@ -234,7 +235,7 @@ export class AuthService {
           return of(null);
         }
 
-        return this.http.post<RefreshResponse>(refreshUrl, { refreshToken }).pipe(
+        return this.backendApi.post<RefreshResponse>(refreshUrl, { refreshToken }).pipe(
           map((response) => {
             const token = response.token || response.accessToken || response.jwt || null;
             if (token) {
@@ -254,7 +255,7 @@ export class AuthService {
       return of(true);
     }
 
-    const logoutUrl = `${environment.apiUrl}/api/auth/logout`;
+    const logoutUrl = '/api/auth/logout';
 
     return from(this.storage.get(this.refreshTokenStorageKey)).pipe(
       switchMap((storedRefreshToken: string | null) => {
@@ -274,7 +275,7 @@ export class AuthService {
               return of(true);
             }
 
-            return this.http
+            return this.backendApi
               .post(
                 logoutUrl,
                 { refreshToken },
@@ -308,8 +309,8 @@ export class AuthService {
       return of(false);
     }
 
-    const registerUrl = `${environment.apiUrl}/api/student/create`;
-    return this.http.post(registerUrl, payload).pipe(
+    const registerUrl = '/api/student/create';
+    return this.backendApi.post(registerUrl, payload).pipe(
       map(() => true),
       catchError(() => of(false))
     );
@@ -320,8 +321,8 @@ export class AuthService {
       return of(false);
     }
 
-    const registerUrl = `${environment.apiUrl}/api/creator/create`;
-    return this.http.post(registerUrl, payload).pipe(
+    const registerUrl = '/api/creator/create';
+    return this.backendApi.post(registerUrl, payload).pipe(
       map(() => true),
       catchError(() => of(false))
     );
@@ -352,6 +353,10 @@ export class AuthService {
 
     const storedToken = this.accessToken;
     return storedToken ? this.getRoleFromJwt(storedToken) : null;
+  }
+
+  getAccessToken(): string | null {
+    return this.accessToken;
   }
 
   logout() {

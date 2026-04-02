@@ -7,15 +7,17 @@ import {
   lockClosedOutline,
   notificationsOutline,
   helpCircleOutline,
-  logOutOutline
+  logOutOutline,
+  receiptOutline
 } from 'ionicons/icons';
 
 import { AccountConfigViewComponent } from './views/account-config-view.component';
 import { PreferencesConfigViewComponent } from './views/preferences-config-view.component';
 import { SupportConfigViewComponent } from './views/support-config-view.component';
+import { TransactionsConfigViewComponent } from './views/transactions-config-view.component';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-type ConfigTab = 'account' | 'preferences' | 'help';
+type ConfigTab = 'account' | 'preferences' | 'help' | 'transactions';
 
 interface ConfigOption {
   id: ConfigTab;
@@ -31,7 +33,8 @@ interface ConfigOption {
     CommonModule,
     AccountConfigViewComponent,
     PreferencesConfigViewComponent,
-    SupportConfigViewComponent
+    SupportConfigViewComponent,
+    TransactionsConfigViewComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './config.component.html',
@@ -58,6 +61,12 @@ export class ConfigComponent {
       label: 'Ayuda y Soporte',
       icon: 'help-circle-outline',
       description: 'Preguntas frecuentes y contacto'
+    },
+    {
+      id: 'transactions',
+      label: 'Historial de Transacciones',
+      icon: 'receipt-outline',
+      description: 'Pagos aprobados, rechazados y cancelados'
     }
   ];
 
@@ -70,7 +79,8 @@ export class ConfigComponent {
       lockClosedOutline,
       notificationsOutline,
       helpCircleOutline,
-      logOutOutline
+      logOutOutline,
+      receiptOutline
     });
   }
 
