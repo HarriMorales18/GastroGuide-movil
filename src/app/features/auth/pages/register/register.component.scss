@@ -6,21 +6,24 @@
 	--text-primary: #1E40AF;
 	--text-secondary: #64748B;
 
-	min-height: 100vh;
+	height: 100vh;
 	display: block;
+	overflow: hidden;
 	background: var(--background);
 	color: var(--text-primary);
 	font-family: 'Segoe UI Semibold', 'Trebuchet MS', sans-serif;
 }
 
 .register-view {
-	min-height: 100vh;
+	height: 100vh;
 	padding: 32px 22px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 18px;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 	background:
 		radial-gradient(circle at 12% 8%, rgba(255, 107, 53, 0.06), transparent 36%),
 		radial-gradient(circle at 92% 12%, rgba(30, 64, 175, 0.10), transparent 34%),
@@ -29,6 +32,7 @@
 
 .register-card {
 	width: min(420px, 92vw);
+	margin: auto 0;
 	padding: 28px 22px 30px;
 	border-radius: 22px;
 	background: #FFFFFF;
@@ -79,12 +83,16 @@ h2 {
 }
 
 input,
+select,
+textarea,
 button,
 a {
 	width: 100%;
 }
 
-input {
+input,
+select,
+textarea {
 	padding: 13px 14px;
 	border: 2px solid #E2E8F0;
 	border-radius: 14px;
@@ -96,11 +104,18 @@ input {
 	margin-bottom: 6px;
 }
 
+textarea {
+	resize: vertical;
+	min-height: 88px;
+}
+
 input::placeholder {
 	color: var(--text-secondary);
 }
 
-input:focus {
+input:focus,
+select:focus,
+textarea:focus {
 	border-color: var(--header);
 	background: #FFFFFF;
 	box-shadow: 0 4px 16px rgba(30, 64, 175, 0.18);
@@ -152,4 +167,12 @@ a:hover {
 .success {
 	color: #16A34A;
 	text-align: center;
+}
+
+.file-name {
+	display: block;
+	margin-top: -4px;
+	margin-bottom: 2px;
+	font-size: 0.78rem;
+	color: var(--text-secondary);
 }

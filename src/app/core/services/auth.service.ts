@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, finalize, from, map, Observable, of, shareReplay, switchMap, take } from 'rxjs';
 import { User, UserRole } from '@core/models/user.model';
 import { BackendApiService } from '@core/services/backend-api.service';
 import { environment } from 'src/environments/environment';
@@ -30,6 +30,20 @@ interface CreatorRegisterRequest {
   password: string;
   firstName: string;
   lastName: string;
+  identificationNumber: string;
+  identificationType: string;
+  nationality: string;
+  avatarUrl: string;
+  phoneNumber: string;
+  birthDate: string;
+  specialization: string;
+}
+
+export interface AuthApiError {
+  endpoint: string;
+  status: number;
+  message: string;
+  details: unknown;
 }
 
 @Injectable({
@@ -41,9 +55,15 @@ export class AuthService {
   private readonly tokenStorageKey = 'auth_token';
   private readonly refreshTokenStorageKey = 'refresh_token';
   private readonly userStorageKey = 'auth_user';
+  private readonly lastApiError = signal<AuthApiError | null>(null);
 
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
+  private refreshRequest$: Observable<string | null> | null = null;
+  private refreshTimerId: number | null = null;
+  private readonly refreshAheadMs = 60_000;
+  private readonly refreshRetryMs = 30_000;
+  private readonly refreshFallbackMs = 4 * 60_000;
 
   // usuarios simulados
   private users: User[] = [
@@ -71,6 +91,7 @@ export class AuthService {
     const storedUser = await this.storage.get(this.userStorageKey);
     if (storedUser) {
       this.currentUser.set(storedUser as User);
+      this.scheduleAccessTokenRefresh(this.accessToken);
       return;
     }
 
@@ -85,6 +106,8 @@ export class AuthService {
         });
       }
     }
+
+    this.scheduleAccessTokenRefresh(this.accessToken);
   }
 
   private isUserRole(value: unknown): value is UserRole {
@@ -165,12 +188,40 @@ export class AuthService {
 
   private persistAccessToken(token: string) {
     this.accessToken = token;
+    this.scheduleAccessTokenRefresh(token);
     return this.storage.set(this.tokenStorageKey, token);
   }
 
   private persistRefreshToken(refreshToken: string) {
     this.refreshToken = refreshToken;
+    this.scheduleAccessTokenRefresh(this.accessToken);
     return this.storage.set(this.refreshTokenStorageKey, refreshToken);
+  }
+
+  private clearLastApiError(): void {
+    this.lastApiError.set(null);
+  }
+
+  private registerApiError(endpoint: string, error: HttpErrorResponse): void {
+    const apiError: AuthApiError = {
+      endpoint,
+      status: error.status,
+      message: error.message,
+      details: error.error,
+    };
+
+    this.lastApiError.set(apiError);
+
+    console.error('Request failed', {
+      endpoint: apiError.endpoint,
+      status: apiError.status,
+      message: apiError.message,
+      details: apiError.details,
+    });
+  }
+
+  getLastApiError(): AuthApiError | null {
+    return this.lastApiError();
   }
 
   loginWithBackend(email: string, password: string): Observable<UserRole | null> {
@@ -226,12 +277,17 @@ export class AuthService {
       return of(null);
     }
 
+    if (this.refreshRequest$) {
+      return this.refreshRequest$;
+    }
+
     const refreshUrl = '/api/auth/refresh';
 
-    return from(this.storage.get(this.refreshTokenStorageKey)).pipe(
+    const request$ = from(this.storage.get(this.refreshTokenStorageKey)).pipe(
       switchMap((storedRefreshToken: string | null) => {
         const refreshToken = storedRefreshToken || this.refreshToken;
         if (!refreshToken) {
+          this.clearRefreshTimer();
           return of(null);
         }
 
@@ -243,10 +299,24 @@ export class AuthService {
             }
             return token;
           }),
-          catchError(() => of(null))
+          catchError((error: HttpErrorResponse) => {
+            console.error('Refresh token request failed', {
+              status: error.status,
+              message: error.message,
+              details: error.error,
+            });
+            return of(null);
+          })
         );
-      })
+      }),
+      finalize(() => {
+        this.refreshRequest$ = null;
+      }),
+      shareReplay(1)
     );
+
+    this.refreshRequest$ = request$;
+    return request$;
   }
 
   logoutWithBackend(): Observable<boolean> {
@@ -310,9 +380,17 @@ export class AuthService {
     }
 
     const registerUrl = '/api/student/create';
+    this.clearLastApiError();
+
     return this.backendApi.post(registerUrl, payload).pipe(
-      map(() => true),
-      catchError(() => of(false))
+      map(() => {
+        this.clearLastApiError();
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.registerApiError(registerUrl, error);
+        return of(false);
+      })
     );
   }
 
@@ -322,9 +400,17 @@ export class AuthService {
     }
 
     const registerUrl = '/api/creator/create';
+    this.clearLastApiError();
+
     return this.backendApi.post(registerUrl, payload).pipe(
-      map(() => true),
-      catchError(() => of(false))
+      map(() => {
+        this.clearLastApiError();
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.registerApiError(registerUrl, error);
+        return of(false);
+      })
     );
   }
 
@@ -363,8 +449,80 @@ export class AuthService {
     this.currentUser.set(null);
     this.accessToken = null;
     this.refreshToken = null;
+    this.refreshRequest$ = null;
+    this.clearRefreshTimer();
     void this.storage.remove(this.tokenStorageKey);
     void this.storage.remove(this.refreshTokenStorageKey);
     void this.storage.remove(this.userStorageKey);
+  }
+
+  private scheduleAccessTokenRefresh(token: string | null): void {
+    this.clearRefreshTimer();
+
+    if (!environment.apiUrl || !token || !this.refreshToken) {
+      return;
+    }
+
+    const expiresAt = this.getAccessTokenExpirationMs(token);
+    let delayMs = this.refreshFallbackMs;
+
+    if (expiresAt) {
+      const candidateDelay = expiresAt - Date.now() - this.refreshAheadMs;
+      delayMs = Math.max(10_000, candidateDelay);
+    }
+
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    this.refreshTimerId = window.setTimeout(() => {
+      this.runScheduledRefresh();
+    }, delayMs);
+  }
+
+  private runScheduledRefresh(): void {
+    this.refreshAccessToken().pipe(take(1)).subscribe((token) => {
+      if (token) {
+        this.scheduleAccessTokenRefresh(token);
+        return;
+      }
+
+      this.scheduleRefreshRetry();
+    });
+  }
+
+  private scheduleRefreshRetry(): void {
+    this.clearRefreshTimer();
+
+    if (!environment.apiUrl || !this.refreshToken || typeof window === 'undefined') {
+      return;
+    }
+
+    this.refreshTimerId = window.setTimeout(() => {
+      this.runScheduledRefresh();
+    }, this.refreshRetryMs);
+  }
+
+  private clearRefreshTimer(): void {
+    if (this.refreshTimerId === null || typeof window === 'undefined') {
+      return;
+    }
+
+    window.clearTimeout(this.refreshTimerId);
+    this.refreshTimerId = null;
+  }
+
+  private getAccessTokenExpirationMs(token: string): number | null {
+    const payload = this.getJwtPayload(token);
+    if (!payload) {
+      return null;
+    }
+
+    const exp = payload['exp'];
+    if (typeof exp !== 'number') {
+      return null;
+    }
+
+    return exp * 1000;
   }
 }

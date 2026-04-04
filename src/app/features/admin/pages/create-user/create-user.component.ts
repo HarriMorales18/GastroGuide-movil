@@ -76,6 +76,13 @@ export class CreateUserComponent {
           lastName: this.lastName.trim(),
           email: this.email.trim(),
           password: this.password,
+          identificationNumber: `${Date.now()}`,
+          identificationType: 'CC',
+          nationality: 'Colombiana',
+          avatarUrl: 'https://example.com/avatar.jpg',
+          phoneNumber: '+573000000000',
+          birthDate: '1990-01-01',
+          specialization: 'Creador registrado desde panel administrativo',
         });
 
     request$.subscribe((ok) => {

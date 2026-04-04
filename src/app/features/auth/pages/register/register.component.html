@@ -48,6 +48,74 @@
       />
 
       <input
+        *ngIf="mode === 'creator'"
+        type="text"
+        name="identificationNumber"
+        [(ngModel)]="identificationNumber"
+        placeholder="Numero de identificacion"
+        required
+      />
+
+      <select
+        *ngIf="mode === 'creator'"
+        name="identificationType"
+        [(ngModel)]="identificationType"
+        required
+      >
+        <option *ngFor="let option of identificationTypeOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+
+      <input
+        *ngIf="mode === 'creator'"
+        type="text"
+        name="nationality"
+        [(ngModel)]="nationality"
+        placeholder="Nacionalidad"
+        required
+      />
+
+      <input
+        *ngIf="mode === 'creator'"
+        type="file"
+        name="avatarFile"
+        accept="image/*"
+        (change)="onAvatarSelected($event)"
+        required
+      />
+
+      <small *ngIf="mode === 'creator' && avatarFileName" class="file-name">
+        Imagen seleccionada: {{ avatarFileName }}
+      </small>
+
+      <input
+        *ngIf="mode === 'creator'"
+        type="tel"
+        name="phoneNumber"
+        [(ngModel)]="phoneNumber"
+        placeholder="Telefono"
+        required
+      />
+
+      <input
+        *ngIf="mode === 'creator'"
+        type="date"
+        name="birthDate"
+        [(ngModel)]="birthDate"
+        required
+      />
+
+      <textarea
+        *ngIf="mode === 'creator'"
+        name="specialization"
+        [(ngModel)]="specialization"
+        placeholder="Especializacion"
+        rows="3"
+        required
+      ></textarea>
+
+      <input
         type="email"
         name="email"
         [(ngModel)]="email"

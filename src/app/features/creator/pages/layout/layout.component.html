@@ -29,6 +29,15 @@
 
       <button
         type="button"
+        [class.active]="activeTab === 'content'"
+        aria-label="Ir a contenido"
+        (click)="setActiveTab('content')"
+      >
+        <ion-icon name="document-text-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
         [class.active]="activeTab === 'statistics'"
         aria-label="Ir a estadisticas"
         (click)="setActiveTab('statistics')"
@@ -57,7 +66,23 @@
   </header>
 
   <main class="content">
-    <app-create-course *ngIf="activeTab === 'create'"></app-create-course>
+    <app-create-course *ngIf="activeTab === 'create'" (draftCreated)="handleDraftCreated($event)"></app-create-course>
+    <app-creator-content
+      *ngIf="activeTab === 'content' && !activeCourseForModulesId"
+      (openModulesEditor)="openModulesEditor($event)"
+    ></app-creator-content>
+    <app-creator-modules
+      *ngIf="activeTab === 'content' && activeCourseForModulesId && !activeCourseForLessonsId"
+      [courseId]="activeCourseForModulesId"
+      (backToContent)="closeModulesEditor()"
+      (openLessons)="openLessonsEditor($event)"
+    ></app-creator-modules>
+    <app-lessons
+      *ngIf="activeTab === 'content' && activeCourseForLessonsId"
+      [courseId]="activeCourseForLessonsId"
+      [initialModuleId]="activeModuleForLessonsId"
+      (backToModules)="closeLessonsEditor()"
+    ></app-lessons>
     <app-statistics *ngIf="activeTab === 'statistics'"></app-statistics>
     <app-profile *ngIf="activeTab === 'profile'"></app-profile>
     <app-creator-config *ngIf="activeTab === 'config'"></app-creator-config>
