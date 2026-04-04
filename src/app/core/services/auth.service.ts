@@ -3,34 +3,13 @@ import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
 import { User, UserRole } from '@core/models/user.model';
+import { LoginResponse } from '@core/models/auth/login-response.model';
+import { RefreshResponse } from '@core/models/auth/refresh-response.model';
+import { StudentRegisterRequest } from '@core/models/auth/student-register-request.model';
+import { CreatorRegisterRequest } from '@core/models/auth/creator-register-request.model';
+import { PasswordRecoveryRequest } from '@core/models/auth/password-recovery-request.model';
 import { BackendApiService } from '@core/services/backend-api.service';
 import { environment } from 'src/environments/environment';
-
-interface LoginResponse {
-  token?: string;
-  accessToken?: string;
-  jwt?: string;
-  refreshToken?: string;
-}
-
-interface RefreshResponse {
-  token?: string;
-  accessToken?: string;
-  jwt?: string;
-}
-
-interface StudentRegisterRequest {
-  username: string;
-  email: string;
-  password: string;
-}
-
-interface CreatorRegisterRequest {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -323,6 +302,18 @@ export class AuthService {
 
     const registerUrl = '/api/creator/create';
     return this.backendApi.post(registerUrl, payload).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  recoverPassword(payload: PasswordRecoveryRequest): Observable<boolean> {
+    if (!environment.apiUrl) {
+      return of(false);
+    }
+
+    const recoveryUrl = '/password-recovery/';
+    return this.backendApi.post(recoveryUrl, payload).pipe(
       map(() => true),
       catchError(() => of(false))
     );

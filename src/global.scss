@@ -57,3 +57,32 @@ ion-header ion-toolbar {
 	background: var(--gg-header);
 	color: #F8FAFC;
 }
+
+/* Force clear form controls globally, including when OS/browser is in dark mode. */
+html,
+body {
+	color-scheme: light;
+}
+
+input,
+textarea,
+select {
+	background-color: #ffffff !important;
+	color: #1f2a44 !important;
+	border-color: #d5deee;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: #6b7280 !important;
+	opacity: 1;
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+	--background: #ffffff;
+	--color: #1f2a44;
+	--placeholder-color: #6b7280;
+	--placeholder-opacity: 1;
+}
