@@ -1,0 +1,353 @@
+<section class="lessons-editor">
+  <header class="editor-hero">
+    <button type="button" class="back-btn" (click)="goBackToModules()">Volver a modulos</button>
+
+    <p class="hero-kicker">Creator Studio</p>
+    <h1>Crear lecciones por modulo</h1>
+    <p class="hero-subtitle">
+      Agrega lecciones individuales, sube el video instructivo y define el contenido educativo especifico de
+      cada modulo.
+    </p>
+  </header>
+
+  <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
+    {{ alertMessage }}
+  </p>
+
+  <ng-container *ngIf="course; else noCourseState">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Contexto del curso</h2>
+        <p>
+          Curso: <strong>{{ course.title }}</strong>
+          <br />
+          Selecciona un modulo existente para habilitar la opcion Agregar leccion.
+        </p>
+      </div>
+
+      <div class="module-controls">
+        <label class="field field-module-select">
+          <span>Modulo objetivo *</span>
+          <select
+            [(ngModel)]="selectedModuleId"
+            [ngModelOptions]="standaloneNgModelOptions"
+            (ngModelChange)="onSelectModule($event)"
+            [disabled]="!hasModules"
+          >
+            <option value="" disabled>Seleccionar modulo</option>
+            <option *ngFor="let module of modules; trackBy: trackByModuleId" [value]="module.id">
+              {{ module.order }}. {{ module.title }}
+            </option>
+          </select>
+        </label>
+
+        <button type="button" class="btn-primary" (click)="openLessonForm()" [disabled]="!hasModules">
+          Agregar leccion
+        </button>
+      </div>
+    </section>
+
+    <section class="panel" *ngIf="showLessonForm">
+      <div class="panel-head">
+        <h2>Formulario de leccion</h2>
+        <p>
+          Define titulo, descripcion, video y orden para asociar la nueva leccion al
+          modulo.
+        </p>
+      </div>
+
+      <form class="lesson-form" (ngSubmit)="saveLesson()" novalidate>
+        <label class="field">
+          <span>Titulo de la leccion *</span>
+          <input
+            type="text"
+            name="lessonTitle"
+            [(ngModel)]="lessonForm.title"
+            maxlength="120"
+            placeholder="Ej: Cortes basicos y seguridad en cocina"
+          />
+        </label>
+
+        <label class="field field-full">
+          <span>Descripcion (opcional)</span>
+          <textarea
+            name="lessonDescription"
+            [(ngModel)]="lessonForm.description"
+            rows="3"
+            maxlength="400"
+            placeholder="Explica objetivo, tecnica y resultado esperado de la leccion"
+          ></textarea>
+        </label>
+
+        <label class="field field-order">
+          <span>Orden en el modulo</span>
+          <input type="number" name="lessonOrder" [(ngModel)]="lessonForm.order" min="1" />
+        </label>
+
+        <label class="preview-toggle">
+          <input type="checkbox" name="isFreePreview" [(ngModel)]="lessonForm.isFreePreview" />
+          Marcar leccion como gratuita (preview)
+        </label>
+
+        <section class="upload-box">
+          <h3>Video instructivo *</h3>
+          <p class="upload-hint">
+            Formatos aceptados: {{ acceptedVideoFormatsText }}. Tamano maximo: {{ maxVideoSizeMb }} MB.
+          </p>
+
+          <input type="file" accept="video/mp4,video/quicktime,video/x-msvideo,.mp4,.mov,.avi" (change)="onVideoSelected($event)" />
+
+          <div class="upload-state" *ngIf="uploadState !== 'idle'">
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+            </div>
+
+            <p class="status-copy" [ngSwitch]="uploadState">
+              <span *ngSwitchCase="'uploading'">Subiendo video... {{ uploadProgress }}%</span>
+              <span *ngSwitchCase="'paused'">Carga pausada por conexion. Avance guardado: {{ uploadProgress }}%</span>
+              <span *ngSwitchCase="'uploaded'">Carga completada. Iniciando procesamiento...</span>
+              <span *ngSwitchCase="'processing'">Procesando y comprimiendo video...</span>
+              <span *ngSwitchCase="'processed'">Video procesado y listo para guardar.</span>
+              <span *ngSwitchCase="'failed'">{{ processingErrorMessage || 'Fallo de procesamiento.' }}</span>
+            </p>
+
+            <p class="video-meta" *ngIf="selectedVideoName">
+              Archivo: {{ selectedVideoName }} | {{ selectedVideoMimeType || 'tipo desconocido' }} |
+              {{ formatBytes(selectedVideoSizeBytes) }}
+            </p>
+
+            <div class="upload-actions">
+              <button type="button" class="btn-secondary" *ngIf="canResumeUpload" (click)="resumeUpload()">
+                Reanudar carga
+              </button>
+              <button type="button" class="btn-secondary" *ngIf="uploadState === 'failed'" (click)="retryProcessing()">
+                Reintentar procesamiento
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <footer class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="savingLesson">
+            {{ savingLesson ? 'Guardando en backend...' : 'Guardar leccion' }}
+          </button>
+          <button type="button" class="btn-ghost" (click)="cancelLessonForm()">Cancelar</button>
+        </footer>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Lecciones del modulo</h2>
+        <p *ngIf="selectedModule">
+          Modulo activo: <strong>{{ selectedModule.order }}. {{ selectedModule.title }}</strong>
+          <br />
+          Arrastra para reordenar lecciones (FA-02). Las lecciones se mantienen ocultas a estudiantes hasta
+          publicar el curso.
+        </p>
+      </div>
+
+      <div class="lessons-list" *ngIf="selectedModuleLessons.length > 0; else emptyLessonsState">
+        <article
+          class="lesson-card"
+          *ngFor="let lesson of selectedModuleLessons; let i = index; trackBy: trackByLessonId"
+          [attr.draggable]="hasEditPermission"
+          (dragstart)="onDragStartLesson(i)"
+          (dragover)="onDragOverLesson($event)"
+          (drop)="onDropLesson($event, i)"
+          (dragend)="onDragEndLesson()"
+        >
+          <header class="lesson-head">
+            <span class="lesson-order">#{{ lesson.order }}</span>
+            <h3>{{ lesson.title }}</h3>
+            <span class="badge-preview" *ngIf="lesson.isFreePreview">Preview gratis</span>
+          </header>
+
+          <p class="lesson-description">{{ lesson.description || 'Sin descripcion.' }}</p>
+
+          <div class="lesson-meta">
+            <span>{{ lesson.video.fileName }}</span>
+            <span>{{ formatBytes(lesson.video.sizeBytes) }}</span>
+            <span>Optimizado: {{ lesson.video.optimizedAt | date: 'short' }}</span>
+          </div>
+
+          <p class="lesson-visibility">
+            Estado: {{ lesson.visibility === 'draft-only' ? 'Oculta para estudiantes hasta publicar' : 'Publicada' }}
+          </p>
+
+          <div class="lesson-resources" *ngIf="lesson.resources.length > 0">
+            <h4>Recursos complementarios</h4>
+            <ul>
+              <li *ngFor="let resource of lesson.resources; trackBy: trackByResourceId">
+                <a [href]="resource.url" target="_blank" rel="noopener noreferrer">
+                  {{ resource.title }} ({{ formatResourceType(resource.type) }})
+                </a>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Agregar recursos complementarios</h2>
+        <p>
+          Adjunta PDF, imagenes o enlaces externos y asocialos a una leccion especifica o al curso completo.
+        </p>
+      </div>
+
+      <div class="resource-toolbar">
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="openResourceForm()"
+          [disabled]="!hasAtLeastOneLesson"
+        >
+          Agregar recursos complementarios
+        </button>
+
+        <p class="resource-precondition" *ngIf="!hasAtLeastOneLesson">
+          Debes crear al menos una leccion para habilitar recursos (precondicion UC-CC05).
+        </p>
+      </div>
+
+      <form class="resource-form" *ngIf="showResourceForm" (ngSubmit)="saveComplementaryResource()" novalidate>
+        <label class="field">
+          <span>Asociar recurso a *</span>
+          <select
+            name="resourceTargetScope"
+            [(ngModel)]="resourceForm.targetScope"
+            (ngModelChange)="onResourceScopeChange($event)"
+          >
+            <option value="lesson">Leccion</option>
+            <option value="course">Curso</option>
+          </select>
+        </label>
+
+        <label class="field" *ngIf="resourceForm.targetScope === 'lesson'">
+          <span>Leccion destino *</span>
+          <select
+            name="resourceLessonId"
+            [(ngModel)]="resourceForm.lessonId"
+          >
+            <option value="" disabled>Seleccionar leccion</option>
+            <option
+              *ngFor="let option of lessonOptionsForResources"
+              [value]="option.lessonId"
+            >
+              {{ option.moduleTitle }} / {{ option.lessonTitle }}
+            </option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Tipo de recurso *</span>
+          <select
+            name="resourceType"
+            [(ngModel)]="resourceForm.type"
+            (ngModelChange)="onResourceTypeChange($event)"
+          >
+            <option value="pdf">PDF</option>
+            <option value="image">Imagen</option>
+            <option value="external-link">Enlace externo</option>
+          </select>
+        </label>
+
+        <label class="field field-full">
+          <span>Nombre descriptivo *</span>
+          <input
+            type="text"
+            name="resourceTitle"
+            [(ngModel)]="resourceForm.title"
+            maxlength="120"
+            placeholder="Ej: Receta base de salsa madre"
+          />
+        </label>
+
+        <label class="field field-full" *ngIf="resourceForm.type === 'external-link'">
+          <span>Enlace externo *</span>
+          <input
+            type="url"
+            name="resourceExternalUrl"
+            [(ngModel)]="resourceForm.externalUrl"
+            placeholder="https://..."
+          />
+        </label>
+
+        <label class="field field-full" *ngIf="resourceForm.type !== 'external-link'">
+          <span>Archivo del recurso *</span>
+          <input
+            type="file"
+            [accept]="resourceFileAccept"
+            (change)="onResourceFileSelected($event)"
+          />
+          <small class="resource-hint">
+            Formatos aceptados: {{ acceptedResourceFormatsText }} | Tamano maximo: {{ maxResourceSizeMb }} MB
+          </small>
+          <small class="resource-hint" *ngIf="selectedResourceFileName">
+            Archivo: {{ selectedResourceFileName }} | {{ selectedResourceFileMimeType || 'tipo desconocido' }} |
+            {{ formatBytes(selectedResourceFileSizeBytes) }}
+          </small>
+        </label>
+
+        <footer class="form-actions">
+          <button type="submit" class="btn-primary">Guardar recurso</button>
+          <button type="button" class="btn-ghost" (click)="cancelResourceForm()">Cancelar</button>
+        </footer>
+      </form>
+
+      <div class="resources-list" *ngIf="currentResourceList.length > 0; else emptyResourcesState">
+        <article
+          class="resource-card"
+          *ngFor="let resource of currentResourceList; let i = index; trackBy: trackByResourceId"
+          [attr.draggable]="hasEditPermission"
+          (dragstart)="onDragStartResource(i)"
+          (dragover)="onDragOverResource($event)"
+          (drop)="onDropResource($event, i)"
+          (dragend)="onDragEndResource()"
+        >
+          <div class="resource-main">
+            <span class="resource-order">#{{ resource.order }}</span>
+            <div class="resource-copy">
+              <h4>{{ resource.title }}</h4>
+              <p>
+                Tipo: {{ formatResourceType(resource.type) }}
+                <span *ngIf="resource.sizeBytes > 0">| {{ formatBytes(resource.sizeBytes) }}</span>
+              </p>
+              <p class="resource-warning" *ngIf="resource.type === 'external-link' && !resource.isExternalAccessible">
+                Advertencia: el enlace no pudo verificarse, pero se guardo para uso manual.
+              </p>
+              <a [href]="resource.url" target="_blank" rel="noopener noreferrer">
+                {{ resource.type === 'external-link' ? 'Abrir enlace' : 'Descargar recurso' }}
+              </a>
+            </div>
+          </div>
+
+          <button type="button" class="btn-danger" (click)="removeResource(resource.id)">Eliminar</button>
+        </article>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-template #emptyLessonsState>
+    <article class="empty-state">
+      <h3>Aun no hay lecciones</h3>
+      <p>Selecciona Agregar leccion para crear la primera leccion de este modulo.</p>
+    </article>
+  </ng-template>
+
+  <ng-template #emptyResourcesState>
+    <article class="empty-state">
+      <h3>No hay materiales registrados</h3>
+      <p>Agrega recursos complementarios para enriquecer el aprendizaje de cada leccion o del curso.</p>
+    </article>
+  </ng-template>
+
+  <ng-template #noCourseState>
+    <article class="empty-state">
+      <h3>No hay curso activo</h3>
+      <p>Regresa a Content y selecciona un curso en borrador para gestionar sus lecciones.</p>
+    </article>
+  </ng-template>
+</section>

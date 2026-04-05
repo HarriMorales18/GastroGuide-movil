@@ -1,134 +1,123 @@
 <div class="create-course-view">
-  <main class="content-wrap">
-    <section class="course-builder" *ngIf="currentStep === 'course'">
-      <header class="builder-hero">
-        <p class="hero-kicker">Creator Studio</p>
-        <h1>Construye tu curso con una estructura profesional</h1>
-        <p class="hero-subtitle">
-          Define la informacion principal y prepara tus modulos antes de cargar las lecciones.
-        </p>
-
-        <div class="hero-metrics">
-          <article class="metric-card">
-            <strong>{{ modules.length }}</strong>
-            <span>modulos listos</span>
-          </article>
-          <article class="metric-card">
-            <strong>{{ selectedCategory || 'Sin categoria' }}</strong>
-            <span>categoria actual</span>
-          </article>
-        </div>
-      </header>
-
-      <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
-        {{ alertMessage }}
+  <section class="studio-shell">
+    <header class="studio-header">
+      <p class="kicker">Creator Studio</p>
+      <h1>Crear nuevo curso</h1>
+      <p>
+        Completa la informacion basica para guardar el curso como borrador y continuar su edicion en
+        la pestaña Content.
       </p>
+    </header>
 
-      <section class="form-panel">
-        <div class="panel-head">
-          <h2>Informacion del curso</h2>
-          <p>Completa los datos base que veran los estudiantes en el listado.</p>
-        </div>
+    <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
+      {{ alertMessage }}
+    </p>
+
+    <form class="course-form" (ngSubmit)="createDraftCourse()" novalidate>
+      <div class="form-card">
+        <h2>Informacion basica del curso</h2>
 
         <div class="form-grid">
-          <label class="field-group">
-            <span>Titulo del curso</span>
+          <label class="field field-full">
+            <span>Titulo del curso *</span>
             <input
               type="text"
+              name="courseTitle"
               [(ngModel)]="courseTitle"
-              placeholder="Ej: Tecnicas de cocina mediterranea"
-              maxlength="80"
+              [class.invalid]="hasError('title')"
+              placeholder="Ej: Tecnicas avanzadas de cocina mediterranea"
+              minlength="2"
+              maxlength="100"
             />
+            <small class="error" *ngIf="hasError('title')">
+              {{ courseTitle.trim().length > 0 && courseTitle.trim().length < 2 ? 'El titulo debe tener al menos 2 caracteres.' : 'El titulo es obligatorio.' }}
+            </small>
           </label>
 
-          <label class="field-group">
-            <span>Descripcion corta</span>
-            <input
-              type="text"
+          <label class="field field-full">
+            <span>Descripcion detallada *</span>
+            <textarea
+              name="courseDescription"
               [(ngModel)]="courseDescription"
-              placeholder="Resume lo que aprenderan en este curso"
-              maxlength="140"
-            />
+              [class.invalid]="hasError('description')"
+              rows="5"
+              minlength="10"
+              maxlength="500"
+              placeholder="Describe objetivos, tecnicas y resultados de aprendizaje del curso."
+            ></textarea>
+            <small class="error" *ngIf="hasError('description')">
+              {{ courseDescription.trim().length > 0 && courseDescription.trim().length < 10 ? 'La descripcion debe tener al menos 10 caracteres.' : 'La descripcion es obligatoria.' }}
+            </small>
           </label>
 
-          <label class="field-group field-full">
-            <span>Categoria</span>
-            <select [(ngModel)]="selectedCategory">
-              <option value="" disabled>Seleccionar categoria</option>
-              <option *ngFor="let category of categories" [value]="category">
-                {{ category }}
+          <label class="field">
+            <span>Categoria gastronomica *</span>
+            <select
+              name="selectedCategory"
+              [(ngModel)]="selectedCategory"
+              [class.invalid]="hasError('category')"
+            >
+              <option value="">Seleccionar categoria</option>
+              <option *ngFor="let category of categoryOptions" [value]="category.apiValue">
+                {{ category.label }}
               </option>
             </select>
+            <small class="error" *ngIf="hasError('category')">Selecciona una categoria.</small>
           </label>
-        </div>
-      </section>
 
-      <section class="form-panel">
-        <div class="panel-head">
-          <h2>Estructura de modulos</h2>
-          <p>Agrega los modulos principales antes de cargar videos y recursos.</p>
-        </div>
+          <label class="field">
+            <span>Tipo de cocina *</span>
+            <select
+              name="selectedCuisineType"
+              [(ngModel)]="selectedCuisineType"
+              [class.invalid]="hasError('cuisineType')"
+            >
+              <option value="">Seleccionar tipo</option>
+              <option *ngFor="let cuisineType of cuisineTypeOptions" [value]="cuisineType.value">
+                {{ cuisineType.label }}
+              </option>
+            </select>
+            <small class="error" *ngIf="hasError('cuisineType')">Selecciona el tipo de cocina.</small>
+          </label>
 
-        <div class="form-grid">
-          <label class="field-group">
-            <span>Titulo del modulo</span>
+          <label class="field">
+            <span>Nivel de dificultad *</span>
+            <select
+              name="selectedDifficulty"
+              [(ngModel)]="selectedDifficulty"
+              [class.invalid]="hasError('difficulty')"
+            >
+              <option value="">Seleccionar nivel</option>
+              <option *ngFor="let difficulty of difficulties" [value]="difficulty">
+                {{ difficulty | titlecase }}
+              </option>
+            </select>
+            <small class="error" *ngIf="hasError('difficulty')">Selecciona el nivel del curso.</small>
+          </label>
+
+          <label class="field field-full">
+            <span>Imagen de portada o miniatura *</span>
             <input
-              type="text"
-              [(ngModel)]="moduleTitle"
-              placeholder="Ej: Fundamentos e ingredientes"
-              maxlength="80"
+              type="file"
+              accept="image/*"
+              (change)="onCoverSelected($event)"
+              [class.invalid]="hasError('coverImage')"
             />
-          </label>
+            <small class="file-name" *ngIf="coverImageName">Archivo: {{ coverImageName }}</small>
+            <small class="error" *ngIf="hasError('coverImage')">Debes subir una imagen de portada.</small>
 
-          <label class="field-group">
-            <span>Descripcion del modulo</span>
-            <input
-              type="text"
-              [(ngModel)]="moduleDescription"
-              placeholder="Objetivo de aprendizaje del modulo"
-              maxlength="140"
-            />
-          </label>
-        </div>
-
-        <button type="button" class="btn-secondary" (click)="addModule()">
-          Guardar modulo
-        </button>
-
-        <div class="modules-list" *ngIf="modules.length > 0; else emptyModules">
-          <h3>Modulos agregados</h3>
-
-          <article class="module-item" *ngFor="let module of modules; let i = index">
-            <div class="module-copy">
-              <strong>{{ module.title }}</strong>
-              <p>{{ module.description }}</p>
+            <div class="cover-preview" *ngIf="coverImageDataUrl">
+              <img [src]="coverImageDataUrl" alt="Vista previa de portada" loading="lazy" decoding="async" />
             </div>
-
-            <button type="button" class="remove-btn" (click)="removeModule(i)">
-              Quitar
-            </button>
-          </article>
+          </label>
         </div>
-
-        <ng-template #emptyModules>
-          <article class="empty-state">
-            <h3>Aun no hay modulos</h3>
-            <p>Empieza con el primer modulo para organizar tu ruta de aprendizaje.</p>
-          </article>
-        </ng-template>
-      </section>
+      </div>
 
       <footer class="action-bar">
-        <button type="button" class="btn-primary" (click)="nextStep()">
-          Continuar con lecciones
+        <button type="submit" class="btn-primary" [disabled]="creatingCourse">
+          {{ creatingCourse ? 'Creando curso en backend...' : 'Crear curso en borrador' }}
         </button>
       </footer>
-    </section>
-
-    <app-modules
-      *ngIf="currentStep === 'lessons'"
-      [modules]="modules"
-      [courseTitle]="courseTitle"
-    ></app-modules>
-  </main>
+    </form>
+  </section>
 </div>

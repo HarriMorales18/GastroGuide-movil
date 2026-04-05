@@ -1,19 +1,22 @@
-<section class="modules-builder">
-  <header class="builder-hero">
+<section class="modules-editor">
+  <header class="editor-hero">
+    <button type="button" class="back-btn" (click)="goBackToContent()">Volver a Content</button>
+
     <p class="hero-kicker">Creator Studio</p>
-    <h1>Modulos y lecciones del curso</h1>
+    <h1>Estructura de modulos</h1>
     <p class="hero-subtitle">
-      Organiza cada modulo con una o varias lecciones y carga el video principal de cada clase.
+      Organiza el curso en modulos tematicos, define su orden pedagogico y prepara la base para crear
+      lecciones.
     </p>
 
-    <div class="hero-metrics">
+    <div class="hero-metrics" *ngIf="course">
       <article class="metric-card">
-        <strong>{{ getTotalLessons() }}</strong>
-        <span>lecciones creadas</span>
+        <strong>{{ course.title }}</strong>
+        <span>curso en borrador</span>
       </article>
       <article class="metric-card">
-        <strong>{{ modules.length }}</strong>
-        <span>modulos disponibles</span>
+        <strong>{{ modulesCount }}</strong>
+        <span>modulos creados</span>
       </article>
     </div>
   </header>
@@ -22,116 +25,133 @@
     {{ alertMessage }}
   </p>
 
-  <section class="form-panel">
-    <div class="panel-head">
-      <h2>Crear leccion</h2>
-      <p>Asigna cada leccion a un modulo para mantener una ruta de aprendizaje ordenada.</p>
-    </div>
+  <ng-container *ngIf="course; else noCourseState">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Gestion de modulos</h2>
+        <p>
+          Usa Agregar modulo para crear nuevos bloques tematicos. Puedes reordenar con drag-and-drop,
+          duplicar, editar o eliminar.
+        </p>
+      </div>
 
-    <div class="form-grid">
-      <label class="field-group">
-        <span>Titulo de leccion</span>
-        <input
-          type="text"
-          [(ngModel)]="lessonTitle"
-          placeholder="Ej: Tecnicas de coccion lenta"
-          maxlength="80"
-        />
-      </label>
+      <div class="toolbar-row">
+        <button type="button" class="btn-primary" (click)="openAddModuleForm()">Agregar modulo</button>
+      </div>
 
-      <label class="field-group">
-        <span>Descripcion de leccion</span>
-        <input
-          type="text"
-          [(ngModel)]="lessonSummary"
-          placeholder="Explica el objetivo de esta leccion"
-          maxlength="140"
-        />
-      </label>
+      <form class="module-form" *ngIf="showModuleForm" (ngSubmit)="addModule()" novalidate>
+        <label class="field">
+          <span>Titulo del modulo *</span>
+          <input
+            type="text"
+            [(ngModel)]="moduleForm.title"
+            name="moduleTitle"
+            maxlength="120"
+            placeholder="Ej: Tecnicas base de cuchillo"
+          />
+        </label>
 
-      <label class="field-group">
-        <span>Modulo</span>
-        <select [(ngModel)]="selectedModule">
-          <option value="" disabled>Seleccionar modulo</option>
-          <option *ngFor="let module of modules" [value]="module.title">
-            {{ module.title }}
-          </option>
-        </select>
-      </label>
-    </div>
+        <label class="field">
+          <span>Descripcion del modulo *</span>
+          <textarea
+            [(ngModel)]="moduleForm.description"
+            name="moduleDescription"
+            rows="3"
+            maxlength="500"
+            placeholder="Describe el enfoque pedagogico de este modulo (minimo 10 caracteres)"
+          ></textarea>
+        </label>
 
-    <button type="button" class="btn-secondary" (click)="addLesson()">
-      Guardar leccion
-    </button>
+        <label class="field field-order">
+          <span>Orden del modulo</span>
+          <input type="number" [(ngModel)]="moduleForm.order" name="moduleOrder" min="1" />
+        </label>
 
-    <div class="modules-list" *ngIf="modules.length > 0; else emptyLessons">
-      <h3>Lecciones agregadas por modulo</h3>
-
-      <article class="lesson-item module-item" *ngFor="let module of modules">
-        <div class="lesson-copy">
-          <strong>{{ module.title }}</strong>
-          <p>{{ module.description }}</p>
-          <small>{{ module.lessons.length }} lecciones</small>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="savingModule">
+            {{ savingModule ? 'Guardando en backend...' : 'Guardar modulo' }}
+          </button>
+          <button type="button" class="btn-ghost" (click)="cancelAddModuleForm()">Cancelar</button>
         </div>
+      </form>
+    </section>
 
-        <div class="lessons-list" *ngIf="module.lessons.length > 0; else emptyModuleLessons">
-          <article class="lesson-item" *ngFor="let lesson of module.lessons">
-            <div class="lesson-copy">
-              <strong>{{ lesson.title }}</strong>
-              <p>{{ lesson.summary }}</p>
-              <small>{{ lesson.videoName }}</small>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Estructura del curso</h2>
+        <p>Arrastra para cambiar el orden de los modulos. El sistema actualiza la estructura al soltar.</p>
+      </div>
+
+      <div class="modules-list" *ngIf="modules.length > 0; else emptyModulesState">
+        <article
+          class="module-card"
+          *ngFor="let module of modules; let i = index; trackBy: trackByModuleId"
+          [attr.draggable]="hasEditPermission"
+          (dragstart)="onDragStart(i)"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event, i)"
+          (dragend)="onDragEnd()"
+        >
+          <div class="module-head">
+            <span class="module-order">#{{ getDisplayOrder(i) }}</span>
+
+            <div class="module-copy" *ngIf="!canEditModule(module.id)">
+              <h3>{{ module.title }}</h3>
+              <p>{{ module.description || 'Sin descripcion' }}</p>
             </div>
-          </article>
-        </div>
 
-        <ng-template #emptyModuleLessons>
-          <p class="empty-inline">Este modulo aun no tiene lecciones.</p>
-        </ng-template>
-      </article>
-    </div>
+            <div class="module-edit" *ngIf="canEditModule(module.id)">
+              <input
+                type="text"
+                [(ngModel)]="moduleEdit.title"
+                [ngModelOptions]="standaloneNgModelOptions"
+                maxlength="120"
+              />
+              <textarea
+                [(ngModel)]="moduleEdit.description"
+                [ngModelOptions]="standaloneNgModelOptions"
+                rows="2"
+                maxlength="500"
+              ></textarea>
+            </div>
+          </div>
 
-    <ng-template #emptyLessons>
-      <article class="empty-state">
-        <h3>Aun no hay lecciones</h3>
-        <p>Crea la primera leccion para habilitar el flujo de publicacion.</p>
-      </article>
-    </ng-template>
-  </section>
+          <div class="module-meta">
+            <span>{{ module.lessons.length }} lecciones</span>
+            <span>Posicion {{ module.order }}</span>
+          </div>
 
-  <section class="form-panel">
-    <div class="panel-head">
-      <h2>Video por leccion</h2>
-      <p>Selecciona una leccion y carga un archivo para validar el contenido multimedia.</p>
-    </div>
+          <footer class="card-actions" *ngIf="!canEditModule(module.id)">
+            <button type="button" class="btn-primary" (click)="openLessonsForModule(module.id)">
+              Agregar leccion
+            </button>
+            <button type="button" class="btn-ghost" (click)="startEditModule(module)">Editar</button>
+            <button type="button" class="btn-ghost" (click)="duplicateModule(module)">Duplicar</button>
+            <button type="button" class="btn-danger" (click)="deleteModule(module)">Eliminar</button>
+          </footer>
 
-    <div class="video-section">
-      <div class="video-controls">
-        <label class="upload-btn" for="videoInput">Cargar video</label>
-        <input id="videoInput" type="file" accept="video/*" (change)="onVideoSelected($event)" />
+          <footer class="card-actions" *ngIf="canEditModule(module.id)">
+            <button type="button" class="btn-primary" [disabled]="savingModule" (click)="saveModuleEdition(module)">
+              {{ savingModule ? 'Guardando...' : 'Guardar' }}
+            </button>
+            <button type="button" class="btn-ghost" (click)="cancelEditModule()">Cancelar</button>
+          </footer>
+        </article>
       </div>
+    </section>
+  </ng-container>
 
-      <div class="preview-box">
-        <p>Preview de video</p>
-        <video
-          *ngIf="previewUrl"
-          class="preview-player"
-          [src]="previewUrl"
-          controls
-          preload="metadata"
-          playsinline
-        ></video>
-        <small *ngIf="selectedVideoName">{{ selectedVideoName }}</small>
-        <small *ngIf="!selectedVideoName">Sin video cargado</small>
-      </div>
-    </div>
-  </section>
+  <ng-template #emptyModulesState>
+    <article class="empty-state">
+      <h3>No hay modulos creados</h3>
+      <p>Agrega el primer modulo para comenzar a estructurar pedagogicamente el curso.</p>
+    </article>
+  </ng-template>
 
-  <footer class="action-row">
-    <button type="button" class="btn-secondary" (click)="saveDraftCourse()">
-      Guardar curso
-    </button>
-    <button type="button" class="btn-primary" (click)="publishCourse()">
-      Publicar curso
-    </button>
-  </footer>
+  <ng-template #noCourseState>
+    <article class="empty-state">
+      <h3>No se encontro el curso</h3>
+      <p>Vuelve a la pestaña Content y selecciona un curso en borrador para agregar modulos.</p>
+    </article>
+  </ng-template>
 </section>

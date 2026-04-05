@@ -1,0 +1,50 @@
+<div class="content-view">
+  <section class="content-shell">
+    <header class="content-header">
+      <p class="kicker">Content</p>
+      <h1>Cursos en borrador</h1>
+      <p>Aqui se muestran los cursos creados con su portada, informacion principal y acciones.</p>
+    </header>
+
+    <p class="alert" *ngIf="alertMessage" [ngClass]="'alert-' + alertType">
+      {{ alertMessage }}
+    </p>
+
+    <section class="content-grid" *ngIf="drafts.length > 0; else emptyDraftsState">
+      <article class="course-card" *ngFor="let draft of drafts; trackBy: trackByDraftId">
+        <div class="cover-wrap">
+          <img [src]="draft.coverImageDataUrl" [alt]="'Portada de ' + draft.title" loading="lazy" decoding="async" />
+        </div>
+
+        <div class="course-copy">
+          <h2>{{ draft.title }}</h2>
+          <p class="description">{{ draft.description }}</p>
+
+          <div class="meta-row">
+            <span class="chip">{{ draft.category }}</span>
+            <span class="chip chip-level">{{ draft.difficulty | titlecase }}</span>
+            <span class="chip chip-status">Borrador</span>
+          </div>
+
+          <p class="dates">
+            Creado: {{ formatTimestamp(draft.createdAt) }}
+            <br />
+            Actualizado: {{ formatTimestamp(draft.updatedAt) }}
+          </p>
+
+          <footer class="actions-row">
+            <button type="button" class="btn btn-edit" (click)="onManageModules(draft)">Agregar modulos</button>
+            <button type="button" class="btn btn-delete" (click)="onDeleteDraft(draft)">Eliminar</button>
+          </footer>
+        </div>
+      </article>
+    </section>
+
+    <ng-template #emptyDraftsState>
+      <article class="empty-state">
+        <h2>No hay cursos en borrador</h2>
+        <p>Crea tu primer curso desde la pestaña Create y aparecera aqui para editarlo.</p>
+      </article>
+    </ng-template>
+  </section>
+</div>

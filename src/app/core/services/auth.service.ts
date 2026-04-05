@@ -10,6 +10,7 @@ import { CreatorRegisterRequest } from '@core/models/auth/creator-register-reque
 import { PasswordRecoveryRequest } from '@core/models/auth/password-recovery-request.model';
 import { BackendApiService } from '@core/services/backend-api.service';
 import { environment } from 'src/environments/environment';
+import { AuthApiError } from '../models/auth/auth-api-error.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,15 @@ export class AuthService {
   private readonly tokenStorageKey = 'auth_token';
   private readonly refreshTokenStorageKey = 'refresh_token';
   private readonly userStorageKey = 'auth_user';
+  private readonly lastApiError = signal<AuthApiError | null>(null);
 
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
-
+  private refreshRequest$: Observable<string | null> | null = null;
+  private refreshTimerId: number | null = null;
+  private readonly refreshAheadMs = 60_000;
+  private readonly refreshRetryMs = 30_000;
+  private readonly refreshFallbackMs = 4 * 60_000;
   // usuarios simulados
   private users: User[] = [
     { id: 1, email: 'student@test.com', password: '1234', role: 'student' },
@@ -150,6 +156,32 @@ export class AuthService {
   private persistRefreshToken(refreshToken: string) {
     this.refreshToken = refreshToken;
     return this.storage.set(this.refreshTokenStorageKey, refreshToken);
+  }
+
+  private clearLastApiError(): void {
+    this.lastApiError.set(null);
+  }
+
+  private registerApiError(endpoint: string, error: HttpErrorResponse): void {
+    const apiError: AuthApiError = {
+      endpoint,
+      status: error.status,
+      message: error.message,
+      details: error.error,
+    };
+
+    this.lastApiError.set(apiError);
+
+    console.error('Request failed', {
+      endpoint: apiError.endpoint,
+      status: apiError.status,
+      message: apiError.message,
+      details: apiError.details,
+    });
+  }
+
+  getLastApiError(): AuthApiError | null {
+    return this.lastApiError();
   }
 
   loginWithBackend(email: string, password: string): Observable<UserRole | null> {
@@ -302,8 +334,14 @@ export class AuthService {
 
     const registerUrl = '/api/creator/create';
     return this.backendApi.post(registerUrl, payload).pipe(
-      map(() => true),
-      catchError(() => of(false))
+      map(() => {
+        this.clearLastApiError();
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.registerApiError(registerUrl, error);
+        return of(false);
+      })
     );
   }
 

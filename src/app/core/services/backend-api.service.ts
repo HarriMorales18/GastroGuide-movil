@@ -31,6 +31,10 @@ export class BackendApiService {
     return this.http.put<T>(this.resolveUrl(path), body, options);
   }
 
+  patch<T>(path: string, body: unknown, options?: BackendRequestOptions): Observable<T> {
+    return this.http.patch<T>(this.resolveUrl(path), body, options);
+  }
+
   delete<T>(path: string, options?: BackendRequestOptions): Observable<T> {
     return this.http.delete<T>(this.resolveUrl(path), options);
   }
