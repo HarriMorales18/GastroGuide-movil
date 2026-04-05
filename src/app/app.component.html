@@ -1,3 +1,13 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+
+  <ion-toast
+    [isOpen]="!!currentAlert()"
+    [message]="currentAlert()?.message ?? ''"
+    [duration]="currentAlert()?.duration ?? 0"
+    [color]="toastColor()"
+    [cssClass]="toastClass()"
+    position="top"
+    (didDismiss)="onToastDismiss()"
+  ></ion-toast>
 </ion-app>

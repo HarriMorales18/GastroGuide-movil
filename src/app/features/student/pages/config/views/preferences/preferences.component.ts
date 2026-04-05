@@ -11,14 +11,14 @@ import {
 import { Preference } from '@student-config-models/preferences.interface';
 
 @Component({
-  selector: 'app-preferences-config-view',
+  selector: 'app-preferences',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './preferences-config-view.component.html',
-  styleUrl: './preferences-config-view.component.scss'
+  templateUrl: './preferences.component.html',
+  styleUrl: './preferences.component.scss'
 })
-export class PreferencesConfigViewComponent {
+export class PreferencesComponent {
   selectedLanguage = signal('es');
   selectedTheme = signal('light');
 

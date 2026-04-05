@@ -86,3 +86,25 @@ ion-select {
 	--placeholder-color: #6b7280;
 	--placeholder-opacity: 1;
 }
+
+ion-toast.app-toast::part(container) {
+	border-radius: 12px;
+	backdrop-filter: blur(4px);
+	box-shadow: 0 12px 28px rgba(16, 29, 38, 0.2);
+}
+
+ion-toast.app-toast-success::part(container) {
+	border: 1px solid rgba(21, 128, 61, 0.35);
+}
+
+ion-toast.app-toast-error::part(container) {
+	border: 1px solid rgba(185, 28, 28, 0.35);
+}
+
+ion-toast.app-toast-warning::part(container) {
+	border: 1px solid rgba(180, 83, 9, 0.35);
+}
+
+ion-toast.app-toast-info::part(container) {
+	border: 1px solid rgba(30, 64, 175, 0.35);
+}

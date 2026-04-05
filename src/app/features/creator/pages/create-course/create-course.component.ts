@@ -9,7 +9,7 @@ type AlertType = 'success' | 'danger' | 'warning' | 'info';
 @Component({
   selector: 'app-create-course',
   templateUrl: './create-course.component.html',
-  styleUrls: ['./create-course.component.scss'],
+  styleUrls: ['./create-course.component.scss', './create-course.component2.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, ModulesComponent],
 })

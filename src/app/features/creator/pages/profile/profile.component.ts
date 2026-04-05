@@ -11,7 +11,7 @@ import { ProfileService, CreatorProfile } from './profile.service';
   imports: [CommonModule, FormsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrls: ['./profile.component.scss', './profile.component2.scss']
 })
 export class ProfileComponent {
   readonly profile = signal<CreatorProfile | null>(null);

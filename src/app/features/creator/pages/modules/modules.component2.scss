@@ -1,0 +1,154 @@
+.video-section {
+	display: grid;
+	gap: 12px;
+}
+
+.video-controls {
+	display: grid;
+	gap: 10px;
+	align-content: start;
+}
+
+.upload-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 168px;
+}
+
+input[type='file'] {
+	display: none;
+}
+
+.preview-box {
+	min-height: 170px;
+	border-radius: 14px;
+	border: 1px dashed rgba(31, 47, 64, 0.35);
+	background: #f3f6f9;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 12px;
+	gap: 8px;
+
+	.preview-player {
+		width: 100%;
+		max-height: 220px;
+		border-radius: 10px;
+		background: #101d26;
+		object-fit: contain;
+	}
+
+	p {
+		margin: 0;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: #253646;
+	}
+
+	small {
+		color: var(--muted);
+		font-size: 0.78rem;
+		max-width: 100%;
+		overflow-wrap: anywhere;
+	}
+}
+
+.action-row {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 12px;
+	padding: 2px 2px 0;
+
+	button {
+		width: 100%;
+	}
+}
+
+.alert {
+	margin: 0;
+	border-radius: 12px;
+	padding: 10px 11px;
+	font-size: 0.85rem;
+	font-weight: 700;
+	border: 1px solid transparent;
+}
+
+.alert-success {
+	color: #0f5a32;
+	background: rgba(31, 157, 85, 0.14);
+	border-color: rgba(31, 157, 85, 0.35);
+}
+
+.alert-danger {
+	color: #7b1616;
+	background: rgba(214, 40, 40, 0.14);
+	border-color: rgba(214, 40, 40, 0.35);
+}
+
+.alert-warning {
+	color: #7a5400;
+	background: rgba(244, 163, 0, 0.18);
+	border-color: rgba(244, 163, 0, 0.35);
+}
+
+.alert-info {
+	color: #16446f;
+	background: rgba(29, 125, 215, 0.15);
+	border-color: rgba(29, 125, 215, 0.35);
+}
+
+.empty-state {
+	margin-top: 12px;
+	background: #f8fafc;
+	border: 1px dashed #c6d1db;
+	border-radius: 12px;
+	padding: 12px;
+	text-align: center;
+
+	h3 {
+		font-size: 0.92rem;
+		margin: 0;
+	}
+
+	p {
+		margin: 0.24rem 0 0;
+		font-size: 0.79rem;
+		color: var(--muted);
+	}
+}
+
+@media (min-width: 740px) {
+	.modules-builder {
+		margin-top: 18px;
+	}
+
+	.builder-hero {
+		padding: 20px 22px;
+
+		h1 {
+			font-size: 1.5rem;
+		}
+	}
+
+	.form-panel {
+		padding: 18px;
+	}
+
+	.form-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+
+	.video-section {
+		grid-template-columns: 1fr 1fr;
+		align-items: stretch;
+	}
+
+	.action-row {
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+}

@@ -16,14 +16,14 @@ import {
 import { FAQItem } from '@student-config-models/faq-item.interface';
 
 @Component({
-  selector: 'app-support-config-view',
+  selector: 'app-support',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './support-config-view.component.html',
-  styleUrls: ['./support-config-view.component.scss', './support-config-view.component2.scss']
+  templateUrl: './support.component.html',
+  styleUrls: ['./support.component.scss', './support.component2.scss']
 })
-export class SupportConfigViewComponent {
+export class SupportComponent {
   faqs = signal<FAQItem[]>([
     {
       id: 'faq-1',

@@ -5,14 +5,14 @@ import { addIcons } from 'ionicons';
 import { alertCircleOutline, lockClosedOutline } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-account-config-view',
+  selector: 'app-account',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NgIf],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './account-config-view.component.html',
-  styleUrls: ['./account-config-view.component.scss', './account-config-view.component2.scss']
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss', './account.component2.scss']
 })
-export class AccountConfigViewComponent {
+export class AccountComponent {
   showPasswordForm = signal(false);
   passwordForm: FormGroup;
   successMessage = signal<string | null>(null);

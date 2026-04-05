@@ -668,6 +668,31 @@ Para produccion real se recomienda exponer un endpoint dedicado de detalle de cu
 }
 ```
 
+### `POST /api/student/courses/{courseId}/lessons/{lessonId}/complete`
+- Vistas: `student/course`.
+- Uso: marcar la leccion actual como completada, persistir progreso y avanzar a la siguiente leccion en frontend.
+- Estado: conectado desde `CourseComponent`.
+- Request esperado (`CompleteLessonRequest`):
+
+```json
+{
+  "completedAt": "2026-04-05T00:00:00.000Z"
+}
+```
+
+- Respuesta esperada (`CompleteLessonResponse`):
+
+```json
+{
+  "success": true,
+  "courseId": 101,
+  "lessonId": 203,
+  "nextLessonId": 301,
+  "completedLessons": 8,
+  "progressPercentage": 67
+}
+```
+
 ## 7) Compra de curso + transacciones
 
 ### `POST /api/student/courses/purchase-intents`

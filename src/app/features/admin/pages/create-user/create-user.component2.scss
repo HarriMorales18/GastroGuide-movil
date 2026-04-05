@@ -1,0 +1,101 @@
+.created-list {
+	display: grid;
+	gap: 8px;
+}
+
+.created-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border: 1px solid #d7dfe6;
+	border-radius: 12px;
+	background: #f8fafc;
+}
+
+.created-copy {
+	strong {
+		display: block;
+		font-size: 0.88rem;
+		color: var(--admin-ink);
+	}
+
+	p {
+		margin: 0.2rem 0 0;
+		font-size: 0.78rem;
+		color: var(--muted);
+	}
+}
+
+.created-meta {
+	display: grid;
+	justify-items: end;
+	gap: 0.2rem;
+
+	small {
+		font-size: 0.7rem;
+		color: #697987;
+	}
+}
+
+.role-pill {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.2rem 0.45rem;
+	border-radius: 999px;
+	font-size: 0.66rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	background: rgba(29, 125, 215, 0.16);
+	color: #1b5f9e;
+}
+
+.role-pill.creator {
+	background: rgba(248, 80, 10, 0.16);
+	color: #aa3e14;
+}
+
+.empty-state {
+	background: #f8fafc;
+	border: 1px dashed #c6d1db;
+	border-radius: 12px;
+	padding: 12px;
+	text-align: center;
+
+	h3 {
+		font-size: 0.92rem;
+		margin: 0;
+		color: var(--admin-primary);
+	}
+
+	p {
+		margin: 0.24rem 0 0;
+		font-size: 0.79rem;
+		color: var(--muted);
+	}
+}
+
+@media (min-width: 720px) {
+	.page-hero {
+		padding: 20px 22px;
+
+		h1 {
+			font-size: 1.5rem;
+		}
+	}
+
+	.form-panel {
+		padding: 18px;
+	}
+
+	.form-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+
+		.btn-primary {
+			grid-column: 1 / -1;
+		}
+	}
+}

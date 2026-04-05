@@ -4,13 +4,13 @@ import { CoursePurchaseService } from '@core/services/student/course-purchase.se
 import { PaymentTransactionStatus } from '@student-models/course-purchase.model';
 
 @Component({
-  selector: 'app-transactions-config-view',
+  selector: 'app-transactions',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './transactions-config-view.component.html',
-  styleUrl: './transactions-config-view.component.scss'
+  templateUrl: './transactions.component.html',
+  styleUrl: './transactions.component.scss'
 })
-export class TransactionsConfigViewComponent {
+export class TransactionsComponent {
   readonly transactionHistory = this.coursePurchaseService.transactionHistory;
 
   constructor(private readonly coursePurchaseService: CoursePurchaseService) {

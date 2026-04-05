@@ -15,6 +15,17 @@
           <h3>{{ lesson.title }}</h3>
           <p>{{ lesson.summary }}</p>
           <small>{{ lesson.durationMinutes }} min · {{ lesson.isCompleted ? 'Completada' : 'Pendiente' }}</small>
+
+          <div class="lesson-actions">
+            <button
+              type="button"
+              class="complete-lesson-btn"
+              [disabled]="isCompletingLesson()"
+              (click)="completeActiveLesson()"
+            >
+              {{ isCompletingLesson() ? 'Guardando...' : 'Marcar como completada y continuar' }}
+            </button>
+          </div>
         </div>
       </article>
 

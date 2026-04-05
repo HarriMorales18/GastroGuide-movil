@@ -24,7 +24,7 @@ type ArrayFilterMap = {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './search.component.html',
-  styleUrl: './search.component.scss'
+  styleUrls: ['./search.component.scss', './search.component2.scss']
 })
 export class SearchComponent {
   @Output() openCourseDetail = new EventEmitter<SearchResultItem>();

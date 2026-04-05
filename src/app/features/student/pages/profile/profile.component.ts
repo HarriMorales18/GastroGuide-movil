@@ -9,7 +9,7 @@ import { StudentFacadeService } from '@core/services/student/student-facade.serv
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrls: ['./profile.component.scss', './profile.component2.scss']
 })
 export class ProfileComponent {
   readonly hubData = signal<ProfileHubData | null>(null);

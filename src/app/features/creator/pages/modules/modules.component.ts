@@ -8,7 +8,7 @@ type AlertType = 'success' | 'danger' | 'warning' | 'info';
 @Component({
   selector: 'app-modules',
   templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.scss'],
+  styleUrls: ['./modules.component.scss', './modules.component2.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })

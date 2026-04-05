@@ -16,7 +16,7 @@ interface CreatedUser {
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss'],
+  styleUrls: ['./create-user.component.scss', './create-user.component2.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })

@@ -11,13 +11,13 @@ import {
   receiptOutline
 } from 'ionicons/icons';
 
-import { AccountConfigViewComponent } from './views/account-config-view.component';
-import { PreferencesConfigViewComponent } from './views/preferences-config-view.component';
-import { SupportConfigViewComponent } from './views/support-config-view.component';
-import { TransactionsConfigViewComponent } from './views/transactions-config-view.component';
+import { AccountComponent } from './views/account/account.component';
+import { PreferencesComponent } from './views/preferences/preferences.component';
+import { SupportComponent } from './views/support/support.component';
+import { TransactionsComponent } from './views/transactions/transactions.component';
 import { AuthService } from 'src/app/core/services/auth.service';
 
-type ConfigTab = 'account' | 'preferences' | 'help' | 'transactions';
+type ConfigTab = 'account' | 'preferences' | 'support' | 'transactions';
 
 interface ConfigOption {
   id: ConfigTab;
@@ -31,10 +31,10 @@ interface ConfigOption {
   standalone: true,
   imports: [
     CommonModule,
-    AccountConfigViewComponent,
-    PreferencesConfigViewComponent,
-    SupportConfigViewComponent,
-    TransactionsConfigViewComponent
+    AccountComponent,
+    PreferencesComponent,
+    SupportComponent,
+    TransactionsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './config.component.html',
@@ -57,7 +57,7 @@ export class ConfigComponent {
       description: 'Tema, idioma y notificaciones'
     },
     {
-      id: 'help',
+      id: 'support',
       label: 'Ayuda y Soporte',
       icon: 'help-circle-outline',
       description: 'Preguntas frecuentes y contacto'
