@@ -1,0 +1,35 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP04</p>
+    <h2>Historial de actividad de usuarios</h2>
+    <p>Eventos recientes por usuario para auditoría y trazabilidad.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando actividad...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total eventos: {{ data().totalEvents }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Dispositivo</th>
+          <th>IP</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of data().events; trackBy: trackByEventId">
+          <td>{{ event.fullName }}</td>
+          <td>{{ event.actionType }}</td>
+          <td>{{ event.device }}</td>
+          <td>{{ event.ipAddress }}</td>
+          <td>{{ event.createdAt | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

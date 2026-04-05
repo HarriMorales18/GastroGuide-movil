@@ -1,0 +1,38 @@
+<section class="monitoring-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP15</p>
+    <h2>Monitoreo de rendimiento del sistema</h2>
+    <p>Tablero operativo con métricas clave, estado global y alertas activas.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando métricas del sistema...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="workspace" *ngIf="!loading() && !error()">
+    <article class="status-card" [class.degraded]="data().status === 'DEGRADED'" [class.critical]="data().status === 'CRITICAL'">
+      <h3>Estado global: {{ data().status }}</h3>
+      <p>Última actualización: {{ data().updatedAt | date: 'short' }}</p>
+    </article>
+
+    <article class="metrics-grid">
+      <section class="metric-card" *ngFor="let metric of data().metrics; trackBy: trackByMetric" [class.exceeded]="metric.thresholdExceeded">
+        <h4>{{ metric.name }}</h4>
+        <p class="metric-value">{{ metric.value }} {{ metric.unit }}</p>
+        <p class="metric-trend">Tendencia: {{ metric.trend }}</p>
+      </section>
+    </article>
+
+    <article class="alerts-card">
+      <h4>Alertas activas</h4>
+      <p class="empty" *ngIf="data().alerts.length === 0">Sin alertas activas.</p>
+
+      <ul *ngIf="data().alerts.length > 0">
+        <li *ngFor="let alert of data().alerts; trackBy: trackByAlert" [class.high]="alert.severity === 'HIGH'" [class.medium]="alert.severity === 'MEDIUM'">
+          <strong>{{ alert.severity }}</strong>
+          <span>{{ alert.message }}</span>
+          <small>{{ alert.startedAt | date: 'short' }}</small>
+        </li>
+      </ul>
+    </article>
+  </section>
+</section>

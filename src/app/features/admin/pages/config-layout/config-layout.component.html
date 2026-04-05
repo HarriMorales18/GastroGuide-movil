@@ -1,0 +1,26 @@
+<section class="config-page">
+  <header class="page-header">
+    <p class="kicker">Configuración</p>
+    <h2>Layout administrativo</h2>
+    <p>Parámetros visuales y de navegación del shell de administración.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando configuración de layout...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="cards" *ngIf="!loading() && !error() && config() as cfg">
+    <article class="card">
+      <h3>Estilo del shell</h3>
+      <p>Variante: <strong>{{ cfg.shellVariant }}</strong></p>
+      <p>Color primario: <span class="color-chip" [style.background]="cfg.primaryColor"></span> {{ cfg.primaryColor }}</p>
+      <p>Color secundario: <span class="color-chip" [style.background]="cfg.secondaryColor"></span> {{ cfg.secondaryColor }}</p>
+    </article>
+
+    <article class="card">
+      <h3>Opciones de navegación</h3>
+      <p>Mostrar pestaña sistema: <strong>{{ cfg.showSystemTab ? 'Sí' : 'No' }}</strong></p>
+      <p>Activar métricas rápidas: <strong>{{ cfg.enableQuickStats ? 'Sí' : 'No' }}</strong></p>
+      <p>Última actualización: {{ cfg.updatedAt | date: 'short' }}</p>
+    </article>
+  </section>
+</section>

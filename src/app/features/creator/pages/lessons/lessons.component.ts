@@ -84,7 +84,7 @@ const MODULE_DESCRIPTION_MAX_LENGTH = 500;
 @Component({
   selector: 'app-lessons',
   templateUrl: './lessons.component.html',
-  styleUrls: ['./lessons.component.scss'],
+  styleUrls: ['./lessons.component.scss', './lessons.component2.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })

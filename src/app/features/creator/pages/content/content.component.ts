@@ -8,7 +8,7 @@ type AlertType = 'success' | 'danger' | 'warning' | 'info';
 @Component({
   selector: 'app-creator-content',
   templateUrl: './content.component.html',
-  styleUrls: ['./content.component.scss'],
+  styleUrls: ['./content.component.scss', './content.component2.scss'],
   standalone: true,
   imports: [CommonModule]
 })

@@ -1,0 +1,178 @@
+:host {
+  display: block;
+}
+
+.approval-page {
+  background: #ffffff;
+  border: 1px solid #d6e0ec;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 8px 22px rgba(15, 28, 42, 0.07);
+}
+
+.kicker {
+  margin: 0;
+  color: #f8500a;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.page-header h2 {
+  margin: 0.4rem 0;
+  color: #132637;
+}
+
+.page-header p {
+  margin: 0;
+  color: #334d63;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  border: 1px solid #dce6f2;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: #264661;
+}
+
+.feedback.error {
+  border-color: #ffd4bf;
+  background: #fff7f2;
+  color: #8e3d18;
+}
+
+.workspace {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.queue-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.summary {
+  margin: 0;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.queue-item {
+  text-align: left;
+  border: 1px solid #dbe6f2;
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: #ffffff;
+  display: grid;
+  gap: 0.2rem;
+  cursor: pointer;
+}
+
+.queue-item strong {
+  color: #16324a;
+}
+
+.queue-item span,
+.queue-item small {
+  color: #3f5b73;
+}
+
+.queue-item.active {
+  border-color: #8ab4ff;
+  background: #f4f8ff;
+}
+
+.review-card {
+  border: 1px solid #e0e8f2;
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: #fbfdff;
+}
+
+.review-card h3 {
+  margin: 0;
+  color: #16324a;
+}
+
+.review-card header p {
+  margin: 0.3rem 0 0;
+  color: #3f5b73;
+}
+
+.checklist h4,
+.decision-area h4 {
+  margin: 0.7rem 0 0.45rem;
+  color: #1e3a8a;
+}
+
+.checklist ul {
+  margin: 0;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.checklist li {
+  color: #8a2e0f;
+}
+
+.checklist li.ok {
+  color: #166534;
+  font-weight: 700;
+}
+
+.decision-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.decision-buttons button {
+  border: 1px solid #cad7e6;
+  border-radius: 999px;
+  background: #f7f9fd;
+  color: #173b57;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.decision-buttons button.active {
+  border-color: #f97316;
+  background: #fff7ed;
+  color: #9a3412;
+  font-weight: 700;
+}
+
+.decision-note {
+  margin-top: 0.6rem;
+  border: 1px dashed #d4deea;
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 0.6rem;
+}
+
+.decision-note .label {
+  margin: 0;
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #526d85;
+  font-weight: 700;
+}
+
+.decision-note p {
+  margin: 0.35rem 0 0;
+  color: #2f4a61;
+}
+
+@media (min-width: 900px) {
+  .workspace {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+}

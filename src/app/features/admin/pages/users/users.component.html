@@ -1,3 +1,37 @@
-<p>
-  users works!
-</p>
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP01</p>
+    <h2>Usuarios registrados</h2>
+    <p>Vista principal para control de cuentas, roles y estados.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando usuarios...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total usuarios: {{ data().totalUsers }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Registro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of data().users; trackBy: trackByUserId">
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <span class="pill" [class.warn]="user.status !== 'ACTIVE'">{{ user.status }}</span>
+          </td>
+          <td>{{ user.registeredAt | date: 'shortDate' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

@@ -1,0 +1,41 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP11</p>
+    <h2>Denuncias de contenido</h2>
+    <p>Bandeja para revisar reportes, priorizar y decidir acciones de moderación.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando denuncias...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total denuncias: {{ data().totalReports }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Curso</th>
+          <th>Motivo</th>
+          <th>Denunciante</th>
+          <th>Severidad</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of data().reports; trackBy: trackByReportId">
+          <td>#{{ report.id }}</td>
+          <td>{{ report.courseTitle }}</td>
+          <td>{{ report.reason }}</td>
+          <td>{{ report.reportedBy }}</td>
+          <td>
+            <span class="pill" [class.high]="report.severity === 'HIGH'">{{ report.severity }}</span>
+          </td>
+          <td>{{ report.status }}</td>
+          <td>{{ report.createdAt | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

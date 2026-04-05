@@ -1,0 +1,41 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP08</p>
+    <h2>Cursos publicados</h2>
+    <p>Catalogo administrativo para supervision y gestion de contenido.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando cursos...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total cursos: {{ data().totalCourses }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Titulo</th>
+          <th>Creador</th>
+          <th>Categoria</th>
+          <th>Rating</th>
+          <th>Estudiantes</th>
+          <th>Estado</th>
+          <th>Publicado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of data().courses; trackBy: trackByCourseId">
+          <td>{{ course.title }}</td>
+          <td>{{ course.creatorName }}</td>
+          <td>{{ course.category }}</td>
+          <td>{{ course.rating | number: '1.1-1' }}</td>
+          <td>{{ course.studentsCount }}</td>
+          <td>
+            <span class="pill" [class.hidden]="course.status === 'HIDDEN'">{{ course.status }}</span>
+          </td>
+          <td>{{ course.publishedAt | date: 'shortDate' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

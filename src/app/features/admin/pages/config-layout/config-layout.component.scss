@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.config-page {
+  background: #ffffff;
+  border: 1px solid #d6e0ec;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.kicker {
+  margin: 0;
+  color: #f8500a;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.page-header h2 {
+  margin: 0.4rem 0;
+  color: #132637;
+}
+
+.page-header p {
+  margin: 0;
+  color: #334d63;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  border: 1px solid #dce6f2;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: #264661;
+}
+
+.feedback.error {
+  border-color: #ffd4bf;
+  background: #fff7f2;
+  color: #8e3d18;
+}
+
+.cards {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.card {
+  border: 1px solid #dce6f2;
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: #fbfdff;
+}
+
+.card h3 {
+  margin: 0 0 0.45rem;
+  color: #1e3a8a;
+}
+
+.card p {
+  margin: 0.3rem 0;
+  color: #1b3449;
+}
+
+.color-chip {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #94a3b8;
+  vertical-align: middle;
+}
+
+@media (min-width: 860px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}

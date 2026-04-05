@@ -1,0 +1,50 @@
+<section class="admin-detail-page">
+  <header class="detail-header">
+    <p class="kicker">UC-AP10</p>
+    <h2>Detalle de curso</h2>
+    <p>Vista administrativa para revisar estructura, metricas y acciones de moderacion.</p>
+  </header>
+
+  <section class="picker" *ngIf="!loadingOptions()">
+    <label for="course-id">Curso</label>
+    <select
+      id="course-id"
+      [ngModel]="selectedCourseId()"
+      (ngModelChange)="selectedCourseId.set($event); loadDetail()"
+    >
+      <option *ngFor="let course of availableCourses()" [ngValue]="course.id">
+        {{ course.title }}
+      </option>
+    </select>
+  </section>
+
+  <article class="feedback" *ngIf="loadingOptions()">Cargando cursos...</article>
+  <article class="feedback" *ngIf="loading()">Cargando detalle...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="detail-grid" *ngIf="!loading() && !error() && detail() as course">
+    <article class="card">
+      <h3>General</h3>
+      <p><strong>Titulo:</strong> {{ course.title }}</p>
+      <p><strong>Creador:</strong> {{ course.creatorName }}</p>
+      <p><strong>Categoria:</strong> {{ course.category }}</p>
+      <p><strong>Precio:</strong> {{ course.price | currency: 'USD' }}</p>
+      <p><strong>Estado:</strong> {{ course.status }}</p>
+    </article>
+
+    <article class="card">
+      <h3>Metricas</h3>
+      <p><strong>Rating:</strong> {{ course.rating | number: '1.1-1' }}</p>
+      <p><strong>Estudiantes:</strong> {{ course.studentsCount }}</p>
+      <p><strong>Denuncias:</strong> {{ course.reportsCount }}</p>
+      <p><strong>Publicado:</strong> {{ course.publishedAt | date: 'shortDate' }}</p>
+    </article>
+
+    <article class="card">
+      <h3>Estructura</h3>
+      <p><strong>Modulos:</strong> {{ course.structure.modules }}</p>
+      <p><strong>Lecciones:</strong> {{ course.structure.lessons }}</p>
+      <p><strong>Recursos:</strong> {{ course.structure.resources }}</p>
+    </article>
+  </section>
+</section>

@@ -1,0 +1,43 @@
+:host { display: block; }
+
+.admin-list-page {
+  background: #fff;
+  border: 1px solid #d6e0ec;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.kicker {
+  margin: 0;
+  color: #f8500a;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.list-header h2 { margin: 0.4rem 0; color: #132637; }
+.list-header p { margin: 0; color: #334d63; }
+
+.feedback {
+  margin-top: 0.75rem;
+  border: 1px solid #dce6f2;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: #264661;
+}
+
+.feedback.error {
+  border-color: #ffd4bf;
+  background: #fff7f2;
+  color: #8e3d18;
+}
+
+.table-wrap { margin-top: 0.8rem; overflow-x: auto; }
+.summary { margin-bottom: 0.6rem; font-weight: 700; color: #1e40af; }
+
+table { width: 100%; border-collapse: collapse; min-width: 760px; }
+th, td { text-align: left; padding: 0.6rem; border-bottom: 1px solid #e4ebf3; font-size: 0.84rem; }
+th { color: #35516a; background: #f8fbff; }
+td { color: #1b3449; }

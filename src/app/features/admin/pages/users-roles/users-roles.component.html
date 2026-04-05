@@ -1,0 +1,35 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP07</p>
+    <h2>Gestión de roles y permisos</h2>
+    <p>Trazabilidad de cambios de rol aplicados por el equipo administrativo.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando historial de roles...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total cambios: {{ data().totalChanges }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Rol anterior</th>
+          <th>Nuevo rol</th>
+          <th>Modificado por</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let change of data().changes; trackBy: trackByChangeId">
+          <td>{{ change.fullName }}</td>
+          <td>{{ change.previousRole }}</td>
+          <td>{{ change.newRole }}</td>
+          <td>{{ change.changedBy }}</td>
+          <td>{{ change.changedAt | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

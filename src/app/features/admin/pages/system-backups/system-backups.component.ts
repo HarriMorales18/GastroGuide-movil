@@ -1,47 +1,51 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import {
-  AdminUserListItem,
-  AdminUsersListData
+  AdminBackupItem,
+  AdminRecoveryEventItem,
+  AdminSystemBackupsData
 } from '@core/models/admin/admin-views.model';
 import { AdminDataService } from '@core/services/admin/admin-data.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-system-backups',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  templateUrl: './system-backups.component.html',
+  styleUrls: ['./system-backups.component.scss']
 })
-export class UsersComponent  implements OnInit {
+export class SystemBackupsComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
-  readonly data = signal<AdminUsersListData>({ totalUsers: 0, users: [] });
+  readonly data = signal<AdminSystemBackupsData>({ totalBackups: 0, backups: [], recoveryEvents: [] });
 
   constructor(private readonly adminDataService: AdminDataService) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadBackups();
   }
 
-  loadUsers(): void {
+  loadBackups(): void {
     this.loading.set(true);
     this.error.set(null);
 
-    this.adminDataService.getUsersList().subscribe({
+    this.adminDataService.getSystemBackups().subscribe({
       next: (data) => {
         this.data.set(data);
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('No se pudo cargar el listado de usuarios desde el endpoint.');
+        this.error.set('No se pudo cargar la gestión de backups desde el endpoint.');
         this.loading.set(false);
       }
     });
   }
 
-  trackByUserId(_index: number, item: AdminUserListItem): number {
+  trackByBackupId(_index: number, item: AdminBackupItem): number {
     return item.id;
   }
 
+  trackByRecoveryId(_index: number, item: AdminRecoveryEventItem): number {
+    return item.id;
+  }
 }

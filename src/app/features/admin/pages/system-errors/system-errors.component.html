@@ -1,0 +1,39 @@
+<section class="errors-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP16</p>
+    <h2>Reporte de errores del sistema</h2>
+    <p>Registro técnico de fallos por severidad, frecuencia y estado de atención.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando reporte de errores...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <p class="summary">Total errores: {{ data().totalErrors }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Módulo</th>
+          <th>Severidad</th>
+          <th>Ocurrencias</th>
+          <th>Primera vez</th>
+          <th>Última vez</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data().errors; trackBy: trackByErrorId">
+          <td>{{ item.code }}</td>
+          <td>{{ item.module }}</td>
+          <td><span class="severity" [class.high]="item.severity === 'HIGH' || item.severity === 'CRITICAL'" [class.medium]="item.severity === 'MEDIUM'">{{ item.severity }}</span></td>
+          <td>{{ item.occurrences }}</td>
+          <td>{{ item.firstSeenAt | date: 'short' }}</td>
+          <td>{{ item.lastSeenAt | date: 'short' }}</td>
+          <td>{{ item.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

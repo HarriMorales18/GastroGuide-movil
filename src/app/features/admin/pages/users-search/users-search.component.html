@@ -1,0 +1,45 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP02</p>
+    <h2>Buscar usuario</h2>
+    <p>Busqueda por nombre o correo con resultados listos para abrir perfil.</p>
+  </header>
+
+  <section class="search-bar">
+    <input
+      type="text"
+      placeholder="Nombre o correo"
+      [ngModel]="query()"
+      (ngModelChange)="query.set($event)"
+      (keyup.enter)="search()"
+    />
+    <button type="button" class="btn-secondary" (click)="search()">Buscar</button>
+    <button type="button" class="btn-clear" (click)="clear()">Limpiar</button>
+  </section>
+
+  <article class="feedback" *ngIf="loading()">Buscando usuarios...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Resultados: {{ data().totalUsers }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of data().users; trackBy: trackByUserId">
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

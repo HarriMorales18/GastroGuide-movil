@@ -1,47 +1,43 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  AdminUserListItem,
-  AdminUsersListData
-} from '@core/models/admin/admin-views.model';
+import { AdminUserSanctionItem, AdminUserSanctionsData } from '@core/models/admin/admin-views.model';
 import { AdminDataService } from '@core/services/admin/admin-data.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-users-sanctions',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  templateUrl: './users-sanctions.component.html',
+  styleUrls: ['./users-sanctions.component.scss']
 })
-export class UsersComponent  implements OnInit {
+export class UsersSanctionsComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
-  readonly data = signal<AdminUsersListData>({ totalUsers: 0, users: [] });
+  readonly data = signal<AdminUserSanctionsData>({ totalActions: 0, sanctions: [] });
 
   constructor(private readonly adminDataService: AdminDataService) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadSanctions();
   }
 
-  loadUsers(): void {
+  loadSanctions(): void {
     this.loading.set(true);
     this.error.set(null);
 
-    this.adminDataService.getUsersList().subscribe({
+    this.adminDataService.getUserSanctions().subscribe({
       next: (data) => {
         this.data.set(data);
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('No se pudo cargar el listado de usuarios desde el endpoint.');
+        this.error.set('No se pudo cargar sanciones y restauraciones desde el endpoint.');
         this.loading.set(false);
       }
     });
   }
 
-  trackByUserId(_index: number, item: AdminUserListItem): number {
+  trackBySanctionId(_index: number, item: AdminUserSanctionItem): number {
     return item.id;
   }
-
 }

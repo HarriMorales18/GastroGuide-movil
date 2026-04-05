@@ -1,0 +1,42 @@
+<section class="search-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP09</p>
+    <h2>Búsqueda de cursos</h2>
+    <p>Consulta por título, creador o categoría con resultados inmediatos.</p>
+  </header>
+
+  <form class="search-form" (submit)="$event.preventDefault(); search()">
+    <input type="search" [(ngModel)]="query" name="query" placeholder="Buscar por curso, creador o categoría" />
+    <button type="button" (click)="search()">Buscar</button>
+  </form>
+
+  <article class="feedback" *ngIf="loading()">Buscando cursos...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <p class="summary">Resultados: {{ data().totalCourses }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Creador</th>
+          <th>Categoría</th>
+          <th>Rating</th>
+          <th>Estudiantes</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of data().courses; trackBy: trackByCourseId">
+          <td>{{ course.title }}</td>
+          <td>{{ course.creatorName }}</td>
+          <td>{{ course.category }}</td>
+          <td>{{ course.rating | number: '1.1-1' }}</td>
+          <td>{{ course.studentsCount }}</td>
+          <td>{{ course.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

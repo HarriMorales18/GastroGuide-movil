@@ -1,0 +1,37 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP13</p>
+    <h2>Cursos pendientes de aprobación</h2>
+    <p>Cola de revisión para aprobar o rechazar publicaciones de creadores.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando pendientes...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total pendientes: {{ data().totalPendingCourses }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Curso</th>
+          <th>Creador</th>
+          <th>Categoria</th>
+          <th>En espera</th>
+          <th>Enviado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of data().courses; trackBy: trackByCourseId">
+          <td>#{{ course.id }}</td>
+          <td>{{ course.title }}</td>
+          <td>{{ course.creatorName }}</td>
+          <td>{{ course.category }}</td>
+          <td>{{ course.waitingHours }} h</td>
+          <td>{{ course.submittedAt | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

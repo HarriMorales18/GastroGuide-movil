@@ -1,47 +1,46 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import {
-  AdminUserListItem,
-  AdminUsersListData
+  AdminPublishedCourseItem,
+  AdminPublishedCoursesData
 } from '@core/models/admin/admin-views.model';
 import { AdminDataService } from '@core/services/admin/admin-data.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-published-courses',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  templateUrl: './published-courses.component.html',
+  styleUrls: ['./published-courses.component.scss']
 })
-export class UsersComponent  implements OnInit {
+export class PublishedCoursesComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
-  readonly data = signal<AdminUsersListData>({ totalUsers: 0, users: [] });
+  readonly data = signal<AdminPublishedCoursesData>({ totalCourses: 0, courses: [] });
 
   constructor(private readonly adminDataService: AdminDataService) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadCourses();
   }
 
-  loadUsers(): void {
+  loadCourses(): void {
     this.loading.set(true);
     this.error.set(null);
 
-    this.adminDataService.getUsersList().subscribe({
+    this.adminDataService.getPublishedCourses().subscribe({
       next: (data) => {
         this.data.set(data);
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('No se pudo cargar el listado de usuarios desde el endpoint.');
+        this.error.set('No se pudo cargar el listado de cursos publicados desde el endpoint.');
         this.loading.set(false);
       }
     });
   }
 
-  trackByUserId(_index: number, item: AdminUserListItem): number {
+  trackByCourseId(_index: number, item: AdminPublishedCourseItem): number {
     return item.id;
   }
-
 }

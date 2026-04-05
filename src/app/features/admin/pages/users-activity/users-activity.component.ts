@@ -1,47 +1,43 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  AdminUserListItem,
-  AdminUsersListData
-} from '@core/models/admin/admin-views.model';
+import { AdminUserActivityData, AdminUserActivityItem } from '@core/models/admin/admin-views.model';
 import { AdminDataService } from '@core/services/admin/admin-data.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-users-activity',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  templateUrl: './users-activity.component.html',
+  styleUrls: ['./users-activity.component.scss']
 })
-export class UsersComponent  implements OnInit {
+export class UsersActivityComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
-  readonly data = signal<AdminUsersListData>({ totalUsers: 0, users: [] });
+  readonly data = signal<AdminUserActivityData>({ totalEvents: 0, events: [] });
 
   constructor(private readonly adminDataService: AdminDataService) {}
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadActivity();
   }
 
-  loadUsers(): void {
+  loadActivity(): void {
     this.loading.set(true);
     this.error.set(null);
 
-    this.adminDataService.getUsersList().subscribe({
+    this.adminDataService.getUserActivity().subscribe({
       next: (data) => {
         this.data.set(data);
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('No se pudo cargar el listado de usuarios desde el endpoint.');
+        this.error.set('No se pudo cargar el historial de actividad desde el endpoint.');
         this.loading.set(false);
       }
     });
   }
 
-  trackByUserId(_index: number, item: AdminUserListItem): number {
+  trackByEventId(_index: number, item: AdminUserActivityItem): number {
     return item.id;
   }
-
 }

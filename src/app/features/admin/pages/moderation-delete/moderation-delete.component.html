@@ -1,0 +1,43 @@
+<section class="delete-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP12</p>
+    <h2>Eliminación de cursos</h2>
+    <p>Cola de retiro con impacto económico y operativo para decisión administrativa.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando candidatos a eliminación...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <p class="summary">Total candidatos: {{ data().totalCourses }}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Creador</th>
+          <th>Riesgo</th>
+          <th>Motivo</th>
+          <th>Estudiantes</th>
+          <th>Transacciones</th>
+          <th>Reembolso estimado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of data().courses; trackBy: trackByCourseId">
+          <td>{{ course.title }}</td>
+          <td>{{ course.creatorName }}</td>
+          <td>
+            <span class="risk" [class.high]="course.riskLevel === 'HIGH'" [class.medium]="course.riskLevel === 'MEDIUM'">
+              {{ course.riskLevel }}
+            </span>
+          </td>
+          <td>{{ course.reasonCategory }}</td>
+          <td>{{ course.affectedStudents }}</td>
+          <td>{{ course.activeTransactions }}</td>
+          <td>{{ course.estimatedRefundAmount | currency: 'USD':'symbol':'1.0-0' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

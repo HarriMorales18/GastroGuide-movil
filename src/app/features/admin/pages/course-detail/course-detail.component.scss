@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.admin-detail-page {
+  background: #ffffff;
+  border: 1px solid #d6e0ec;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 8px 22px rgba(15, 28, 42, 0.07);
+}
+
+.detail-header .kicker {
+  margin: 0;
+  color: #f8500a;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.detail-header h2 {
+  margin: 0.4rem 0;
+  color: #132637;
+}
+
+.detail-header p {
+  margin: 0;
+  color: #334d63;
+}
+
+.picker {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.35rem;
+  max-width: 420px;
+}
+
+.picker label {
+  color: #35516a;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.picker select {
+  border: 1px solid #cfdbe8;
+  border-radius: 10px;
+  padding: 0.55rem 0.65rem;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  border: 1px solid #dce6f2;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: #264661;
+}
+
+.feedback.error {
+  border-color: #ffd4bf;
+  background: #fff7f2;
+  color: #8e3d18;
+}
+
+.detail-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  border: 1px solid #dbe5f1;
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: #fbfdff;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  color: #1e40af;
+  font-size: 0.94rem;
+}
+
+.card p {
+  margin: 0.2rem 0;
+  color: #1b3449;
+  font-size: 0.86rem;
+}

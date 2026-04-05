@@ -1,0 +1,37 @@
+<section class="admin-list-page">
+  <header class="list-header">
+    <p class="kicker">UC-AP05/06</p>
+    <h2>Sanciones y restauraciones</h2>
+    <p>Historial administrativo de suspensiones, baneos y reactivaciones.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando sanciones...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="table-wrap" *ngIf="!loading() && !error()">
+    <div class="summary">Total acciones: {{ data().totalActions }}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Motivo</th>
+          <th>Aplicada por</th>
+          <th>Fecha</th>
+          <th>Expira</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data().sanctions; trackBy: trackBySanctionId">
+          <td>{{ item.fullName }}</td>
+          <td><span class="pill" [class.warn]="item.action !== 'RESTORED'">{{ item.action }}</span></td>
+          <td>{{ item.reason }}</td>
+          <td>{{ item.appliedBy }}</td>
+          <td>{{ item.appliedAt | date: 'short' }}</td>
+          <td>{{ item.expiresAt ? (item.expiresAt | date: 'short') : 'N/A' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>

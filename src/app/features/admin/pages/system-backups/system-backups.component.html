@@ -1,0 +1,52 @@
+<section class="backups-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP17</p>
+    <h2>Gestión de backups y recuperación</h2>
+    <p>Control de respaldos, integridad y eventos de restauración del sistema.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando respaldos...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="workspace" *ngIf="!loading() && !error()">
+    <article class="table-wrap">
+      <p class="summary">Total backups: {{ data().totalBackups }}</p>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tipo</th>
+            <th>Almacenamiento</th>
+            <th>Tamaño (GB)</th>
+            <th>Integridad</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let backup of data().backups; trackBy: trackByBackupId">
+            <td>#{{ backup.id }}</td>
+            <td>{{ backup.type }}</td>
+            <td>{{ backup.storage }}</td>
+            <td>{{ backup.sizeGb }}</td>
+            <td><span class="integrity" [class.invalid]="backup.integrity === 'INVALID'">{{ backup.integrity }}</span></td>
+            <td>{{ backup.createdAt | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="events-wrap">
+      <h4>Eventos de recuperación</h4>
+      <p class="empty" *ngIf="data().recoveryEvents.length === 0">Sin eventos de recuperación.</p>
+
+      <ul *ngIf="data().recoveryEvents.length > 0">
+        <li *ngFor="let event of data().recoveryEvents; trackBy: trackByRecoveryId" [class.failed]="event.status === 'FAILED'" [class.running]="event.status === 'RUNNING'">
+          <strong>Evento #{{ event.id }}</strong>
+          <span>Backup #{{ event.backupId }} · Estado: {{ event.status }}</span>
+          <small>Inicio: {{ event.startedAt | date: 'short' }}</small>
+          <small *ngIf="event.finishedAt">Fin: {{ event.finishedAt | date: 'short' }}</small>
+        </li>
+      </ul>
+    </article>
+  </section>
+</section>

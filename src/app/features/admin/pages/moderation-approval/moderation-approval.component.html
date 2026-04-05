@@ -1,0 +1,64 @@
+<section class="approval-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP14</p>
+    <h2>Aprobar o rechazar publicación de curso</h2>
+    <p>Revisión editorial de cursos pendientes con checklist y decisión sugerida.</p>
+  </header>
+
+  <article class="feedback" *ngIf="loading()">Cargando cola de aprobacion...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="workspace" *ngIf="!loading() && !error()">
+    <aside class="queue-list">
+      <p class="summary">Total en cola: {{ data().totalCourses }}</p>
+
+      <button
+        type="button"
+        class="queue-item"
+        *ngFor="let course of data().courses; trackBy: trackByCourseId"
+        [class.active]="selectedCourseId() === course.id"
+        (click)="selectCourse(course)"
+      >
+        <strong>{{ course.title }}</strong>
+        <span>{{ course.creatorName }} · {{ course.category }}</span>
+        <small>En espera: {{ course.waitingHours }} h</small>
+      </button>
+    </aside>
+
+    <article class="review-card" *ngIf="selectedCourse() as course">
+      <header>
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.creatorName }} · {{ course.category }}</p>
+      </header>
+
+      <section class="checklist">
+        <h4>Checklist de revisión</h4>
+        <ul>
+          <li [class.ok]="course.checklist.contentQuality">Calidad de contenido</li>
+          <li [class.ok]="course.checklist.mediaReady">Multimedia procesada</li>
+          <li [class.ok]="course.checklist.pricingValid">Precio y configuración comercial</li>
+          <li [class.ok]="course.checklist.policyCompliance">Cumplimiento de políticas</li>
+        </ul>
+      </section>
+
+      <section class="decision-area">
+        <h4>Decisión administrativa</h4>
+        <div class="decision-buttons">
+          <button
+            type="button"
+            *ngFor="let option of decisionOptions"
+            [class.active]="selectedDecision() === option.value"
+            (click)="setDecision(option.value)"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
+        <div class="decision-note">
+          <p class="label">Nota sugerida</p>
+          <p>{{ course.adminNote }}</p>
+        </div>
+      </section>
+    </article>
+  </section>
+</section>

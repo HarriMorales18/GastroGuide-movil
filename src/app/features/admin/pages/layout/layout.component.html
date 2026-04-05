@@ -1,10 +1,175 @@
-<div class="layout-shell">
-  <div class="topbar">
-    <h1>Panel de Administrador</h1>
-    <button class="logout-btn" (click)="logout()">Logout</button>
-  </div>
+<div class="admin-shell">
+  <header class="top-area">
+    <div class="top-actions-row">
+      <h1 class="wordmark">GastroGuide</h1>
 
-  <div class="content">
-    <app-create-user></app-create-user>
-  </div>
+      <button
+        class="profile-avatar-btn"
+        type="button"
+        [attr.aria-label]="'Ir a configuracion de ' + loggedUserDisplayName()"
+        (click)="setActiveTab('config')"
+      >
+        <span class="profile-avatar-initials">{{ loggedUserInitials() }}</span>
+      </button>
+    </div>
+
+    <nav class="tabs-icons" aria-label="Navegacion administrador">
+      <button
+        type="button"
+        [class.active]="activeTab() === 'users'"
+        (click)="setActiveTab('users')"
+        aria-label="Ir a gestion de usuarios"
+      >
+        <ion-icon name="people-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab() === 'courses'"
+        (click)="setActiveTab('courses')"
+        aria-label="Ir a gestion de cursos"
+      >
+        <ion-icon name="school-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab() === 'moderation'"
+        (click)="setActiveTab('moderation')"
+        aria-label="Ir a moderacion"
+      >
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab() === 'system'"
+        (click)="setActiveTab('system')"
+        aria-label="Ir a operacion del sistema"
+      >
+        <ion-icon name="pulse-outline"></ion-icon>
+      </button>
+
+      <button
+        type="button"
+        [class.active]="activeTab() === 'config'"
+        (click)="setActiveTab('config')"
+        aria-label="Ir a configuracion"
+      >
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="subviews" aria-label="Vistas secundarias">
+      <button
+        type="button"
+        *ngFor="let view of currentSecondaryViews()"
+        class="subview-btn"
+        [class.active]="activeSecondary() === view.id"
+        (click)="setSecondaryView(view.id)"
+      >
+        <span>{{ view.label }}</span>
+        <small>{{ view.useCases }}</small>
+      </button>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-list'">
+      <app-users></app-users>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-search'">
+      <app-users-search></app-users-search>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-profile'">
+      <app-users-profile></app-users-profile>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-activity'">
+      <app-users-activity></app-users-activity>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-sanctions'">
+      <app-users-sanctions></app-users-sanctions>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-roles'">
+      <app-users-roles></app-users-roles>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'courses-published'">
+      <app-published-courses></app-published-courses>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'courses-search'">
+      <app-courses-search></app-courses-search>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'courses-detail'">
+      <app-admin-course-detail></app-admin-course-detail>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'moderation-reports'">
+      <app-moderation-reports></app-moderation-reports>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'moderation-delete'">
+      <app-moderation-delete></app-moderation-delete>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'moderation-pending'">
+      <app-moderation-pending></app-moderation-pending>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'moderation-approval'">
+      <app-moderation-approval></app-moderation-approval>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'system-monitoring'">
+      <app-system-monitoring></app-system-monitoring>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'system-errors'">
+      <app-system-errors></app-system-errors>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'system-backups'">
+      <app-system-backups></app-system-backups>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'config-layout'">
+      <app-config-layout></app-config-layout>
+    </section>
+
+    <section class="workspace" *ngIf="shouldShowGenericView()">
+      <article class="feature-card">
+        <p class="kicker">Vista seleccionada</p>
+        <h2>{{ currentSecondaryContent().title }}</h2>
+        <p>{{ currentSecondaryContent().description }}</p>
+
+        <div class="hint-box">
+          <strong>Siguiente paso sugerido</strong>
+          <p>{{ currentSecondaryContent().flowHint }}</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'users-create'">
+      <app-create-user></app-create-user>
+    </section>
+
+    <section class="workspace" *ngIf="activeSecondary() === 'config-session'">
+      <article class="feature-card session-card">
+        <p class="kicker">Sesion</p>
+        <h2>Control de acceso administrativo</h2>
+        <p>
+          Esta area centraliza acciones de seguridad de la sesion del administrador.
+        </p>
+
+        <button class="logout-btn" type="button" (click)="logout()">Cerrar sesion</button>
+      </article>
+    </section>
+  </main>
 </div>

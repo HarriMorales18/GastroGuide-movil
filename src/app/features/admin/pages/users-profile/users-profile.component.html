@@ -1,0 +1,43 @@
+<section class="profile-page">
+  <header class="page-header">
+    <p class="kicker">UC-AP03</p>
+    <h2>Perfil detallado de usuario</h2>
+    <p>Resumen de estado, actividad y métricas del usuario seleccionado.</p>
+  </header>
+
+  <div class="controls">
+    <label for="profile-user">Usuario</label>
+    <select id="profile-user" [(ngModel)]="selectedUserId" (change)="onChangeUser()">
+      <option *ngFor="let option of options" [ngValue]="option.id">{{ option.label }}</option>
+    </select>
+  </div>
+
+  <article class="feedback" *ngIf="loading()">Cargando perfil...</article>
+  <article class="feedback error" *ngIf="error()">{{ error() }}</article>
+
+  <section class="content" *ngIf="!loading() && !error() && profile() as user">
+    <article class="card">
+      <h3>{{ user.fullName }}</h3>
+      <p>{{ user.email }}</p>
+      <p>Rol: <strong>{{ user.role }}</strong></p>
+      <p>Estado: <strong>{{ user.status }}</strong></p>
+      <p>País: {{ user.country }}</p>
+      <p>Registro: {{ user.registeredAt | date: 'shortDate' }}</p>
+    </article>
+
+    <article class="card">
+      <h4>Métricas</h4>
+      <p>Cursos adquiridos: {{ user.acquiredCourses }}</p>
+      <p *ngIf="user.publishedCourses !== undefined">Cursos publicados: {{ user.publishedCourses }}</p>
+      <p *ngIf="user.totalRevenueUsd !== undefined">Ingresos (USD): {{ user.totalRevenueUsd | number: '1.0-0' }}</p>
+      <p>Último acceso: {{ user.activity.lastLoginAt | date: 'short' }}</p>
+    </article>
+
+    <article class="card full">
+      <h4>Actividad reciente</h4>
+      <ul>
+        <li *ngFor="let action of user.activity.recentActions">{{ action }}</li>
+      </ul>
+    </article>
+  </section>
+</section>

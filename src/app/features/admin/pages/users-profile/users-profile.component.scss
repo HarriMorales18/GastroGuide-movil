@@ -1,0 +1,110 @@
+:host {
+  display: block;
+}
+
+.profile-page {
+  background: #ffffff;
+  border: 1px solid #d6e0ec;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 8px 22px rgba(15, 28, 42, 0.07);
+}
+
+.kicker {
+  margin: 0;
+  color: #f8500a;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+}
+
+.page-header h2 {
+  margin: 0.4rem 0;
+  color: #132637;
+}
+
+.page-header p {
+  margin: 0;
+  color: #334d63;
+}
+
+.controls {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.35rem;
+  max-width: 360px;
+}
+
+label {
+  font-size: 0.82rem;
+  color: #334d63;
+  font-weight: 700;
+}
+
+select {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.5rem 0.6rem;
+  background: #fff;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  border: 1px solid #dce6f2;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  color: #264661;
+}
+
+.feedback.error {
+  border-color: #ffd4bf;
+  background: #fff7f2;
+  color: #8e3d18;
+}
+
+.content {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.card {
+  border: 1px solid #dce6f2;
+  border-radius: 12px;
+  padding: 0.65rem;
+  background: #fbfdff;
+}
+
+.card h3,
+.card h4 {
+  margin: 0 0 0.35rem;
+  color: #1e3a8a;
+}
+
+.card p {
+  margin: 0.22rem 0;
+  color: #1b3449;
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.card li {
+  color: #1b3449;
+}
+
+@media (min-width: 900px) {
+  .content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card.full {
+    grid-column: 1 / -1;
+  }
+}
