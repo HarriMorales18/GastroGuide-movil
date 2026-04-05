@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthApiError, AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthApiError } from 'src/app/core/models/auth/auth-api-error.model';
 
 type RegisterMode = 'student' | 'creator';
 
